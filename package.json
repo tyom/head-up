@@ -1,0 +1,14 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue tmp"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^5.9.0",
+    "eslint-config-tyom": "^2.1.0",
+    "lerna": "^3.4.3",
+    "prettier": "~1.14.3"
+  }
+}

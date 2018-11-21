@@ -1,0 +1,24 @@
+{
+  "name": "head-up",
+  "version": "0.0.0",
+  "description": "Head-up dashboard system",
+  "author": "Tyom Semonov <inspiro@gmail.com>",
+  "license": "ISC",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "lodash": "4.17.11",
+    "vue-awesome": "3.2.0",
+    "vue-shortkey": "3.1.6",
+    "vuex-persistedstate": "2.5.4"
+  },
+  "devDependencies": {
+    "rucksack-css": "1.0.2"
+  },
+  "peerDependencies": {
+    "vue": "^2.5.17",
+    "vuex": "3.0.1"
+  }
+}

@@ -1,0 +1,155 @@
+<template>
+  <div :class="boardClass" class="Board">
+    <transition name="slideDown">
+      <BoardToolbar
+        v-if="!isThumb && editMode"
+        :title="boardTitle"
+        @done="handleToolbaDone"
+      />
+    </transition>
+    <div :class="layoutClass" class="layout">
+      <template v-if="isThumb">
+        <div
+          v-for="(cell, idx) in cells"
+          :key="idx"
+          class="cell-placeholder"
+        />
+      </template>
+      <slot v-else-if="!cells.length" />
+      <template v-else>
+        <Cell
+          v-for="(cell, idx) in cells"
+          v-bind="cell"
+          :key="idx"
+          class="cell"
+        />
+      </template>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapState, mapActions } from 'vuex';
+import Cell from '../Cell';
+import BoardToolbar from './BoardToolbar';
+
+export default {
+  name: 'Board',
+  components: {
+    Cell,
+    BoardToolbar,
+  },
+  props: {
+    isThumb: {
+      type: Boolean,
+      default: false,
+    },
+    title: {
+      type: String,
+      default: '',
+    },
+    cells: {
+      type: Array,
+      default: () => [],
+    },
+    editable: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      activeCellId: undefined,
+      boardCells: this.cells.length ? this.cells : this.$children,
+      boardTitle: this.title,
+    };
+  },
+  computed: {
+    ...mapState(['activeBoardIdx', 'editMode']),
+    boardClass() {
+      return {
+        _thumb: this.isThumb,
+      };
+    },
+    layoutClass() {
+      return [`u-grid-${this.cells.length}-x`];
+    },
+  },
+  provide() {
+    return {
+      isActiveCell: this.isActiveCell,
+    };
+  },
+  created() {
+    if (this.isThumb) {
+      return;
+    }
+    this.$on('toggle-cell', id => {
+      if (this.activeCellId === id) {
+        this.activeCellId = null;
+        return;
+      }
+      this.activeCellId = id;
+    });
+    this.$on('select-cell', id => {
+      this.activeCellId = id;
+    });
+  },
+  methods: {
+    ...mapActions(['TOGGLE_EDIT_MODE']),
+    isActiveCell(id) {
+      return this.activeCellId === id;
+    },
+    handleToolbaDone(payload) {
+      this.$emit('update', payload);
+      this.TOGGLE_EDIT_MODE();
+    },
+  },
+};
+</script>
+
+<style scoped>
+.Board {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  padding: 0.5em;
+}
+
+.cell-placeholder {
+  background-color: #fff2;
+}
+
+.layout {
+  height: 100%;
+  grid-gap: 0.5em;
+}
+
+._thumb {
+  font-size: 0.8em;
+  padding: 3px;
+  margin: auto;
+
+  & .layout {
+    grid-gap: 3px;
+  }
+
+  & .cell {
+    border: 0;
+    background-color: #fff2;
+  }
+}
+
+.slideDown-enter-active,
+.slideDown-leave-active {
+  transition: 0.1s;
+  overflow: hidden;
+}
+
+.slideDown-enter,
+.slideDown-leave-to {
+  height: 0;
+  opacity: 0;
+}
+</style>

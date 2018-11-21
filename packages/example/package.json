@@ -1,0 +1,25 @@
+{
+  "name": "head-up-example",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Head-up dashboard system",
+  "author": "Tyom Semonov <inspiro@gmail.com>",
+  "license": "ISC",
+  "main": "src/main.js",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "devDependencies": {
+    "@vue/cli-service": "^3.1.4",
+    "postcss-preset-env": "6.4.0",
+    "rucksack-css": "1.0.2"
+  },
+  "dependencies": {
+    "head-up": "^0.0.0",
+    "vuex": "3.0.1",
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.1",
+    "vue-template-compiler": "^2.5.17"
+  }
+}
