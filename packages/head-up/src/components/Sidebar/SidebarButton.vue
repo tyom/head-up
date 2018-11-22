@@ -12,7 +12,7 @@
 <style scoped>
 .button {
   width: 100%;
-  padding: 0.5em;
+  padding: 0.7em;
   background: none;
   color: inherit;
   border: 0;
@@ -32,6 +32,11 @@
   &._active {
     background-color: #20416d;
     color: #fff;
+    animation: none;
+
+    &:active {
+      background-color: #12253e;
+    }
   }
 }
 </style>

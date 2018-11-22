@@ -2,7 +2,7 @@
   <div class="SidebarBoards">
     <transition-group
       tag="ul"
-      name="slide"
+      name="boardReveal"
       class="board-list"
     >
       <li
@@ -12,7 +12,7 @@
         :title="board.isReadOnly && 'This board is not editable'"
         class="list-item"
       >
-        <transition name="reveal">
+        <transition name="actionsReveal">
           <div v-if="editMode && !board.isReadOnly" class="board-actions">
             <button
               type="button"
@@ -67,10 +67,6 @@ export default {
 </script>
 
 <style scoped>
-.SidebarBoards {
-  padding: 1em;
-}
-
 .board-list {
   margin: 0;
   padding: 0;
@@ -222,22 +218,22 @@ export default {
   right: -0.5rem;
 }
 
-.slide-enter-active,
-.slide-leave-active {
+.boardReveal-enter-active,
+.boardReveal-leave-active {
   transition: 0.1s;
 }
-.slide-enter,
-.slide-leave-to {
+.boardReveal-enter,
+.boardReveal-leave-to {
   opacity: 0;
-  margin-top: -30px;
+  transform: translateY(-100%);
 }
 
-.reveal-enter-active,
-.reveal-leave-active {
+.actionsReveal-enter-active,
+.actionsReveal-leave-active {
   transition: 0.1s;
 }
-.reveal-enter,
-.reveal-leave-to {
+.actionsReveal-enter,
+.actionsReveal-leave-to {
   transform: scale(0.1);
 }
 </style>

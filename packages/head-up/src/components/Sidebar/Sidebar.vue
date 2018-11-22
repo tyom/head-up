@@ -1,8 +1,9 @@
 <template>
   <div class="Sidebar">
-    <button class="toggle" @click="TOGGLE_SIDEBAR()">
-      <v-icon :name="toggleIconName"/>
-    </button>
+    <SidebarToggle
+      :toggled="showSidebar"
+      @toggle="TOGGLE_SIDEBAR"
+    />
     <transition name="slideLeft">
       <div v-show="showSidebar" class="container">
         <SidebarBoardActions
@@ -26,12 +27,14 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import SidebarToggle from './SidebarToggle';
 import SidebarBoards from './SidebarBoards';
 import SidebarActions from './SidebarActions';
 import SidebarBoardActions from './SidebarBoardActions';
 
 export default {
   components: {
+    SidebarToggle,
     SidebarBoards,
     SidebarActions,
     SidebarBoardActions,
@@ -48,9 +51,6 @@ export default {
   },
   computed: {
     ...mapState(['showSidebar', 'activeBoardIdx', 'editMode']),
-    toggleIconName() {
-      return this.showSidebar ? 'chevron-left' : 'ellipsis-v';
-    },
   },
   methods: {
     ...mapActions(['ADD_BOARD', 'TOGGLE_EDIT_MODE', 'TOGGLE_SIDEBAR']),
@@ -60,45 +60,21 @@ export default {
 
 <style scoped>
 .Sidebar {
-  background-color: #0005;
   padding-left: 1.6rem;
   height: 100%;
   position: relative;
 }
 
-.toggle {
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 1.6rem;
-  font-size: 1rem;
-  border: 0;
-  color: inherit;
-  outline: 0;
-  background-color: #222;
-  border-right: 1px solid #fff2;
-  box-shadow: 1px 0 1px #000b;
-
-  &:hover {
-    color: #fff;
-    background-color: #1b1b1b;
-  }
-
-  &:active {
-    background-color: #142a59;
-    transform: scaleY(1.2);
-  }
-}
-
 .container {
   display: grid;
+  grid-gap: 1em;
   height: 100%;
   grid-template-rows: auto 1fr auto;
   overflow-y: auto;
-  padding: 1em 0;
+  padding: 1em;
+  background-color: #0005;
   color: #999;
+  box-shadow: inset -1px 0 rgba(#000, 0.5), 1px 0 rgba(#fff, 0.07);
 }
 
 .slideLeft-enter-active,
