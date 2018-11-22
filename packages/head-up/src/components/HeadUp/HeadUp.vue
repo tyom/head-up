@@ -183,6 +183,15 @@ export default {
 <style src="../../css/util.css"/>
 
 <style scoped>
+>>> * {
+  &,
+  &::before,
+  &::after {
+    box-sizing: border-box;
+    margin: 0;
+  }
+}
+
 .HeadUp {
   font-size: responsive 8px 23px;
   transition: 0.4s background-color;

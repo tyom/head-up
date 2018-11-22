@@ -65,10 +65,6 @@ header {
   border-bottom: 0.1em solid #ccc;
 }
 
-.title {
-  margin: 0;
-}
-
 .reveal-enter-active,
 .reveal-leave-active {
   transition: 1s;

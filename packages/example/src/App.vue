@@ -22,12 +22,6 @@
 </template>
 
 <style>
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 body {
   font: 16px 'Avenir', Helvetica, Arial, sans-serif;
   background-color: #1b1b1b;

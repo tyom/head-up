@@ -141,7 +141,6 @@ export default {
 
 .title {
   font-size: inherit;
-  margin: 0;
 }
 
 .container {
