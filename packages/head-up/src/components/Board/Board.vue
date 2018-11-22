@@ -4,7 +4,8 @@
       <BoardToolbar
         v-if="!isThumb && editMode"
         :title="boardTitle"
-        @done="handleToolbaDone"
+        @save="handleToolbarSave"
+        @done="handleToolbarDone"
       />
     </transition>
     <div :class="layoutClass" class="cells">
@@ -101,8 +102,11 @@ export default {
     isActiveCell(id) {
       return this.activeCellId === id;
     },
-    handleToolbaDone(payload) {
+    handleToolbarSave(payload) {
       this.$emit('update', payload);
+    },
+    handleToolbarDone(payload) {
+      this.handleToolbarSave();
       this.TOGGLE_EDIT_MODE();
     },
   },

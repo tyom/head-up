@@ -3,7 +3,7 @@
     <form class="toolbar-container" @submit.prevent="handleSubmit">
       <div class="toolbar-item _info">
         <input
-          v-if="$parent.editable"
+          v-if="isEditable"
           v-model="boardTitle"
           type="text"
           class="toolbar-input"
@@ -11,7 +11,10 @@
         >
         <span v-else class="toolbar-title"> {{ title }} (read-only) </span>
       </div>
-      <div class="toolbar-item _actions"><button>Done</button></div>
+      <div class="toolbar-item _actions">
+        <button v-if="isEditable" :disabled="!hasChanged">Apply</button>
+        <button @click.prevent="handleOk">OK</button>
+      </div>
     </form>
   </div>
 </template>
@@ -29,8 +32,21 @@ export default {
       boardTitle: this.title,
     };
   },
+  computed: {
+    hasChanged() {
+      return this.boardTitle !== this.title;
+    },
+    isEditable() {
+      return this.$parent.editable;
+    },
+  },
   methods: {
     handleSubmit() {
+      this.$emit('save', {
+        title: this.boardTitle,
+      });
+    },
+    handleOk() {
       this.$emit('done', {
         title: this.boardTitle,
       });
@@ -41,7 +57,12 @@ export default {
 
 <style scoped>
 .BoardToolbar {
-  background-color: #20416d77;
+  background: radial-gradient(
+      circle at top left,
+      rgba(#20416d, 0.3),
+      rgba(#20416d, 0.6)
+    )
+    no-repeat;
   height: 3.5rem;
   display: flex;
   align-items: stretch;
@@ -66,7 +87,7 @@ export default {
 }
 
 .toolbar-input {
-  background: #fff1;
+  background: rgba(#fff, 0.1);
   color: #fff;
   border-radius: 0.3rem;
   padding: 0.5rem;
@@ -79,7 +100,7 @@ export default {
   transition: 0.2s;
 
   &:hover {
-    background-color: #fff2;
+    background: rgba(#fff, 0.15);
   }
 
   &:focus {
@@ -125,6 +146,15 @@ export default {
     &:active {
       background: #000;
     }
+
+    &[disabled] {
+      opacity: 0.4;
+      cursor: default;
+    }
+  }
+
+  & button + button {
+    margin-left: 0.5em;
   }
 }
 </style>

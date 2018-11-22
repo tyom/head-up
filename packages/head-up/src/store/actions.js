@@ -51,7 +51,7 @@ export default {
   UPDATE_BOARD({ commit, state }, payload) {
     const updatedBoards = [...state.boards].map((board, i) => {
       if (i === payload.idx) {
-        return merge({}, board, payload);
+        return merge({}, board, payload.data);
       }
       return board;
     });

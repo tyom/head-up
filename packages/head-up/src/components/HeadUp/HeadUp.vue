@@ -7,24 +7,12 @@
   >
     <Sidebar
       :visible="true"
-      :boards="allBoards"
-
+      :boards="boardSummary"
     />
     <div class="main">
-      <div class="boards">
-        <template v-if="allBoards.length">
-          <Board
-            v-for="(board, idx) in allBoards"
-            ref="activeBoardEl"
-            :title="board.title"
-            :cells="board.cells"
-            :editable="!board.isReadOnly"
-            :key="board.title + board.id + idx"
-            @update="handleBoardUpdate(idx, $event)"
-          />
-        </template>
-        <slot v-else/>
-      </div>
+      <HeadUpBoards :boards="boards" ref="boardsContainer">
+        <slot/>
+      </HeadUpBoards>
     </div>
     <HelpScreen
       :show="showHelp"
@@ -43,7 +31,7 @@
 <script>
 import { get } from 'lodash';
 import { mapActions, mapState } from 'vuex';
-import Board from '../Board';
+import HeadUpBoards from './HeadUpBoards';
 import Sidebar from '../Sidebar';
 import SettingsScreen from '../SettingsScreen';
 import HelpScreen from '../HelpScreen';
@@ -59,16 +47,10 @@ function getChildComponents(children = []) {
 export default {
   name: 'HeadUp',
   components: {
-    Board,
+    HeadUpBoards,
     Sidebar,
     SettingsScreen,
     HelpScreen,
-  },
-  props: {
-    boards: {
-      type: Array,
-      default: () => [],
-    },
   },
   data() {
     return {
@@ -85,23 +67,17 @@ export default {
     };
   },
   computed: {
-    ...mapState(['activeBoardIdx', 'editMode', 'smoothScrolling']),
+    ...mapState(['activeBoardIdx', 'editMode', 'boards', 'smoothScrolling']),
     rootClass() {
       return {
         _edit: this.editMode,
       };
     },
-    allBoards() {
-      const boards = this.boards.length
-        ? this.boards
-        : this.$store.state.boards;
-      return [...boards, ...this.parseSlotToConfig().boards];
+    boardSummary() {
+      return [...this.$store.state.boards, ...this.parseSlotToConfig().boards];
     },
   },
   watch: {
-    allBoards() {
-      this.scrollToActiveBoard();
-    },
     activeBoardIdx() {
       this.scrollToActiveBoard();
     },
@@ -116,7 +92,6 @@ export default {
   methods: {
     ...mapActions([
       'ADD_BOARD',
-      'UPDATE_BOARD',
       'ACTIVATE_BOARD',
       'TOGGLE_SIDEBAR',
       'TOGGLE_EDIT_MODE',
@@ -146,10 +121,8 @@ export default {
       }
     },
     scrollToActiveBoard(useGlobalSetting = true) {
-      const currentBoardEl = get(
-        this.$refs,
-        `activeBoardEl[${this.activeBoardIdx}].$el`,
-      );
+      const boardEls = get(this.$refs, 'boardsContainer.$el.childNodes', []);
+      const currentBoardEl = boardEls[this.activeBoardIdx];
       if (!currentBoardEl) {
         return;
       }
@@ -158,7 +131,7 @@ export default {
       currentBoardEl.scrollIntoView(scrollOptions);
     },
     activateNextBoard() {
-      if (this.activeBoardIdx === this.allBoards.length - 1) {
+      if (this.activeBoardIdx === this.boardSummary.length - 1) {
         this.ACTIVATE_BOARD(0);
         return;
       }
@@ -166,16 +139,10 @@ export default {
     },
     activatePreviousBoard() {
       if (this.activeBoardIdx === 0) {
-        this.ACTIVATE_BOARD(this.allBoards.length - 1);
+        this.ACTIVATE_BOARD(this.boardSummary.length - 1);
         return;
       }
       this.ACTIVATE_BOARD(this.activeBoardIdx - 1);
-    },
-    handleBoardUpdate(idx, data) {
-      this.UPDATE_BOARD({
-        idx: this.activeBoardIdx,
-        ...data,
-      });
     },
     parseSlotToConfig() {
       if (!this.$slots.default) {
@@ -236,10 +203,5 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.boards {
-  flex: 1;
-  overflow: hidden;
 }
 </style>

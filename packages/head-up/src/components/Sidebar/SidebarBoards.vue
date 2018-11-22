@@ -187,31 +187,6 @@ export default {
   }
 }
 
-.list-button {
-  padding: 0;
-  width: 100%;
-  height: 2rem;
-  background: none;
-  color: inherit;
-  border: 0;
-  outline: 0;
-
-  &:hover {
-    color: #fff;
-    background-color: #ffffff05;
-  }
-
-  &:active {
-    animation: bounce-1 0.1s forwards;
-    background-color: #142a59;
-  }
-
-  &._active {
-    background-color: #142a59;
-    color: #fff;
-  }
-}
-
 .board-actions {
   position: absolute;
   top: -0.5rem;

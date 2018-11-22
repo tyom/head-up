@@ -1,8 +1,14 @@
 <template>
   <HeadUp class="head-up">
     <Board title="Cell components">
-      <Cell title="Cell #2"/>
-      <Cell title="Cell #3"/>
+      <Cell title="Cell #1" padded>
+        <div>First section</div>
+        <div>Second section</div>
+        <div>Third section</div>
+      </Cell>
+      <Cell title="Cell #2" padded>
+        <div>Only section</div>
+      </Cell>
       <Cell/>
     </Board>
   </HeadUp>
@@ -16,8 +22,6 @@
 }
 
 body {
-  margin: 0;
   font: 16px 'Avenir', Helvetica, Arial, sans-serif;
-  color: #444;
 }
 </style>
