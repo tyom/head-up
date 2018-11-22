@@ -55,6 +55,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    padded: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -73,12 +77,19 @@ export default {
       };
     },
     bodyClass() {
-      return [`u-grid-${this.content.length}-x`];
+      const content = this.$slots.default ? this.$slots.default : this.content;
+      return {
+        [`u-grid-${content.length}-x`]: true,
+        padded: this.padded,
+      };
     },
   },
   inject: ['isActiveCell'],
   methods: {
     handleCellClick() {
+      if (!this.isEditable) {
+        return;
+      }
       this.$parent.$emit('toggle-cell', this._uid);
     },
     handleSettingsClick() {
@@ -120,7 +131,7 @@ export default {
   font-size: 0.55em;
   color: #fff6;
   text-transform: uppercase;
-  background-color: #0005;
+  background-color: #0003;
   padding: 0.6em 1em;
   line-height: 1;
   justify-content: center;
@@ -140,14 +151,18 @@ export default {
 
 .body {
   grid-gap: 1px;
-  background-color: #0002;
+  background-color: rgba(#000, 0.2);
   flex: 1;
   justify-content: stretch;
   align-items: stretch;
 }
 
-.body-item {
-  background-color: #ffffff08;
+.body > * {
+  background-color: rgba(#fff, 0.03);
+}
+
+.padded > * {
+  padding: 0.5em;
 }
 
 .header-button {

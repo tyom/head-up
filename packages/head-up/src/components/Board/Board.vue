@@ -7,7 +7,7 @@
         @done="handleToolbaDone"
       />
     </transition>
-    <div :class="layoutClass" class="layout">
+    <div :class="layoutClass" class="cells">
       <template v-if="isThumb">
         <div
           v-for="(cell, idx) in cells"
@@ -72,7 +72,8 @@ export default {
       };
     },
     layoutClass() {
-      return [`u-grid-${this.cells.length}-x`];
+      const cells = this.$slots.default ? this.$slots.default : this.cells;
+      return [`u-grid-${cells.length}-x`];
     },
   },
   provide() {
@@ -114,25 +115,25 @@ export default {
   flex-direction: column;
   flex: 1;
   height: 100%;
-  padding: 0.5em;
 }
 
 .cell-placeholder {
-  background-color: #fff2;
+  background-color: rgba(#fff, 0.1);
 }
 
-.layout {
+.cells {
   height: 100%;
   grid-gap: 0.5em;
+  padding: 0.5em;
 }
 
 ._thumb {
   font-size: 0.8em;
-  padding: 3px;
   margin: auto;
 
-  & .layout {
-    grid-gap: 3px;
+  & .cells {
+    padding: 2px;
+    grid-gap: 2px;
   }
 
   & .cell {

@@ -213,72 +213,7 @@ export default {
 };
 </script>
 
-<style>
-[class*='u-grid'] {
-  display: grid;
-}
-
-.u-grid-1-x {
-  grid-template-columns: 1fr;
-}
-
-.u-grid-2-x,
-.u-grid-3-x,
-.u-grid-4-x,
-.u-grid-5-x {
-  grid-template-columns: 1fr 1fr;
-}
-
-.u-grid-2-x .u-grid-2-x {
-  grid-template-columns: none;
-  grid-template-rows: 1fr 1fr;
-}
-
-.u-grid-4-x {
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-}
-
-.u-grid-5-x {
-  grid-template-rows: 1fr 1fr 1fr;
-}
-
-.u-grid-6-x {
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-
-  & > :first-child {
-    grid-row: 1 / 3;
-  }
-
-  & > :nth-child(3) {
-    grid-row: 1 / 3;
-  }
-
-  & > :last-child {
-    grid-column: 2 / 4;
-  }
-}
-
-.u-grid-3-x,
-.u-grid-5-x {
-  & > :last-child {
-    grid-column: 1 / -1;
-  }
-}
-
-@keyframes bounce-1 {
-  to {
-    transform: scale(1.1);
-  }
-}
-
-@keyframes bounce-2 {
-  to {
-    transform: scale(1.2);
-  }
-}
-</style>
+<style src="../../css/util.css"/>
 
 <style scoped>
 .HeadUp {

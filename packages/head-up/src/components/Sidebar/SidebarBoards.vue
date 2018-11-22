@@ -116,17 +116,17 @@ export default {
   opacity: 0;
   transition: 0.2s;
   position: absolute;
-  top: 4px;
-  right: 4px;
-  bottom: 4px;
-  left: 4px;
+  top: 2px;
+  right: 2px;
+  bottom: 2px;
+  left: 2px;
   pointer-events: none;
   background: repeating-linear-gradient(
     -45deg,
-    #fff0,
-    #fff0 0.5rem,
-    #fff1 0.5rem,
-    #fff1 1rem
+    rgba(#fff, 0),
+    rgba(#fff, 0) 0.5rem,
+    rgba(#fff, 0.03) 0.5rem,
+    rgba(#fff, 0.03) 1rem
   );
 
   @nest ._edit & {

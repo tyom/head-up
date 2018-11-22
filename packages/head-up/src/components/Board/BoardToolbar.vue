@@ -46,9 +46,6 @@ export default {
   display: flex;
   align-items: stretch;
   position: relative;
-  top: -0.5em;
-  margin-left: -0.5em;
-  margin-right: -0.5em;
 }
 
 .toolbar-container {
