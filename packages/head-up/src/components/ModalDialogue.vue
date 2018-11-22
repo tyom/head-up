@@ -3,6 +3,9 @@
     <div v-if="show" class="ModalDialogue">
       <div class="backdrop" @click="$emit('close')"/>
       <div class="container">
+        <header v-if="heading">
+          <h2 class="title">{{ heading }}</h2>
+        </header>
         <slot/>
       </div>
     </div>
@@ -16,8 +19,12 @@ export default {
       type: Boolean,
       default: false,
     },
+    heading: {
+      type: String,
+      default: '',
+    },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -50,6 +57,16 @@ export default {
   background-color: #fff;
   color: #444;
   padding: 1em;
+}
+
+header {
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+  border-bottom: 0.1em solid #ccc;
+}
+
+.title {
+  margin: 0;
 }
 
 .reveal-enter-active,

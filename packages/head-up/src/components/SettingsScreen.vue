@@ -1,8 +1,9 @@
 <template>
-  <ModalDialogue :show="show" @close="$emit('close')">
-    <header v-if="heading">
-      <h2>{{ heading }}</h2>
-    </header>
+  <ModalDialogue
+    :show="show"
+    :heading="heading"
+    @close="$emit('close')"
+  >
     <form class="settings">
       <p>
         <VSwitchToggle v-model="smoothScrollingValue" label="Smooth scrolling"/>
@@ -57,11 +58,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-header {
-  padding-bottom: 1em;
-  margin-bottom: 1em;
-  border-bottom: 0.1em solid #aaa;
-}
-</style>
