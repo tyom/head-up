@@ -58,7 +58,8 @@ export default {
     ...mapActions(['REMOVE_BOARD', 'ACTIVATE_BOARD']),
     getBoardListItemClass(item, idx) {
       return {
-        _active: idx === this.activeBoardIdx,
+        _active:
+          this.activeBoardIdx > -1 ? idx === this.activeBoardIdx : idx === 0,
         ['_read-only']: item.isReadOnly,
       };
     },
