@@ -6,6 +6,7 @@
     @shortkey="handleKeys"
   >
     <Sidebar
+      v-if="!hideSidebar"
       :visible="true"
       :boards="boardSummary"
     />
@@ -65,6 +66,12 @@ export default {
         help: ['shift', '?'],
       },
     };
+  },
+  props: {
+    hideSidebar: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapState(['activeBoardIdx', 'editMode', 'boards', 'smoothScrolling']),
