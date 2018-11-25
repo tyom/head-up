@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import HeadUp, { store as headUpStore } from '../../head-up/src';
+import HeadUp, { store as headUpStore } from 'head-up';
 import App from './App.vue';
 
 Vue.config.productionTip = false;
