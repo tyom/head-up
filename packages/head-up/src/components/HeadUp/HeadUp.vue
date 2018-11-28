@@ -156,7 +156,7 @@ export default {
     },
     handleAddBoard() {
       const newBoardTemplate = {
-        title: `Board #`,
+        title: `Board #${this.state.boards.length + 1}`,
         id: uniqueId(),
         cells: [
           {
@@ -165,7 +165,7 @@ export default {
         ],
       };
 
-      this.state.boards = [...this.state.boards, newBoardTemplate];
+      this.state.boards = [newBoardTemplate, ...this.state.boards];
       this.state.activeBoardIdx = 0;
       this.handleToggleEdit(true);
     },
