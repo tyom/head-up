@@ -1,6 +1,10 @@
 <template>
   <transition name="reveal">
-    <div class="ModalDialogue">
+    <div
+      class="ModalDialogue"
+      v-shortkey="['esc']"
+      @shortkey="$emit('close')"
+    >
       <div class="backdrop" @click="$emit('close')"/>
       <div class="container">
         <header v-if="heading">
