@@ -38,23 +38,40 @@
 </template>
 
 <script>
+import { get } from 'lodash';
 import Board from '../Board';
+
+function getOption(slot, prop) {
+  return get(slot, `componentOptions${prop ? '.' + prop : ''}`);
+}
+
+function getChildComponents(children = []) {
+  return children.filter(x => x.tag);
+}
 
 export default {
   components: {
     Board,
   },
-  props: {
-    boards: {
-      type: Array,
-      required: true,
+  computed: {
+    activeIdx() {
+      return this.getActiveBoardIdx();
     },
-    activeIdx: {
-      type: Number,
-      default: 0,
+    boards() {
+      return [...this.getBoards(), ...this.slotBoards];
+    },
+    slotBoards() {
+      const slot = this.getBoardsSlot() || [];
+      return getChildComponents(slot).map(slot => ({
+        title: getOption(slot, 'propsData.title'),
+        isReadOnly: true,
+        cells: getChildComponents(getOption(slot, 'children')).map(cell => ({
+          title: getOption(cell, 'propsData.title'),
+        })),
+      }));
     },
   },
-  inject: ['isEditing'],
+  inject: ['isEditing', 'getBoards', 'getBoardsSlot', 'getActiveBoardIdx'],
   methods: {
     getBoardTitle: board => board.isReadOnly && 'This board is not editable',
     getBoardCells: board => board.cells || board.children,
@@ -62,6 +79,29 @@ export default {
       return {
         _active: this.activeIdx > -1 ? idx === this.activeIdx : idx === 0,
         ['_read-only']: item.isReadOnly,
+      };
+    },
+    parseSlotToConfig() {
+      const slot = this.getBoardsSlot();
+      if (!slot) {
+        return {
+          boards: [],
+        };
+      }
+      return {
+        boards: getChildComponents(slot).map(slot => ({
+          title: getOption(slot, 'propsData.title'),
+          isReadOnly: true,
+          cells: getChildComponents(getOption(slot, 'children')).map(cell => ({
+            title: getOption(cell, 'propsData.title'),
+            content: getChildComponents(getOption(cell, 'children')).map(
+              item => ({
+                type: getOption(item, 'tag'),
+                props: getOption(item, 'propsData'),
+              }),
+            ),
+          })),
+        })),
       };
     },
   },

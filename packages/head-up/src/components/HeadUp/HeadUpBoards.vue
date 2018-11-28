@@ -3,8 +3,7 @@
     <Board
       v-for="(board, idx) in boards"
       ref="activeBoardEl"
-      :title="board.title"
-      :cells="board.cells"
+      v-bind="board"
       :editable="!board.isReadOnly"
       :key="board.title + board.id + idx"
     />

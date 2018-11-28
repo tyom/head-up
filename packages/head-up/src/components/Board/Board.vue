@@ -3,8 +3,8 @@
     <transition name="slideDown">
       <BoardToolbar
         v-if="!isThumb && isEditing()"
-        :title="boardTitle"
-        @save="handleToolbarSave"
+        :board="$props"
+        @save="handleEditSave"
       />
     </transition>
     <div :class="layoutClass" class="cells">
@@ -39,6 +39,10 @@ export default {
     BoardToolbar,
   },
   props: {
+    id: {
+      type: String,
+      default: '',
+    },
     isThumb: {
       type: Boolean,
       default: false,
@@ -98,9 +102,6 @@ export default {
   methods: {
     isActiveCell(id) {
       return this.activeCellId === id;
-    },
-    handleToolbarSave(payload) {
-      this.handleEditSave();
     },
   },
 };

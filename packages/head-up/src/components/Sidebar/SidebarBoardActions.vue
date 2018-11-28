@@ -4,7 +4,6 @@
       <v-icon name="plus"/>
     </SidebarButton>
     <SidebarButton
-      v-if="showEdit"
       :class="{_active: isEditing()}"
       class="_edit"
       @click="handleEditToggle"
@@ -20,16 +19,6 @@ import SidebarButton from './SidebarButton';
 export default {
   components: {
     SidebarButton,
-  },
-  props: {
-    editMode: {
-      type: Boolean,
-      default: false,
-    },
-    showEdit: {
-      type: Boolean,
-      default: false,
-    },
   },
   inject: ['isEditing'],
   methods: {

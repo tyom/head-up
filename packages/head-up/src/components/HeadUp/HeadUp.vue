@@ -8,9 +8,7 @@
     <Sidebar
       v-if="!hideSidebar"
       :visible="state.showSidebar"
-      :boards="boardSummary"
-      :active-board-idx="state.activeBoardIdx"
-      @sidebar:toggle="handleSidebarToggle"
+      @toggle="handleSidebarToggle"
       @board:add="handleAddBoard"
       @board:remove="handleRemoveBoard"
       @board:activate="handleActivateBoard"
@@ -47,14 +45,6 @@ import Sidebar from '../Sidebar';
 import SettingsScreen from '../SettingsScreen';
 import HelpScreen from '../HelpScreen';
 import HeadUpBoards from './HeadUpBoards';
-
-function getOption(slot, prop) {
-  return get(slot, `componentOptions${prop ? '.' + prop : ''}`);
-}
-
-function getChildComponents(children = []) {
-  return children.filter(x => x.tag);
-}
 
 const persistedState = localStorage.getItem('headUp');
 
@@ -100,13 +90,13 @@ export default {
     },
   },
   computed: {
+    totalBoardCount() {
+      return [...this.$slots.default, ...this.state.boards].length;
+    },
     rootClass() {
       return {
         _edit: this.state.editMode,
       };
-    },
-    boardSummary() {
-      return [...this.state.boards, ...this.parseSlotToConfig().boards];
     },
   },
   watch: {
@@ -123,6 +113,9 @@ export default {
   provide() {
     return {
       isEditing: () => this.state.editMode,
+      getBoards: () => this.state.boards,
+      getBoardsSlot: () => this.$slots.default,
+      getActiveBoardIdx: () => this.state.activeBoardIdx,
       handleEditDone: this.handleEditDone,
       handleEditSave: this.handleEditSave,
     };
@@ -148,8 +141,10 @@ export default {
       this.state.editMode =
         typeof value === 'undefined' ? !this.state.editMode : value;
     },
-    handleEditSave(board, payload) {
-      console.log('Save board edit', board, payload);
+    handleEditSave(board) {
+      this.state.boards = this.state.boards.map(
+        x => (x.id === board.id ? board : x),
+      );
     },
     handleEditDone() {
       this.state.editMode = false;
@@ -217,7 +212,7 @@ export default {
       currentBoardEl.scrollIntoView(scrollOptions);
     },
     activateNextBoard() {
-      if (this.state.activeBoardIdx === this.boardSummary.length - 1) {
+      if (this.state.activeBoardIdx === this.totalBoardCount - 1) {
         this.handleActivateBoard(0);
         return;
       }
@@ -225,32 +220,10 @@ export default {
     },
     activatePreviousBoard() {
       if (this.state.activeBoardIdx === 0) {
-        this.handleActivateBoard(this.boardSummary.length - 1);
+        this.handleActivateBoard(this.totalBoardCount - 1);
         return;
       }
       this.handleActivateBoard(this.state.activeBoardIdx - 1);
-    },
-    parseSlotToConfig() {
-      if (!this.$slots.default) {
-        return {
-          boards: [],
-        };
-      }
-      return {
-        boards: getChildComponents(this.$slots.default).map(slot => ({
-          title: getOption(slot, 'propsData.title'),
-          isReadOnly: true,
-          cells: getChildComponents(getOption(slot, 'children')).map(cell => ({
-            title: getOption(cell, 'propsData.title'),
-            content: getChildComponents(getOption(cell, 'children')).map(
-              item => ({
-                type: getOption(item, 'tag'),
-                props: getOption(item, 'propsData'),
-              }),
-            ),
-          })),
-        })),
-      };
     },
     toggleHelpScreen() {
       this.toggleModal({ name: 'help', heading: 'Keyboard help' });

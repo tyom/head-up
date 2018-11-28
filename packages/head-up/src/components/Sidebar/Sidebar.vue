@@ -2,18 +2,15 @@
   <div class="Sidebar">
     <SidebarToggle
       :toggled="visible"
-      @toggle="$emit('sidebar:toggle', !visible)"
+      @toggle="$emit('toggle', !visible)"
     />
     <transition name="slideLeft">
       <div v-show="visible" class="container">
         <SidebarBoardActions
-          :show-edit="Boolean(boards.length)"
           @add-board="$emit('board:add')"
           @toggle-edit="$emit('board:edit')"
         />
         <SidebarBoards
-          :active-idx="activeBoardIdx"
-          :boards="boards"
           @activate="$emit('board:activate', $event)"
           @remove="$emit('board:remove', $event)"
         />
@@ -44,14 +41,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    boards: {
-      type: Array,
-      default: () => [],
-    },
-    activeBoardIdx: {
-      type: Number,
-      default: 0,
-    },
   },
 };
 </script>
@@ -77,7 +66,7 @@ export default {
 
 .slideLeft-enter-active,
 .slideLeft-leave-active {
-  transition: 0.1s ease-out;
+  transition: 0.1s ease-in;
 }
 
 .slideLeft-enter,
