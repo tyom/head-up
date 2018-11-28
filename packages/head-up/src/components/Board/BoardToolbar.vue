@@ -13,7 +13,7 @@
       </div>
       <div class="toolbar-item _actions">
         <button v-if="isEditable" :disabled="!hasChanged">Apply</button>
-        <button @click.prevent="handleOk">OK</button>
+        <button @click.prevent="handleEditDone">OK</button>
       </div>
     </form>
   </div>
@@ -40,14 +40,10 @@ export default {
       return this.$parent.editable;
     },
   },
+  inject: ['handleEditDone'],
   methods: {
     handleSubmit() {
       this.$emit('save', {
-        title: this.boardTitle,
-      });
-    },
-    handleOk() {
-      this.$emit('done', {
         title: this.boardTitle,
       });
     },

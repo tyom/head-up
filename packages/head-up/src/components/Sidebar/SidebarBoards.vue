@@ -9,25 +9,25 @@
         v-for="(board, idx) in boards"
         :key="idx"
         :class="getBoardListItemClass(board, idx)"
-        :title="board.isReadOnly && 'This board is not editable'"
+        :title="getBoardTitle(board)"
         class="list-item"
       >
         <transition name="actionsReveal">
-          <div v-if="editMode && !board.isReadOnly" class="board-actions">
+          <div v-if="isEditing() && !board.isReadOnly" class="board-actions">
             <button
               type="button"
               class="remove-button"
-              @click.stop="REMOVE_BOARD(board.id)"
+              @click.stop="$emit('remove', board.id)"
             >
               <v-icon name="minus-circle"/>
             </button>
           </div>
         </transition>
         <Board
-          :cells="board.cells || board.children"
+          :cells="getBoardCells(board)"
           is-thumb
           class="board"
-          @click.native="ACTIVATE_BOARD(idx)"
+          @click.native="$emit('activate', idx)"
         />
         <div v-if="board.title" class="board-title">
           {{ board.title }}
@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 import Board from '../Board';
 
 export default {
@@ -50,16 +49,18 @@ export default {
       type: Array,
       required: true,
     },
+    activeIdx: {
+      type: Number,
+      default: 0,
+    },
   },
-  computed: {
-    ...mapState(['activeBoardIdx', 'editMode']),
-  },
+  inject: ['isEditing'],
   methods: {
-    ...mapActions(['REMOVE_BOARD', 'ACTIVATE_BOARD']),
+    getBoardTitle: board => board.isReadOnly && 'This board is not editable',
+    getBoardCells: board => board.cells || board.children,
     getBoardListItemClass(item, idx) {
       return {
-        _active:
-          this.activeBoardIdx > -1 ? idx === this.activeBoardIdx : idx === 0,
+        _active: this.activeIdx > -1 ? idx === this.activeIdx : idx === 0,
         ['_read-only']: item.isReadOnly,
       };
     },

@@ -2,10 +2,9 @@
   <div :class="boardClass" class="Board">
     <transition name="slideDown">
       <BoardToolbar
-        v-if="!isThumb && editMode"
+        v-if="!isThumb && isEditing()"
         :title="boardTitle"
         @save="handleToolbarSave"
-        @done="handleToolbarDone"
       />
     </transition>
     <div :class="layoutClass" class="cells">
@@ -30,7 +29,6 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 import Cell from '../Cell';
 import BoardToolbar from './BoardToolbar';
 
@@ -66,7 +64,6 @@ export default {
     };
   },
   computed: {
-    ...mapState(['activeBoardIdx', 'editMode']),
     boardClass() {
       return {
         _thumb: this.isThumb,
@@ -82,6 +79,7 @@ export default {
       isActiveCell: this.isActiveCell,
     };
   },
+  inject: ['isEditing', 'handleEditSave'],
   created() {
     if (this.isThumb) {
       return;
@@ -98,16 +96,11 @@ export default {
     });
   },
   methods: {
-    ...mapActions(['TOGGLE_EDIT_MODE']),
     isActiveCell(id) {
       return this.activeCellId === id;
     },
     handleToolbarSave(payload) {
-      this.$emit('update', payload);
-    },
-    handleToolbarDone(payload) {
-      this.handleToolbarSave();
-      this.TOGGLE_EDIT_MODE();
+      this.handleEditSave();
     },
   },
 };

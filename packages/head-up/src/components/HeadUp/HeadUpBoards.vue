@@ -7,14 +7,12 @@
       :cells="board.cells"
       :editable="!board.isReadOnly"
       :key="board.title + board.id + idx"
-      @update="handleBoardUpdate(idx, $event)"
     />
     <slot/>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import Board from '../Board';
 
 export default {
@@ -25,15 +23,6 @@ export default {
     boards: {
       type: Array,
       default: () => [],
-    },
-  },
-  methods: {
-    ...mapActions(['UPDATE_BOARD']),
-    handleBoardUpdate(idx, data) {
-      this.UPDATE_BOARD({
-        idx,
-        data,
-      });
     },
   },
 };

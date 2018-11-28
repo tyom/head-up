@@ -31,14 +31,13 @@
         </template>
       </div>
       <transition name="fade">
-        <CellSettings v-if="editMode && showSettings"/>
+        <CellSettings v-if="isEditing() && showSettings"/>
       </transition>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import CellSettings from './CellSettings';
 
 export default {
@@ -66,9 +65,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(['editMode']),
     isEditable() {
-      return this.$parent.editable && this.editMode;
+      return this.$parent.editable && this.isEditing();
     },
     cellClass() {
       return {
@@ -84,7 +82,7 @@ export default {
       };
     },
   },
-  inject: ['isActiveCell'],
+  inject: ['isEditing', 'isActiveCell'],
   methods: {
     handleCellClick() {
       if (!this.isEditable) {

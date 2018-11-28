@@ -1,53 +1,27 @@
 <template>
-  <ModalDialogue
-    :show="show"
-    :heading="heading"
-    @close="$emit('close')"
-  >
-    <dl class="shortcuts">
-      <div>
-        <dt>j</dt>
-        <dd>Next board</dd>
-      </div>
-      <div>
-        <dt>k</dt>
-        <dd>Previous board</dd>
-      </div>
-      <div>
-        <dt>s</dt>
-        <dd>Toggle sidebar</dd>
-      </div>
-      <div>
-        <dt>e</dt>
-        <dd>Toggle edit mode</dd>
-      </div>
-      <div>
-        <dt>a</dt>
-        <dd>Insert new board</dd>
-      </div>
-    </dl>
-  </ModalDialogue>
+  <dl class="shortcuts">
+    <div>
+      <dt>j</dt>
+      <dd>Next board</dd>
+    </div>
+    <div>
+      <dt>k</dt>
+      <dd>Previous board</dd>
+    </div>
+    <div>
+      <dt>s</dt>
+      <dd>Toggle sidebar</dd>
+    </div>
+    <div>
+      <dt>e</dt>
+      <dd>Toggle edit mode</dd>
+    </div>
+    <div>
+      <dt>a</dt>
+      <dd>Insert new board</dd>
+    </div>
+  </dl>
 </template>
-
-<script>
-import ModalDialogue from './ModalDialogue';
-
-export default {
-  components: {
-    ModalDialogue,
-  },
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
-    heading: {
-      type: String,
-      default: '',
-    },
-  },
-};
-</script>
 
 <style scoped>
 .shortcuts {

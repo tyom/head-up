@@ -1,6 +1,6 @@
 <template>
   <transition name="reveal">
-    <div v-if="show" class="ModalDialogue">
+    <div class="ModalDialogue">
       <div class="backdrop" @click="$emit('close')"/>
       <div class="container">
         <header v-if="heading">
@@ -15,10 +15,6 @@
 <script>
 export default {
   props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
     heading: {
       type: String,
       default: '',

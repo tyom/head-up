@@ -5,9 +5,9 @@
     </SidebarButton>
     <SidebarButton
       v-if="showEdit"
-      :class="{_active: editMode}"
+      :class="{_active: isEditing()}"
       class="_edit"
-      @click="$emit('toggle-edit')"
+      @click="handleEditToggle"
     >
       <v-icon name="edit"/>
     </SidebarButton>
@@ -29,6 +29,12 @@ export default {
     showEdit: {
       type: Boolean,
       default: false,
+    },
+  },
+  inject: ['isEditing'],
+  methods: {
+    handleEditToggle() {
+      this.$emit('toggle-edit');
     },
   },
 };
