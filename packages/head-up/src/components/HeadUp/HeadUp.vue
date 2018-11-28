@@ -24,18 +24,15 @@
       </HeadUpBoards>
     </div>
     <ModalDialogue
-      v-if="showHelp"
-      heading="Keyboard help"
-      @close="toggleHelpScreen(false)"
+      v-if="modal"
+      :heading="modal.heading"
+      @close="modal = null"
     >
-      <HelpScreen/>
-    </ModalDialogue>
-    <ModalDialogue
-      v-if="showSettings"
-      heading="Settings"
-      @close="toggleSettingsScreen(false)"
-    >
+      <HelpScreen
+        v-if="modal.name === 'help'"
+      />
       <SettingsScreen
+        v-if="modal.name === 'settings'"
         :settings="state.settings"
         @save="handleSettingsSave"
       />
@@ -85,8 +82,7 @@ export default {
           },
         },
       },
-      showHelp: false,
-      showSettings: false,
+      modal: null,
       shortkeys: {
         up: ['k'],
         down: ['j'],
@@ -256,12 +252,15 @@ export default {
         })),
       };
     },
-    toggleHelpScreen(state) {
-      this.showHelp = typeof state === 'undefined' ? !this.showHelp : state;
+    toggleHelpScreen() {
+      this.toggleModal({ name: 'help', heading: 'Keyboard help' });
     },
-    toggleSettingsScreen(state) {
-      this.showSettings =
-        typeof state === 'undefined' ? !this.showSettings : state;
+    toggleSettingsScreen() {
+      this.toggleModal({ name: 'settings', heading: 'Settings' });
+    },
+    toggleModal(modalData) {
+      const existingModalName = this.modal && this.modal.name;
+      this.modal = existingModalName === modalData.name ? null : modalData;
     },
     handleSettingsSave(payload) {
       this.state.settings = payload;
