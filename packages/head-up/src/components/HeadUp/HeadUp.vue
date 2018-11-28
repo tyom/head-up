@@ -70,6 +70,11 @@ export default {
             label: 'Smooth scrolling',
             value: true,
           },
+          persistState: {
+            type: 'toggle',
+            label: 'Persist to local storage',
+            value: true,
+          },
         },
       },
       modal: null,
@@ -105,8 +110,15 @@ export default {
     },
     state: {
       deep: true,
-      handler() {
-        localStorage.setItem('headUp', JSON.stringify(this.state));
+      handler(newVal) {
+        if (!newVal.settings.persistState.value) {
+          const newState = JSON.parse(persistedState);
+          newState.settings.persistState.value =
+            newVal.settings.persistState.value;
+          localStorage.setItem('headUp', JSON.stringify(newState));
+          return;
+        }
+        localStorage.setItem('headUp', JSON.stringify(newVal));
       },
     },
   },

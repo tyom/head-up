@@ -1,8 +1,10 @@
 <template>
   <form class="settings">
-    <p v-for="(setting, key) in settings" :key="key">
-      <VSwitchToggle v-model="settingsState[key].value" :label="setting.label"/>
-    </p>
+    <ul>
+      <li v-for="(setting, key) in settings" :key="key">
+        <VSwitchToggle v-model="settingsState[key].value" :label="setting.label"/>
+      </li>
+    </ul>
   </form>
 </template>
 
@@ -29,3 +31,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li + li {
+  margin-top: 1em;
+}
+</style>
