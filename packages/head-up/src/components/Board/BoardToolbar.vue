@@ -3,7 +3,7 @@
     <form class="toolbar-container" @submit.prevent="handleSubmit">
       <div class="toolbar-item _info">
         <input
-          v-if="isEditable"
+          v-if="boardState.editable"
           v-model="boardState.title"
           type="text"
           class="toolbar-input"
@@ -14,8 +14,14 @@
         </span>
       </div>
       <div class="toolbar-item _actions">
-        <button v-if="isEditable" :disabled="!hasChanged">Apply</button>
-        <button @click.prevent="handleDone">OK</button>
+        <button
+          v-if="boardState.editable"
+          :disabled="!hasChanged"
+          class="save"
+        >
+          Apply
+        </button>
+        <button @click.prevent="handleDone" class="done">OK</button>
       </div>
     </form>
   </div>
@@ -38,9 +44,6 @@ export default {
     hasChanged() {
       return this.boardState.title !== this.board.title;
     },
-    isEditable() {
-      return this.$parent.editable;
-    },
   },
   inject: ['handleEditDone', 'handleEditSave'],
   methods: {
@@ -48,7 +51,7 @@ export default {
       this.handleEditSave(this.boardState);
     },
     handleDone() {
-      this.handleSubmit();
+      this.hasChanged && this.handleSubmit();
       this.handleEditDone();
     },
   },
