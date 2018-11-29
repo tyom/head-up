@@ -59,13 +59,6 @@ export default {
       default: false,
     },
   },
-  data() {
-    return {
-      activeCellId: undefined,
-      boardCells: this.cells.length ? this.cells : this.$children,
-      boardTitle: this.title,
-    };
-  },
   computed: {
     boardClass() {
       return {
@@ -84,26 +77,6 @@ export default {
     return {
       isActiveCell: this.isActiveCell,
     };
-  },
-  created() {
-    if (this.isThumb) {
-      return;
-    }
-    this.$on('toggle-cell', id => {
-      if (this.activeCellId === id) {
-        this.activeCellId = null;
-        return;
-      }
-      this.activeCellId = id;
-    });
-    this.$on('select-cell', id => {
-      this.activeCellId = id;
-    });
-  },
-  methods: {
-    isActiveCell(id) {
-      return this.activeCellId === id;
-    },
   },
   inject: ['isEditing'],
 };
