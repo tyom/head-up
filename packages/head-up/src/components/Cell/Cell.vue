@@ -128,13 +128,40 @@ export default {
 .header {
   font-size: 0.55em;
   color: #fff6;
+  position: relative;
   text-transform: uppercase;
   background-color: #0003;
-  padding: 0.6em 1em;
+  padding: 0.7em 1em;
   line-height: 1;
   justify-content: center;
   display: flex;
   align-items: center;
+}
+
+.header-button {
+  border: 0;
+  padding: 0.5em 1em;
+  background: none;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.7;
+  outline: 0;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &._toggled {
+    opacity: 1;
+    background-color: #20416d;
+  }
+
+  &:active {
+    background-color: #193254;
+  }
 }
 
 .title {
@@ -161,29 +188,6 @@ export default {
 
 .padded > * {
   padding: 0.5em;
-}
-
-.header-button {
-  border: 0;
-  padding: 0.5em 1em;
-  background: none;
-  color: #fff;
-  margin: -0.6em -1.3em -0.6em auto;
-  opacity: 0.7;
-  outline: 0;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  &._toggled {
-    opacity: 1;
-    background-color: #20416d;
-  }
-
-  &:active {
-    background-color: #193254;
-  }
 }
 
 .fade-enter-active,
