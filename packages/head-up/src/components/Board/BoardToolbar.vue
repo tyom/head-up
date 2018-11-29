@@ -42,13 +42,13 @@ export default {
       return this.$parent.editable;
     },
   },
-  inject: ['handleEditDone'],
+  inject: ['handleEditDone', 'handleEditSave'],
   methods: {
     handleSubmit() {
-      this.$emit('save', this.boardState);
+      this.handleEditSave(this.boardState);
     },
     handleDone() {
-      this.$emit('save', this.boardState);
+      this.handleSubmit();
       this.handleEditDone();
     },
   },

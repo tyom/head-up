@@ -4,7 +4,6 @@
       <BoardToolbar
         v-if="!isThumb && isEditing()"
         :board="$props"
-        @save="handleEditSave"
       />
     </transition>
     <div :class="layoutClass" class="cells">
@@ -83,7 +82,6 @@ export default {
       isActiveCell: this.isActiveCell,
     };
   },
-  inject: ['isEditing', 'handleEditSave'],
   created() {
     if (this.isThumb) {
       return;
@@ -104,6 +102,7 @@ export default {
       return this.activeCellId === id;
     },
   },
+  inject: ['isEditing'],
 };
 </script>
 
