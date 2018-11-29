@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render default 1`] = `
+<form class="settings">
+  <ul>
+    <li>
+      <vswitchtoggle-stub label="Setting I prefer"></vswitchtoggle-stub>
+    </li>
+  </ul>
+</form>
+`;
