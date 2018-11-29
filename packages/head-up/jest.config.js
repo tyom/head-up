@@ -1,5 +1,5 @@
 module.exports = {
-  collectCoverageFrom: ['src/**/*.{js,vue}'],
+  collectCoverageFrom: ['src/**/*.{js,vue}', '!src/components/**/index.js'],
   moduleFileExtensions: ['js', 'json', 'vue'],
   transform: {
     '^.+\\.js$': 'babel-jest',
