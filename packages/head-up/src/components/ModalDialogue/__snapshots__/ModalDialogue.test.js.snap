@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render default 1`] = `
+<div class="ModalDialogue" name="reveal">
+  <div class="backdrop"></div>
+  <div class="container">
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`render with heading and contents 1`] = `
+<div class="ModalDialogue" name="reveal">
+  <div class="backdrop"></div>
+  <div class="container">
+    <header>
+      <h2 class="title">I’m floating</h2>
+    </header>
+    <p>I’m standing</p>
+  </div>
+</div>
+`;
