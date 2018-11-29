@@ -31,16 +31,12 @@
     padding: 0.5em 0;
   }
 
-  & > div + div {
-    border-top: 1px solid #ddd;
-  }
-
   & dt {
     width: 2em;
     height: 2em;
     line-height: 1.9em;
     text-align: center;
-    background-color: #555;
+    background-color: #fff3;
     color: #fff;
     border-radius: 0.2em;
     font-weight: bold;
