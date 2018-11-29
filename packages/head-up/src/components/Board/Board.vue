@@ -74,6 +74,9 @@ export default {
     },
     layoutClass() {
       const cells = this.$slots.default ? this.$slots.default : this.cells;
+      if (!cells.length) {
+        return;
+      }
       return [`u-grid-${cells.length}-x`];
     },
   },
