@@ -154,6 +154,10 @@ export default {
     opacity: 1;
   }
 
+  &:focus {
+    background-color: rgba(#20416d, 0.5);
+  }
+
   &._toggled {
     opacity: 1;
     background-color: #20416d;
