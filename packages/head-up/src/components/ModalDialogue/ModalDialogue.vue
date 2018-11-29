@@ -3,9 +3,9 @@
     <div
       class="ModalDialogue"
       v-shortkey="['esc']"
-      @shortkey="$emit('close')"
+      @shortkey="handleClose"
     >
-      <div class="backdrop" @click="$emit('close')"/>
+      <div class="backdrop" @click="handleClose"/>
       <div class="container">
         <header v-if="heading">
           <h2 class="title">{{ heading }}</h2>
@@ -22,6 +22,11 @@ export default {
     heading: {
       type: String,
       default: '',
+    },
+  },
+  methods: {
+    handleClose() {
+      this.$emit('close');
     },
   },
 };
