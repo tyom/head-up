@@ -1,4 +1,4 @@
-<template>
+<template functional>
   <dl class="shortcuts">
     <div>
       <dt>j</dt>
