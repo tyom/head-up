@@ -54,15 +54,17 @@ export default {
   max-height: 60vh;
   margin: auto;
   z-index: 1;
-  background-color: #fff;
-  color: #444;
+  background-color: #222;
+  border: 2px solid #fff4;
+  color: #ccc;
   padding: 1em;
 }
 
 header {
-  padding-bottom: 1em;
-  margin-bottom: 1em;
-  border-bottom: 0.1em solid #ccc;
+  padding: 1em;
+  margin: -1em -1em 1em;
+  background-color: #0002;
+  border-bottom: 0.1em solid #fff2;
 }
 
 .reveal-enter-active,
