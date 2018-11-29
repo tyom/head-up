@@ -3,10 +3,9 @@
     <div :class="{_toggled: toggled}" class="toggle-indicator">
       <div class="toggle-head"/>
       <input
+        v-model="toggled"
         :id="inputId"
-        :checked="toggled"
         type="checkbox"
-        @input="toggle"
       >
     </div>
     <label
@@ -22,7 +21,7 @@ export default {
   props: {
     label: {
       type: String,
-      default: '',
+      required: true,
     },
     value: {
       type: Boolean,
@@ -36,20 +35,19 @@ export default {
   data() {
     return {
       toggled: this.value,
-    }
+    };
   },
   computed: {
     inputId() {
-      return `switch-toggle-${this._uid}`
+      return `switch-toggle-${this._uid}`;
     },
   },
-  methods: {
-    toggle(evt) {
-      this.toggled = evt.target.checked
-      this.$emit('input', this.toggled)
+  watch: {
+    toggled(newVal) {
+      this.$emit('input', newVal);
     },
   },
-}
+};
 </script>
 
 <style scoped>
