@@ -1,13 +1,7 @@
 <template>
-  <div
-    :class="cellClass"
-    class="Cell"
-    @click="handleCellClick"
-  >
+  <div class="Cell">
     <header v-if="isEditable || title" class="header">
-      <h2 class="title">
-        {{ title }}
-      </h2>
+      <h2 class="title">{{ title }}</h2>
       <button
         v-if="isEditable"
         :class="{_toggled: showSettings}"
@@ -30,8 +24,8 @@
           />
         </template>
       </div>
-      <transition name="fade">
-        <CellSettings v-if="isEditing() && showSettings"/>
+      <transition name="revealSettings">
+        <CellSettings v-if="isEditable && showSettings"/>
       </transition>
     </div>
   </div>
@@ -58,6 +52,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    editable: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -66,43 +64,26 @@ export default {
   },
   computed: {
     isEditable() {
-      return this.$parent.editable && this.isEditing();
-    },
-    cellClass() {
-      return {
-        _editMode: this.editMode,
-        _active: this.editMode && this.isActiveCell(this._uid),
-      };
+      return this.editable && this.isEditing();
     },
     bodyClass() {
       const content = this.$slots.default ? this.$slots.default : this.content;
       return {
-        [`u-grid-${content.length}-x`]: true,
+        [`u-grid-${content.length}-x`]: !!content.length,
         padded: this.padded,
       };
     },
   },
-  inject: ['isEditing', 'isActiveCell'],
+  inject: ['isEditing'],
   methods: {
-    handleCellClick() {
-      if (!this.isEditable) {
-        return;
-      }
-      this.$parent.$emit('toggle-cell', this._uid);
-    },
     handleSettingsClick() {
       this.showSettings = !this.showSettings;
-      this.$parent.$emit('select-cell', this._uid);
     },
   },
 };
 </script>
 
 <style scoped>
-._editMode:hover {
-  border-color: #000a;
-}
-
 .Cell {
   border: 1px solid #0005;
   transition: 0.3s;
@@ -112,16 +93,6 @@ export default {
 
   &:hover {
     transition: 0.1s;
-  }
-
-  &._active {
-    transition: none;
-    border-color: #17619c;
-    background-color: #0001;
-
-    & .header {
-      color: #fff;
-    }
   }
 }
 
@@ -194,12 +165,12 @@ export default {
   padding: 0.5em;
 }
 
-.fade-enter-active,
-.fade-leave-active {
+.revealSettings-enter-active,
+.revealSettings-leave-active {
   transition: 0.3s;
 }
-.fade-enter,
-.fade-leave-to {
+.revealSettings-enter,
+.revealSettings-leave-to {
   opacity: 0;
 }
 </style>

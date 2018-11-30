@@ -19,6 +19,7 @@
         <Cell
           v-for="(cell, idx) in cells"
           v-bind="cell"
+          :editable="editable"
           :key="idx"
           class="cell"
         />
@@ -72,11 +73,6 @@ export default {
       }
       return [`u-grid-${cells.length}-x`];
     },
-  },
-  provide() {
-    return {
-      isActiveCell: this.isActiveCell,
-    };
   },
   inject: ['isEditing'],
 };
