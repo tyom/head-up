@@ -1,9 +1,17 @@
 <template>
   <div class="SidebarActions">
-    <SidebarButton @click="$emit('settings')" title="Shortcut: ⇧<">
+    <SidebarButton
+      title="Shortcut: ⇧<"
+      class="settings-button"
+      @click="$emit('settings')"
+    >
       <v-icon name="cog"/>
     </SidebarButton>
-    <SidebarButton @click="$emit('help')" title="Shortcut: ⇧?">
+    <SidebarButton
+      title="Shortcut: ⇧?"
+      class="help-button"
+      @click="$emit('help')"
+    >
       <v-icon name="question"/>
     </SidebarButton>
   </div>
