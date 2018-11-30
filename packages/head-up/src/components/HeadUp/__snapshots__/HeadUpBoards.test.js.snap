@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render with props 1`] = `
+<div class="HeadUpBoards">
+  <div class="Board">
+    <!---->
+    <div class="cells u-grid-2-x">
+      <div class="Cell cell">
+        <header class="header">
+          <h2 class="title">Cell #1</h2>
+          <!---->
+        </header>
+        <div class="container">
+          <div class="body"></div>
+          <!---->
+        </div>
+      </div>
+      <div class="Cell cell">
+        <header class="header">
+          <h2 class="title">Cell #2</h2>
+          <!---->
+        </header>
+        <div class="container">
+          <div class="body"></div>
+          <!---->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`render with slot and props 1`] = `
+<div class="HeadUpBoards">
+  <div class="Board">
+    <!---->
+    <div class="cells u-grid-2-x">
+      <div class="Cell cell">
+        <header class="header">
+          <h2 class="title">Cell #1</h2>
+          <!---->
+        </header>
+        <div class="container">
+          <div class="body"></div>
+          <!---->
+        </div>
+      </div>
+      <div class="Cell cell">
+        <header class="header">
+          <h2 class="title">Cell #2</h2>
+          <!---->
+        </header>
+        <div class="container">
+          <div class="body"></div>
+          <!---->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="Board">
+    <!---->
+    <div class="cells u-grid-1-x">
+      <div class="Cell">
+        <header class="header">
+          <h2 class="title">Cell #1</h2>
+          <!---->
+        </header>
+        <div class="container">
+          <div class="body"></div>
+          <!---->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`render with slots 1`] = `
+<div class="HeadUpBoards">
+  <div class="Board">
+    <!---->
+    <div class="cells u-grid-1-x">
+      <div class="Cell">
+        <header class="header">
+          <h2 class="title">Cell #1</h2>
+          <!---->
+        </header>
+        <div class="container">
+          <div class="body"></div>
+          <!---->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
