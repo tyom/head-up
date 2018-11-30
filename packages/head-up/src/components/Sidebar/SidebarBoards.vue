@@ -13,7 +13,7 @@
         class="list-item"
       >
         <transition name="actionsReveal">
-          <div v-if="isEditing() && !board.isReadOnly" class="board-actions">
+          <div v-if="editMode && board.editable" class="board-actions">
             <button
               type="button"
               class="remove-button"
@@ -69,6 +69,8 @@ export default {
           title: getOption(cell, 'propsData.title'),
         })),
       }));
+    editMode() {
+      return this.isEditing();
     },
   },
   inject: ['isEditing', 'getBoards', 'getBoardsSlot', 'getActiveBoardIdx'],
@@ -78,7 +80,7 @@ export default {
     getBoardListItemClass(item, idx) {
       return {
         _active: this.activeIdx > -1 ? idx === this.activeIdx : idx === 0,
-        ['_read-only']: item.isReadOnly,
+        ['_read-only']: !item.editable,
       };
     },
     handleRemoveBoard(boardId) {

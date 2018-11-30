@@ -166,6 +166,7 @@ export default {
       const newBoardTemplate = {
         title: `Board #${this.state.boards.length + 1}`,
         id: uniqueId(),
+        editable: true,
         cells: [
           {
             title: 'Cell #1',

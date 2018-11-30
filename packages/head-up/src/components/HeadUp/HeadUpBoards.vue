@@ -4,7 +4,6 @@
       v-for="(board, idx) in boards"
       ref="activeBoardEl"
       v-bind="board"
-      :editable="!board.isReadOnly"
       :key="board.title + board.id + idx"
     />
     <slot/>
