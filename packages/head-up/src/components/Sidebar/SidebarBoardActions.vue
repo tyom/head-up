@@ -1,7 +1,7 @@
 <template>
   <div class="SidebarBoardActions">
     <SidebarButton
-      class="_add"
+      class="add-button"
       title="Shortcut: a"
       @click="handleAddBoard"
     >
@@ -9,7 +9,7 @@
     </SidebarButton>
     <SidebarButton
       :class="{_active: isEditing()}"
-      class="_edit"
+      class="edit-button"
       title="Shortcut: e"
       @click="handleEditToggle"
     >
