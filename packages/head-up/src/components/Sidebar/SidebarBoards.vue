@@ -24,7 +24,7 @@
           </div>
         </transition>
         <Board
-          :cells="getBoardCells(board)"
+          :cells="board.cells"
           is-thumb
           class="board"
           @click.native="handleActivateBoard(idx)"
@@ -38,16 +38,7 @@
 </template>
 
 <script>
-import { get } from 'lodash';
 import Board from '../Board';
-
-function getOption(slot, prop) {
-  return get(slot, `componentOptions${prop ? '.' + prop : ''}`);
-}
-
-function getChildComponents(children = []) {
-  return children.filter(x => x.tag);
-}
 
 export default {
   components: {
@@ -58,25 +49,17 @@ export default {
       return this.getActiveBoardIdx();
     },
     boards() {
-      return [...this.getBoards(), ...this.slotBoards];
+      return this.getBoards();
     },
-    slotBoards() {
-      const slot = this.getBoardsSlot() || [];
-      return getChildComponents(slot).map(slot => ({
-        title: getOption(slot, 'propsData.title'),
-        isReadOnly: true,
-        cells: getChildComponents(getOption(slot, 'children')).map(cell => ({
-          title: getOption(cell, 'propsData.title'),
-        })),
-      }));
     editMode() {
       return this.isEditing();
     },
   },
-  inject: ['isEditing', 'getBoards', 'getBoardsSlot', 'getActiveBoardIdx'],
+  inject: ['isEditing', 'getBoards', 'getActiveBoardIdx'],
   methods: {
-    getBoardTitle: board => board.isReadOnly && 'This board is not editable',
-    getBoardCells: board => board.cells || board.children,
+    getBoardTitle(board) {
+      return board.title + (board.editable ? '' : ' (read-only)');
+    },
     getBoardListItemClass(item, idx) {
       return {
         _active: this.activeIdx > -1 ? idx === this.activeIdx : idx === 0,

@@ -40,6 +40,7 @@
 
 <script>
 import { uniqueId, get } from 'lodash';
+import { serializeSlot } from '../../transformers';
 import ModalDialogue from '../ModalDialogue';
 import Sidebar from '../Sidebar';
 import SettingsScreen from '../SettingsScreen';
@@ -63,7 +64,7 @@ export default {
         activeBoardIdx: 0,
         editMode: false,
         showSidebar: true,
-        boards: [],
+        boards: serializeSlot(this.$slots.default),
         settings: {
           smoothScrolling: {
             type: 'toggle',
@@ -127,7 +128,6 @@ export default {
     return {
       isEditing: () => this.state.editMode,
       getBoards: () => this.state.boards,
-      getBoardsSlot: () => this.$slots.default,
       getActiveBoardIdx: () => this.state.activeBoardIdx,
       handleEditDone: this.handleEditDone,
       handleEditSave: this.handleEditSave,
