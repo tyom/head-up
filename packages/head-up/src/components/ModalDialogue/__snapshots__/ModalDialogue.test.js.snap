@@ -5,6 +5,7 @@ exports[`render default 1`] = `
   <div class="backdrop"></div>
   <div class="container">
     <!---->
+    <div class="body"></div>
   </div>
 </div>
 `;
@@ -16,7 +17,9 @@ exports[`render with heading and contents 1`] = `
     <header>
       <h2 class="title">I’m floating</h2>
     </header>
-    <p>I’m standing</p>
+    <div class="body">
+      <p>I’m standing</p>
+    </div>
   </div>
 </div>
 `;

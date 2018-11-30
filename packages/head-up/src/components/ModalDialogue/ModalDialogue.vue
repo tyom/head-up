@@ -10,7 +10,9 @@
         <header v-if="heading">
           <h2 class="title">{{ heading }}</h2>
         </header>
-        <slot/>
+        <div class="body">
+          <slot/>
+        </div>
       </div>
     </div>
   </transition>
@@ -40,6 +42,10 @@ export default {
   right: 0;
   top: 0;
   bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
 }
 
 .backdrop {
@@ -51,25 +57,23 @@ export default {
 .container {
   position: absolute;
   border-radius: 0.3em;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  max-width: 60vw;
-  max-height: 60vh;
-  margin: auto;
   z-index: 1;
   background-color: #222;
   border: 2px solid #fff4;
   color: #ccc;
-  padding: 1em;
 }
 
 header {
   padding: 1em;
-  margin: -1em -1em 1em;
   background-color: #0002;
   border-bottom: 0.1em solid #fff2;
+}
+
+.body {
+  padding: 1em;
+  width: 60vw;
+  min-height: 30vh;
+  overflow: auto;
 }
 
 .reveal-enter-active,
