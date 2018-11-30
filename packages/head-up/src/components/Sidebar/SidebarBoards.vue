@@ -81,28 +81,6 @@ export default {
         ['_read-only']: item.isReadOnly,
       };
     },
-    parseSlotToConfig() {
-      const slot = this.getBoardsSlot();
-      if (!slot) {
-        return {
-          boards: [],
-        };
-      }
-      return {
-        boards: getChildComponents(slot).map(slot => ({
-          title: getOption(slot, 'propsData.title'),
-          isReadOnly: true,
-          cells: getChildComponents(getOption(slot, 'children')).map(cell => ({
-            title: getOption(cell, 'propsData.title'),
-            content: getChildComponents(getOption(cell, 'children')).map(
-              item => ({
-                type: getOption(item, 'tag'),
-                props: getOption(item, 'propsData'),
-              }),
-            ),
-          })),
-        })),
-      };
     handleRemoveBoard(boardId) {
       this.$emit('remove', boardId);
     },
