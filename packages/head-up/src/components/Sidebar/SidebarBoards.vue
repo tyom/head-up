@@ -17,7 +17,7 @@
             <button
               type="button"
               class="remove-button"
-              @click.stop="$emit('remove', board.id)"
+              @click.stop="handleRemoveBoard(board.id)"
             >
               <v-icon name="minus-circle"/>
             </button>
@@ -27,7 +27,7 @@
           :cells="getBoardCells(board)"
           is-thumb
           class="board"
-          @click.native="$emit('activate', idx)"
+          @click.native="handleActivateBoard(idx)"
         />
         <div v-if="board.title" class="board-title">
           {{ board.title }}
@@ -103,6 +103,11 @@ export default {
           })),
         })),
       };
+    handleRemoveBoard(boardId) {
+      this.$emit('remove', boardId);
+    },
+    handleActivateBoard(boardIdx) {
+      this.$emit('activate', boardIdx);
     },
   },
 };

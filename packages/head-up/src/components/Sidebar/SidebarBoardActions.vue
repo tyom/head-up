@@ -3,7 +3,7 @@
     <SidebarButton
       class="_add"
       title="Shortcut: a"
-      @click="$emit('add-board')"
+      @click="handleAddBoard"
     >
       <v-icon name="plus"/>
     </SidebarButton>
@@ -27,6 +27,9 @@ export default {
   },
   inject: ['isEditing'],
   methods: {
+    handleAddBoard() {
+      this.$emit('add-board');
+    },
     handleEditToggle() {
       this.$emit('toggle-edit');
     },
