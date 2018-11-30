@@ -20,6 +20,14 @@
       <dt>a</dt>
       <dd>Insert new board</dd>
     </div>
+    <div>
+      <dt>Shift ?</dt>
+      <dd>Show help screen</dd>
+    </div>
+    <div>
+      <dt>Shift &lt;</dt>
+      <dd>Insert settings</dd>
+    </div>
   </dl>
 </template>
 
@@ -32,9 +40,7 @@
   }
 
   & dt {
-    width: 2em;
-    height: 2em;
-    line-height: 1.9em;
+    padding: 0.5em 1em;
     text-align: center;
     background-color: #fff3;
     color: #fff;

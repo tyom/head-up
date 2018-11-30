@@ -84,6 +84,7 @@ export default {
         sidebar: ['s'],
         edit: ['e'],
         add: ['a'],
+        settings: ['shift', '<'],
         help: ['shift', '?'],
       },
     };
@@ -204,6 +205,9 @@ export default {
           break;
         case 'add':
           this.handleAddBoard();
+          break;
+        case 'settings':
+          this.toggleSettingsScreen();
           break;
         case 'help':
           this.toggleHelpScreen();

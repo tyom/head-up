@@ -3,6 +3,7 @@
     <SidebarToggle
       :toggled="visible"
       @toggle="$emit('toggle', !visible)"
+      title="Shortcut: s"
     />
     <transition name="slideLeft">
       <div v-show="visible" class="container">

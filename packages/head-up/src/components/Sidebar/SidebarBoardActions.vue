@@ -1,11 +1,16 @@
 <template>
   <div class="SidebarBoardActions">
-    <SidebarButton class="_add" @click="$emit('add-board')">
+    <SidebarButton
+      class="_add"
+      title="Shortcut: a"
+      @click="$emit('add-board')"
+    >
       <v-icon name="plus"/>
     </SidebarButton>
     <SidebarButton
       :class="{_active: isEditing()}"
       class="_edit"
+      title="Shortcut: e"
       @click="handleEditToggle"
     >
       <v-icon name="edit"/>
