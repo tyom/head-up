@@ -97,9 +97,6 @@ export default {
     },
   },
   computed: {
-    totalBoardCount() {
-      return [...this.$slots.default, ...this.state.boards].length;
-    },
     rootClass() {
       return {
         _edit: this.state.editMode,
@@ -229,7 +226,7 @@ export default {
       currentBoardEl.scrollIntoView(scrollOptions);
     },
     activateNextBoard() {
-      if (this.state.activeBoardIdx === this.totalBoardCount - 1) {
+      if (this.state.activeBoardIdx === this.state.boards.length - 1) {
         this.handleActivateBoard(0);
         return;
       }
@@ -237,7 +234,7 @@ export default {
     },
     activatePreviousBoard() {
       if (this.state.activeBoardIdx === 0) {
-        this.handleActivateBoard(this.totalBoardCount - 1);
+        this.handleActivateBoard(this.state.boards.length - 1);
         return;
       }
       this.handleActivateBoard(this.state.activeBoardIdx - 1);
