@@ -188,7 +188,7 @@ export default {
       } else if (this.state.activeBoardIdx === deletedIndex) {
         this.state.activeBoardIdx = deletedIndex;
       } else {
-        this.state.activeBoardIdx = deletedIndex - 1;
+        this.state.activeBoardIdx = deletedIndex > 0 ? deletedIndex - 1 : 0;
       }
     },
     handleKeys(evt) {
