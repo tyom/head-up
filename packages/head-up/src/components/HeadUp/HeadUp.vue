@@ -47,8 +47,6 @@ import SettingsScreen from '../SettingsScreen';
 import HelpScreen from '../HelpScreen';
 import HeadUpBoards from './HeadUpBoards';
 
-const persistedState = localStorage.getItem('headUp');
-
 export default {
   name: 'HeadUp',
   components: {
@@ -78,6 +76,7 @@ export default {
           },
         },
       },
+      persistedState: null,
       modal: null,
       shortkeys: {
         up: ['k'],
@@ -114,14 +113,15 @@ export default {
     state: {
       deep: true,
       handler(newVal) {
-        if (!newVal.settings.persistState.value) {
-          const newState = JSON.parse(persistedState);
-          newState.settings.persistState.value =
-            newVal.settings.persistState.value;
-          localStorage.setItem('headUp', JSON.stringify(newState));
+        if (newVal.settings.persistState.value) {
+          localStorage.setItem('headUp', JSON.stringify(newVal));
           return;
         }
-        localStorage.setItem('headUp', JSON.stringify(newVal));
+        // save persistence setting but not the state
+        const newState = JSON.parse(this.persistedState);
+        newState.settings.persistState.value =
+          newVal.settings.persistState.value;
+        localStorage.setItem('headUp', JSON.stringify(newState));
       },
     },
   },
@@ -135,8 +135,9 @@ export default {
     };
   },
   created() {
-    if (persistedState) {
-      this.state = JSON.parse(persistedState);
+    this.persistedState = localStorage.getItem('headUp');
+    if (this.persistedState) {
+      this.state = JSON.parse(this.persistedState);
     }
   },
   mounted() {
@@ -160,7 +161,8 @@ export default {
         x => (x.id === board.id ? board : x),
       );
     },
-    handleEditDone() {
+    handleEditDone(board) {
+      this.handleEditSave(board);
       this.state.editMode = false;
     },
     handleAddBoard() {
