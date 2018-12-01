@@ -2,13 +2,16 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .js,.vue tmp"
+    "bootstrap": "lerna bootstrap",
+    "lint": "eslint --ext .js,.vue packages",
+    "test": "lerna run test:ci"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
     "eslint": "^5.9.0",
     "eslint-config-tyom": "^2.1.0",
-    "lerna": "^3.4.3",
+    "jest-junit": "5.2.0",
+    "lerna": "3.5.1",
     "prettier": "~1.14.3"
   }
 }
