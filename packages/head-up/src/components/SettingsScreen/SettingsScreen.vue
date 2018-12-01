@@ -2,7 +2,11 @@
   <form class="settings">
     <ul>
       <li v-for="(setting, key) in settings" :key="key">
-        <VSwitchToggle v-model="settingsState[key].value" :label="setting.label"/>
+        <VSwitchToggle
+          v-model="settingsState[key].value"
+          :label="setting.label"
+          :name="key"
+        />
       </li>
     </ul>
   </form>

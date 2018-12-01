@@ -4,7 +4,7 @@ exports[`render default 1`] = `
 <form class="settings">
   <ul>
     <li>
-      <vswitchtoggle-stub label="Setting I prefer"></vswitchtoggle-stub>
+      <vswitchtoggle-stub label="Setting I prefer" name="myFavouriteSetting"></vswitchtoggle-stub>
     </li>
   </ul>
 </form>

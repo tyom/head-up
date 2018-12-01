@@ -5,6 +5,7 @@
       <input
         v-model="toggled"
         :id="inputId"
+        :name="name"
         type="checkbox"
       >
     </div>
@@ -22,6 +23,10 @@ export default {
     label: {
       type: String,
       required: true,
+    },
+    name: {
+      type: String,
+      default: null,
     },
     value: {
       type: Boolean,
