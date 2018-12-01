@@ -6,4 +6,5 @@ module.exports = {
     '^.*\\.vue$': 'vue-jest',
   },
   snapshotSerializers: ['jest-serializer-vue'],
+  setupFiles: ['jest-localstorage-mock'],
 };

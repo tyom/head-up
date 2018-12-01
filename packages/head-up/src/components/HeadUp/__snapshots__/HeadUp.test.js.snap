@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`modal dialogues help 1`] = `
+<div class="HeadUp">
+  <sidebar-stub visible="true"></sidebar-stub>
+  <div class="main">
+    <headupboards-stub boards="[object Object]">
+      <div class="Board">
+        <!---->
+        <div class="cells u-grid-1-x">
+          <div class="Cell">
+            <header class="header">
+              <h2 class="title">Cell #1</h2>
+              <!---->
+            </header>
+            <div class="container">
+              <div class="body"></div>
+              <!---->
+            </div>
+          </div>
+        </div>
+      </div>
+    </headupboards-stub>
+  </div>
+  <modaldialogue-stub heading="Keyboard help">
+    <helpscreen-stub></helpscreen-stub>
+    <!---->
+  </modaldialogue-stub>
+</div>
+`;
+
+exports[`modal dialogues settings 1`] = `
+<div class="HeadUp">
+  <sidebar-stub visible="true"></sidebar-stub>
+  <div class="main">
+    <headupboards-stub boards="[object Object]">
+      <div class="Board">
+        <!---->
+        <div class="cells u-grid-1-x">
+          <div class="Cell">
+            <header class="header">
+              <h2 class="title">Cell #1</h2>
+              <!---->
+            </header>
+            <div class="container">
+              <div class="body"></div>
+              <!---->
+            </div>
+          </div>
+        </div>
+      </div>
+    </headupboards-stub>
+  </div>
+  <modaldialogue-stub heading="Settings">
+    <!---->
+    <settingsscreen-stub settings="[object Object]"></settingsscreen-stub>
+  </modaldialogue-stub>
+</div>
+`;
+
+exports[`render default 1`] = `
+<div class="HeadUp">
+  <sidebar-stub visible="true"></sidebar-stub>
+  <div class="main">
+    <headupboards-stub boards=""></headupboards-stub>
+  </div>
+  <!---->
+</div>
+`;
+
+exports[`render in edit mode 1`] = `
+<div class="HeadUp _edit">
+  <sidebar-stub visible="true"></sidebar-stub>
+  <div class="main">
+    <headupboards-stub boards=""></headupboards-stub>
+  </div>
+  <!---->
+</div>
+`;
+
+exports[`render with props 1`] = `
+<div class="HeadUp">
+  <sidebar-stub visible="true"></sidebar-stub>
+  <div class="main">
+    <div class="HeadUpBoards">
+      <div class="Board">
+        <!---->
+        <div class="cells u-grid-2-x">
+          <div class="Cell cell">
+            <header class="header">
+              <h2 class="title">Cell #1</h2>
+              <!---->
+            </header>
+            <div class="container">
+              <div class="body"></div>
+              <!---->
+            </div>
+          </div>
+          <div class="Cell cell">
+            <header class="header">
+              <h2 class="title">Cell #2</h2>
+              <!---->
+            </header>
+            <div class="container">
+              <div class="body"></div>
+              <!---->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="Board">
+        <!---->
+        <div class="cells u-grid-1-x">
+          <div class="Cell cell">
+            <header class="header">
+              <h2 class="title">Cell #3</h2>
+              <!---->
+            </header>
+            <div class="container">
+              <div class="body"></div>
+              <!---->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="Board">
+        <!---->
+        <div class="cells u-grid-1-x">
+          <div class="Cell cell">
+            <header class="header">
+              <h2 class="title">Cell #4</h2>
+              <!---->
+            </header>
+            <div class="container">
+              <div class="body"></div>
+              <!---->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!---->
+</div>
+`;
+
+exports[`render with slot 1`] = `
+<div class="HeadUp">
+  <sidebar-stub visible="true"></sidebar-stub>
+  <div class="main">
+    <headupboards-stub boards="[object Object]">
+      <div class="Board">
+        <!---->
+        <div class="cells u-grid-1-x">
+          <div class="Cell">
+            <header class="header">
+              <h2 class="title">Cell #1</h2>
+              <!---->
+            </header>
+            <div class="container">
+              <div class="body"></div>
+              <!---->
+            </div>
+          </div>
+        </div>
+      </div>
+    </headupboards-stub>
+  </div>
+  <!---->
+</div>
+`;
+
+exports[`render without sidebar 1`] = `
+<div class="HeadUp">
+  <!---->
+  <div class="main">
+    <headupboards-stub boards=""></headupboards-stub>
+  </div>
+  <!---->
+</div>
+`;
