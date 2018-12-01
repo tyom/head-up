@@ -64,7 +64,7 @@ export default {
         activeBoardIdx: 0,
         editMode: false,
         showSidebar: true,
-        boards: serializeSlot(this.$slots.default),
+        boards: [...this.boards, ...serializeSlot(this.$slots.default)],
         settings: {
           smoothScrolling: {
             type: 'toggle',
@@ -94,6 +94,10 @@ export default {
     hideSidebar: {
       type: Boolean,
       default: false,
+    },
+    boards: {
+      type: Array,
+      default: () => [],
     },
   },
   computed: {
