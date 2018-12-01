@@ -4,7 +4,7 @@ exports[`modal dialogues help 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
-    <headupboards-stub boards="[object Object]">
+    <headupboards-stub boards="">
       <div class="Board">
         <!---->
         <div class="cells u-grid-1-x">
@@ -33,7 +33,7 @@ exports[`modal dialogues settings 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
-    <headupboards-stub boards="[object Object]">
+    <headupboards-stub boards="">
       <div class="Board">
         <!---->
         <div class="cells u-grid-1-x">
@@ -148,7 +148,7 @@ exports[`render with slot 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
-    <headupboards-stub boards="[object Object]">
+    <headupboards-stub boards="">
       <div class="Board">
         <!---->
         <div class="cells u-grid-1-x">

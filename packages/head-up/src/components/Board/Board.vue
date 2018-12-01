@@ -14,9 +14,10 @@
           class="cell-placeholder"
         />
       </template>
-      <slot v-else-if="!cells.length" />
       <template v-else>
+        <slot v-if="slotCells"/>
         <Cell
+          v-else
           v-for="(cell, idx) in cells"
           v-bind="cell"
           :editable="editable"
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+import { get } from 'lodash';
 import Cell from '../Cell';
 import BoardToolbar from './BoardToolbar';
 
@@ -66,8 +68,17 @@ export default {
         _thumb: this.isThumb,
       };
     },
+    slotCells() {
+      if (!this.$slots.default) {
+        return;
+      }
+      const cells = this.$slots.default.filter(
+        x => get(x, 'componentOptions.tag') === 'Cell',
+      );
+      return cells.length ? cells : undefined;
+    },
     layoutClass() {
-      const cells = this.$slots.default ? this.$slots.default : this.cells;
+      const cells = this.slotCells || this.cells;
       if (!cells.length) {
         return;
       }

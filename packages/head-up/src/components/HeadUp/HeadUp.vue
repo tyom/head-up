@@ -62,7 +62,7 @@ export default {
         activeBoardIdx: 0,
         editMode: false,
         showSidebar: true,
-        boards: [...this.boards, ...serializeSlot(this.$slots.default)],
+        boards: this.boards,
         settings: {
           smoothScrolling: {
             type: 'toggle',
@@ -105,6 +105,9 @@ export default {
         _edit: this.state.editMode,
       };
     },
+    boardSummary() {
+      return [...this.state.boards, ...serializeSlot(this.$slots.default)];
+    },
   },
   watch: {
     'state.activeBoardIdx'() {
@@ -128,7 +131,7 @@ export default {
   provide() {
     return {
       isEditing: () => this.state.editMode,
-      getBoards: () => this.state.boards,
+      getBoardSummary: () => this.boardSummary,
       getActiveBoardIdx: () => this.state.activeBoardIdx,
       handleEditDone: this.handleEditDone,
       handleEditSave: this.handleEditSave,
@@ -167,7 +170,7 @@ export default {
     },
     handleAddBoard() {
       const newBoardTemplate = {
-        title: `Board #${this.state.boards.length + 1}`,
+        title: `Board #${this.boardSummary.length + 1}`,
         id: uniqueId(),
         editable: true,
         cells: [
@@ -185,7 +188,7 @@ export default {
       const deletedIndex = this.state.boards.findIndex(x => x.id === id);
       this.state.boards = this.state.boards.filter(x => x.id !== id);
 
-      if (this.state.activeBoardIdx === this.state.boards.length) {
+      if (this.state.activeBoardIdx === this.boardSummary.length) {
         this.state.activeBoardIdx--;
       } else if (this.state.activeBoardIdx === deletedIndex) {
         this.state.activeBoardIdx = deletedIndex;
@@ -220,7 +223,7 @@ export default {
       }
     },
     scrollToActiveBoard(useGlobalSetting = true) {
-      if (!this.state.boards.length) {
+      if (!this.boardSummary.length) {
         return;
       }
       const boardEls = get(this.$refs, 'boardsContainer.$el.childNodes', []);
@@ -235,7 +238,7 @@ export default {
       currentBoardEl.scrollIntoView(scrollOptions);
     },
     activateNextBoard() {
-      if (this.state.activeBoardIdx === this.state.boards.length - 1) {
+      if (this.state.activeBoardIdx === this.boardSummary.length - 1) {
         this.handleActivateBoard(0);
         return;
       }
@@ -243,7 +246,7 @@ export default {
     },
     activatePreviousBoard() {
       if (this.state.activeBoardIdx === 0) {
-        this.handleActivateBoard(this.state.boards.length - 1);
+        this.handleActivateBoard(this.boardSummary.length - 1);
         return;
       }
       this.handleActivateBoard(this.state.activeBoardIdx - 1);

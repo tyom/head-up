@@ -16,7 +16,7 @@ const boardsMock = [
 
 const provideMock = {
   isEditing: () => false,
-  getBoards: () => [],
+  getBoardSummary: () => [],
   getActiveBoardIdx: () => 0,
 };
 
@@ -31,7 +31,7 @@ test('render with boards', () => {
   const wrapper = shallowMount(SidebarBoards, {
     provide: {
       ...provideMock,
-      getBoards: () => boardsMock,
+      getBoardSummary: () => boardsMock,
     },
   });
 
@@ -42,7 +42,7 @@ test('render with active board index', () => {
   const wrapper = shallowMount(SidebarBoards, {
     provide: {
       ...provideMock,
-      getBoards: () => boardsMock,
+      getBoardSummary: () => boardsMock,
       getActiveBoardIdx: () => 1,
     },
   });
@@ -55,7 +55,7 @@ test('responds to remove board actions', () => {
     provide: {
       ...provideMock,
       isEditing: () => true,
-      getBoards: () => boardsMock,
+      getBoardSummary: () => boardsMock,
     },
   });
 
@@ -68,7 +68,7 @@ test('responds to board activation', () => {
   const wrapper = shallowMount(SidebarBoards, {
     provide: {
       ...provideMock,
-      getBoards: () => boardsMock,
+      getBoardSummary: () => boardsMock,
     },
   });
 

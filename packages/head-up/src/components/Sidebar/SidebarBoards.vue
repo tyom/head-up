@@ -49,13 +49,13 @@ export default {
       return this.getActiveBoardIdx();
     },
     boards() {
-      return this.getBoards();
+      return this.getBoardSummary();
     },
     editMode() {
       return this.isEditing();
     },
   },
-  inject: ['isEditing', 'getBoards', 'getActiveBoardIdx'],
+  inject: ['isEditing', 'getBoardSummary', 'getActiveBoardIdx'],
   methods: {
     getBoardTitle(board) {
       return board.title + (board.editable ? '' : ' (read-only)');
