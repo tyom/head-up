@@ -50,62 +50,49 @@ test('render as editable', () => {
   expect(saveButton.attributes('disabled')).toBeUndefined();
 });
 
-test('save edits', () => {
+describe('finish edits', () => {
+  let wrapper;
+  let inputField;
+
   const propsData = {
     board: {
       title: 'Some collection',
       editable: true,
     },
   };
-  const wrapper = shallowMount(BoardToolbar, {
-    propsData,
-    provide: provideMocks,
-  });
   const newTitle = 'Changed collection';
-  const inputField = wrapper.find('.toolbar-input');
-  const saveButton = wrapper.find('.save');
 
-  inputField.setValue(newTitle);
-  saveButton.trigger('submit');
-
-  expect(provideMocks.handleEditSave).toHaveBeenCalledWith({
-    ...propsData.board,
-    title: newTitle,
+  beforeEach(() => {
+    wrapper = shallowMount(BoardToolbar, {
+      propsData,
+      provide: provideMocks,
+    });
+    inputField = wrapper.find('.toolbar-input');
   });
 
-  expect(provideMocks.handleEditDone).not.toBeCalled();
+  test('save button', () => {
+    const saveButton = wrapper.find('.save');
 
-  wrapper.setProps({ board: { title: newTitle } });
-  expect(saveButton.attributes('disabled')).toEqual('disabled');
-});
+    expect(saveButton.element.disabled).toBe(true);
+    inputField.setValue(newTitle);
+    expect(saveButton.element.disabled).toBe(false);
 
-test('done button', () => {
-  const propsData = {
-    board: {
-      title: 'Some collection',
-      editable: true,
-    },
-  };
-  const wrapper = shallowMount(BoardToolbar, {
-    propsData,
-    provide: provideMocks,
+    saveButton.trigger('submit');
+    expect(provideMocks.handleEditSave).toHaveBeenCalledWith({
+      ...propsData.board,
+      title: newTitle,
+    });
   });
 
-  const newTitle = 'Changed collection';
-  const inputField = wrapper.find('.toolbar-input');
-  const doneButton = wrapper.find('.done');
+  test('done button', () => {
+    const doneButton = wrapper.find('.done');
 
-  doneButton.trigger('click');
+    inputField.setValue(newTitle);
+    doneButton.trigger('click');
 
-  expect(provideMocks.handleEditSave).not.toBeCalled();
-  expect(provideMocks.handleEditDone).toBeCalled();
-
-  inputField.setValue(newTitle);
-  doneButton.trigger('click');
-
-  expect(provideMocks.handleEditSave).toHaveBeenCalledWith({
-    ...propsData.board,
-    title: newTitle,
+    expect(provideMocks.handleEditDone).toHaveBeenCalledWith({
+      ...propsData.board,
+      title: newTitle,
+    });
   });
-  expect(provideMocks.handleEditDone).toBeCalled();
 });

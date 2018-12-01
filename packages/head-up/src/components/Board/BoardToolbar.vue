@@ -51,8 +51,7 @@ export default {
       this.handleEditSave(this.boardState);
     },
     handleDone() {
-      this.hasChanged && this.handleSubmit();
-      this.handleEditDone();
+      this.handleEditDone(this.boardState);
     },
   },
 };
