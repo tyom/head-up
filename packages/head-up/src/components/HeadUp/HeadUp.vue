@@ -218,6 +218,9 @@ export default {
       }
     },
     scrollToActiveBoard(useGlobalSetting = true) {
+      if (!this.state.boards.length) {
+        return;
+      }
       const boardEls = get(this.$refs, 'boardsContainer.$el.childNodes', []);
       const currentBoardEl = boardEls[this.state.activeBoardIdx];
       if (!currentBoardEl) {
