@@ -1,13 +1,7 @@
 <template>
-  <div
-    :class="cellClass"
-    class="Cell"
-    @click="handleCellClick"
-  >
+  <div class="Cell">
     <header v-if="isEditable || title" class="header">
-      <h2 class="title">
-        {{ title }}
-      </h2>
+      <h2 class="title">{{ title }}</h2>
       <button
         v-if="isEditable"
         :class="{_toggled: showSettings}"
@@ -30,15 +24,14 @@
           />
         </template>
       </div>
-      <transition name="fade">
-        <CellSettings v-if="editMode && showSettings"/>
+      <transition name="revealSettings">
+        <CellSettings v-if="isEditable && showSettings"/>
       </transition>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
 import CellSettings from './CellSettings';
 
 export default {
@@ -59,6 +52,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    editable: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -66,45 +63,27 @@ export default {
     };
   },
   computed: {
-    ...mapState(['editMode']),
     isEditable() {
-      return this.$parent.editable && this.editMode;
-    },
-    cellClass() {
-      return {
-        _editMode: this.editMode,
-        _active: this.editMode && this.isActiveCell(this._uid),
-      };
+      return this.editable && this.isEditing();
     },
     bodyClass() {
       const content = this.$slots.default ? this.$slots.default : this.content;
       return {
-        [`u-grid-${content.length}-x`]: true,
+        [`u-grid-${content.length}-x`]: !!content.length,
         padded: this.padded,
       };
     },
   },
-  inject: ['isActiveCell'],
+  inject: ['isEditing'],
   methods: {
-    handleCellClick() {
-      if (!this.isEditable) {
-        return;
-      }
-      this.$parent.$emit('toggle-cell', this._uid);
-    },
     handleSettingsClick() {
       this.showSettings = !this.showSettings;
-      this.$parent.$emit('select-cell', this._uid);
     },
   },
 };
 </script>
 
 <style scoped>
-._editMode:hover {
-  border-color: #000a;
-}
-
 .Cell {
   border: 1px solid #0005;
   transition: 0.3s;
@@ -115,28 +94,49 @@ export default {
   &:hover {
     transition: 0.1s;
   }
-
-  &._active {
-    transition: none;
-    border-color: #17619c;
-    background-color: #0001;
-
-    & .header {
-      color: #fff;
-    }
-  }
 }
 
 .header {
   font-size: 0.55em;
   color: #fff6;
+  position: relative;
   text-transform: uppercase;
   background-color: #0003;
-  padding: 0.6em 1em;
+  padding: 0.7em 1em;
   line-height: 1;
   justify-content: center;
   display: flex;
   align-items: center;
+}
+
+.header-button {
+  border: 0;
+  padding: 0.5em 1em;
+  background: none;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.7;
+  outline: 0;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:focus {
+    background-color: rgba(#20416d, 0.5);
+  }
+
+  &._toggled {
+    opacity: 1;
+    background-color: #20416d;
+  }
+
+  &:active {
+    background-color: #193254;
+  }
 }
 
 .title {
@@ -165,35 +165,12 @@ export default {
   padding: 0.5em;
 }
 
-.header-button {
-  border: 0;
-  padding: 0.5em 1em;
-  background: none;
-  color: #fff;
-  margin: -0.6em -1.3em -0.6em auto;
-  opacity: 0.7;
-  outline: 0;
-
-  &:hover {
-    opacity: 1;
-  }
-
-  &._toggled {
-    opacity: 1;
-    background-color: #20416d;
-  }
-
-  &:active {
-    background-color: #193254;
-  }
-}
-
-.fade-enter-active,
-.fade-leave-active {
+.revealSettings-enter-active,
+.revealSettings-leave-active {
   transition: 0.3s;
 }
-.fade-enter,
-.fade-leave-to {
+.revealSettings-enter,
+.revealSettings-leave-to {
   opacity: 0;
 }
 </style>

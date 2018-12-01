@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render as editable 1`] = `
+<div class="BoardToolbar">
+  <form class="toolbar-container">
+    <div class="toolbar-item _info"><input type="text" placeholder="Board title" class="toolbar-input"></div>
+    <div class="toolbar-item _actions"><button disabled="disabled" class="save">
+        Apply
+      </button> <button class="done">OK</button></div>
+  </form>
+</div>
+`;
+
+exports[`render default 1`] = `
+<div class="BoardToolbar">
+  <form class="toolbar-container">
+    <div class="toolbar-item _info"><span class="toolbar-title">
+         (read-only)
+      </span></div>
+    <div class="toolbar-item _actions">
+      <!----> <button class="done">OK</button></div>
+  </form>
+</div>
+`;
+
+exports[`render with board data 1`] = `
+<div class="BoardToolbar">
+  <form class="toolbar-container">
+    <div class="toolbar-item _info"><span class="toolbar-title">
+        Some collection (read-only)
+      </span></div>
+    <div class="toolbar-item _actions">
+      <!----> <button class="done">OK</button></div>
+  </form>
+</div>
+`;

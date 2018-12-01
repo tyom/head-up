@@ -1,12 +1,18 @@
 <template>
   <transition name="reveal">
-    <div v-if="show" class="ModalDialogue">
-      <div class="backdrop" @click="$emit('close')"/>
+    <div
+      class="ModalDialogue"
+      v-shortkey="['esc']"
+      @shortkey="handleClose"
+    >
+      <div class="backdrop" @click="handleClose"/>
       <div class="container">
         <header v-if="heading">
           <h2 class="title">{{ heading }}</h2>
         </header>
-        <slot/>
+        <div class="body">
+          <slot/>
+        </div>
       </div>
     </div>
   </transition>
@@ -15,13 +21,14 @@
 <script>
 export default {
   props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
     heading: {
       type: String,
       default: '',
+    },
+  },
+  methods: {
+    handleClose() {
+      this.$emit('close');
     },
   },
 };
@@ -35,6 +42,10 @@ export default {
   right: 0;
   top: 0;
   bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
 }
 
 .backdrop {
@@ -46,23 +57,23 @@ export default {
 .container {
   position: absolute;
   border-radius: 0.3em;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  max-width: 60vw;
-  max-height: 60vh;
-  margin: auto;
   z-index: 1;
-  background-color: #fff;
-  color: #444;
-  padding: 1em;
+  background-color: #222;
+  border: 2px solid #fff4;
+  color: #ccc;
 }
 
 header {
-  padding-bottom: 1em;
-  margin-bottom: 1em;
-  border-bottom: 0.1em solid #ccc;
+  padding: 1em;
+  background-color: #0002;
+  border-bottom: 0.1em solid #fff2;
+}
+
+.body {
+  padding: 1em;
+  width: 60vw;
+  min-height: 30vh;
+  overflow: auto;
 }
 
 .reveal-enter-active,

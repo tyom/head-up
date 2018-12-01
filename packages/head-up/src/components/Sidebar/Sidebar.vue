@@ -1,24 +1,23 @@
 <template>
   <div class="Sidebar">
     <SidebarToggle
-      :toggled="showSidebar"
-      @toggle="TOGGLE_SIDEBAR"
+      :toggled="visible"
+      @toggle="$emit('toggle', !visible)"
+      title="Shortcut: s"
     />
     <transition name="slideLeft">
-      <div v-show="showSidebar" class="container">
+      <div v-show="visible" class="container">
         <SidebarBoardActions
-          :edit-mode="editMode"
-          :show-edit="Boolean(boards.length)"
-          @add-board="ADD_BOARD"
-          @toggle-edit="TOGGLE_EDIT_MODE"
+          @add-board="$emit('board:add')"
+          @toggle-edit="$emit('board:edit')"
         />
         <SidebarBoards
-          :active-idx="activeBoardIdx"
-          :boards="boards"
+          @activate="$emit('board:activate', $event)"
+          @remove="$emit('board:remove', $event)"
         />
         <SidebarActions
-          @add-board="ADD_BOARD"
-          @toggle-edit="TOGGLE_EDIT_MODE"
+          @help="$emit('modal:help')"
+          @settings="$emit('modal:settings')"
         />
       </div>
     </transition>
@@ -26,7 +25,6 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 import SidebarToggle from './SidebarToggle';
 import SidebarBoards from './SidebarBoards';
 import SidebarActions from './SidebarActions';
@@ -44,16 +42,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    boards: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  computed: {
-    ...mapState(['showSidebar', 'activeBoardIdx', 'editMode']),
-  },
-  methods: {
-    ...mapActions(['ADD_BOARD', 'TOGGLE_EDIT_MODE', 'TOGGLE_SIDEBAR']),
   },
 };
 </script>
@@ -79,7 +67,7 @@ export default {
 
 .slideLeft-enter-active,
 .slideLeft-leave-active {
-  transition: 0.1s ease-out;
+  transition: 0.15s ease;
 }
 
 .slideLeft-enter,

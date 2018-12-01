@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render default 1`] = `
+<div class="SwitchToggle">
+  <div class="toggle-indicator">
+    <div class="toggle-head"></div> <input id="switch-toggle-1" type="checkbox">
+  </div> <label for="switch-toggle-1">Check it</label>
+</div>
+`;

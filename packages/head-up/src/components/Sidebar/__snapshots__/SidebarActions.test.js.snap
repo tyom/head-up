@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render default 1`] = `
+<div class="SidebarActions">
+  <sidebarbutton-stub title="Shortcut: ⇧<" class="settings-button">
+    <v-icon-stub name="cog"></v-icon-stub>
+  </sidebarbutton-stub>
+  <sidebarbutton-stub title="Shortcut: ⇧?" class="help-button">
+    <v-icon-stub name="question"></v-icon-stub>
+  </sidebarbutton-stub>
+</div>
+`;

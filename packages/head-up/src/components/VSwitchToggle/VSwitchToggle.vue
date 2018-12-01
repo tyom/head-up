@@ -3,10 +3,10 @@
     <div :class="{_toggled: toggled}" class="toggle-indicator">
       <div class="toggle-head"/>
       <input
+        v-model="toggled"
         :id="inputId"
-        :checked="toggled"
+        :name="name"
         type="checkbox"
-        @input="toggle"
       >
     </div>
     <label
@@ -22,7 +22,11 @@ export default {
   props: {
     label: {
       type: String,
-      default: '',
+      required: true,
+    },
+    name: {
+      type: String,
+      default: null,
     },
     value: {
       type: Boolean,
@@ -36,20 +40,19 @@ export default {
   data() {
     return {
       toggled: this.value,
-    }
+    };
   },
   computed: {
     inputId() {
-      return `switch-toggle-${this._uid}`
+      return `switch-toggle-${this._uid}`;
     },
   },
-  methods: {
-    toggle(evt) {
-      this.toggled = evt.target.checked
-      this.$emit('input', this.toggled)
+  watch: {
+    toggled(newVal) {
+      this.$emit('input', newVal);
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -68,6 +71,7 @@ export default {
   position: relative;
   background-color: #bbb;
   border: 2px solid #0004;
+  box-shadow: inset 1px 1px rgba(#000, 0.1);
   padding: 1px;
   border-radius: var(--toggle-height);
   width: var(--toggle-width);
@@ -79,7 +83,9 @@ export default {
   transition: 0.2s;
   border-radius: 50%;
   background-color: #fff;
-  border: 1px solid #0005;
+  border: 1px solid rgba(#000, 0.2);
+  box-shadow: 1px 1px rgba(#000, 0.06), inset -1px -1px 1px rgba(#000, 0.1);
+  background-clip: padding-box;
   height: var(--toggle-height);
   width: var(--toggle-height);
 }

@@ -1,13 +1,17 @@
 <template>
   <div class="SidebarBoardActions">
-    <SidebarButton class="_add" @click="$emit('add-board')">
+    <SidebarButton
+      class="add-button"
+      title="Shortcut: a"
+      @click="handleAddBoard"
+    >
       <v-icon name="plus"/>
     </SidebarButton>
     <SidebarButton
-      v-if="showEdit"
-      :class="{_active: editMode}"
-      class="_edit"
-      @click="$emit('toggle-edit')"
+      :class="{_active: isEditing()}"
+      class="edit-button"
+      title="Shortcut: e"
+      @click="handleEditToggle"
     >
       <v-icon name="edit"/>
     </SidebarButton>
@@ -21,14 +25,13 @@ export default {
   components: {
     SidebarButton,
   },
-  props: {
-    editMode: {
-      type: Boolean,
-      default: false,
+  inject: ['isEditing'],
+  methods: {
+    handleAddBoard() {
+      this.$emit('add-board');
     },
-    showEdit: {
-      type: Boolean,
-      default: false,
+    handleEditToggle() {
+      this.$emit('toggle-edit');
     },
   },
 };

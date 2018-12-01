@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render default 1`] = `<div class="SidebarBoards"><span tag="ul" name="boardReveal" class="board-list"></span></div>`;
+
+exports[`render with active board index 1`] = `
+<div class="SidebarBoards"><span tag="ul" name="boardReveal" class="board-list"><li title="Board #1 (read-only)" class="list-item _read-only"><!----> <board-stub id="" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub> <div class="board-title">
+        Board #1
+      </div></li><li title="Board #2" class="list-item _active"><!----> <board-stub id="" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub> <div class="board-title">
+        Board #2
+      </div></li></span></div>
+`;
+
+exports[`render with boards 1`] = `
+<div class="SidebarBoards"><span tag="ul" name="boardReveal" class="board-list"><li title="Board #1 (read-only)" class="list-item _active _read-only"><!----> <board-stub id="" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub> <div class="board-title">
+        Board #1
+      </div></li><li title="Board #2" class="list-item"><!----> <board-stub id="" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub> <div class="board-title">
+        Board #2
+      </div></li></span></div>
+`;

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render default 1`] = `
+<div class="SidebarBoardActions">
+  <sidebarbutton-stub title="Shortcut: a" class="add-button">
+    <v-icon-stub name="plus"></v-icon-stub>
+  </sidebarbutton-stub>
+  <sidebarbutton-stub title="Shortcut: e" class="edit-button">
+    <v-icon-stub name="edit"></v-icon-stub>
+  </sidebarbutton-stub>
+</div>
+`;
+
+exports[`render edit-toggled 1`] = `
+<div class="SidebarBoardActions">
+  <sidebarbutton-stub title="Shortcut: a" class="add-button">
+    <v-icon-stub name="plus"></v-icon-stub>
+  </sidebarbutton-stub>
+  <sidebarbutton-stub title="Shortcut: e" class="edit-button _active">
+    <v-icon-stub name="edit"></v-icon-stub>
+  </sidebarbutton-stub>
+</div>
+`;

@@ -40,4 +40,3 @@ const HeadUpPlugin = {
 };
 
 export default HeadUpPlugin;
-export { default as store } from './store';

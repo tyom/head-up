@@ -3,17 +3,25 @@
     <form class="toolbar-container" @submit.prevent="handleSubmit">
       <div class="toolbar-item _info">
         <input
-          v-if="isEditable"
-          v-model="boardTitle"
+          v-if="boardState.editable"
+          v-model="boardState.title"
           type="text"
           class="toolbar-input"
           placeholder="Board title"
         >
-        <span v-else class="toolbar-title"> {{ title }} (read-only) </span>
+        <span v-else class="toolbar-title">
+          {{ boardState.title }} (read-only)
+        </span>
       </div>
       <div class="toolbar-item _actions">
-        <button v-if="isEditable" :disabled="!hasChanged">Apply</button>
-        <button @click.prevent="handleOk">OK</button>
+        <button
+          v-if="boardState.editable"
+          :disabled="!hasChanged"
+          class="save"
+        >
+          Apply
+        </button>
+        <button @click.prevent="handleDone" class="done">OK</button>
       </div>
     </form>
   </div>
@@ -22,34 +30,28 @@
 <script>
 export default {
   props: {
-    title: {
-      type: String,
-      default: '',
+    board: {
+      type: Object,
+      default: () => {},
     },
   },
   data() {
     return {
-      boardTitle: this.title,
+      boardState: { ...this.board },
     };
   },
   computed: {
     hasChanged() {
-      return this.boardTitle !== this.title;
-    },
-    isEditable() {
-      return this.$parent.editable;
+      return this.boardState.title !== this.board.title;
     },
   },
+  inject: ['handleEditDone', 'handleEditSave'],
   methods: {
     handleSubmit() {
-      this.$emit('save', {
-        title: this.boardTitle,
-      });
+      this.handleEditSave(this.boardState);
     },
-    handleOk() {
-      this.$emit('done', {
-        title: this.boardTitle,
-      });
+    handleDone() {
+      this.handleEditDone(this.boardState);
     },
   },
 };

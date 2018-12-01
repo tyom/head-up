@@ -9,25 +9,25 @@
         v-for="(board, idx) in boards"
         :key="idx"
         :class="getBoardListItemClass(board, idx)"
-        :title="board.isReadOnly && 'This board is not editable'"
+        :title="getBoardTitle(board)"
         class="list-item"
       >
         <transition name="actionsReveal">
-          <div v-if="editMode && !board.isReadOnly" class="board-actions">
+          <div v-if="editMode && board.editable" class="board-actions">
             <button
               type="button"
               class="remove-button"
-              @click.stop="REMOVE_BOARD(board.id)"
+              @click.stop="handleRemoveBoard(board.id)"
             >
               <v-icon name="minus-circle"/>
             </button>
           </div>
         </transition>
         <Board
-          :cells="board.cells || board.children"
+          :cells="board.cells"
           is-thumb
           class="board"
-          @click.native="ACTIVATE_BOARD(idx)"
+          @click.native="handleActivateBoard(idx)"
         />
         <div v-if="board.title" class="board-title">
           {{ board.title }}
@@ -38,30 +38,39 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
 import Board from '../Board';
 
 export default {
   components: {
     Board,
   },
-  props: {
-    boards: {
-      type: Array,
-      required: true,
+  computed: {
+    activeIdx() {
+      return this.getActiveBoardIdx();
+    },
+    boards() {
+      return this.getBoardSummary();
+    },
+    editMode() {
+      return this.isEditing();
     },
   },
-  computed: {
-    ...mapState(['activeBoardIdx', 'editMode']),
-  },
+  inject: ['isEditing', 'getBoardSummary', 'getActiveBoardIdx'],
   methods: {
-    ...mapActions(['REMOVE_BOARD', 'ACTIVATE_BOARD']),
+    getBoardTitle(board) {
+      return board.title + (board.editable ? '' : ' (read-only)');
+    },
     getBoardListItemClass(item, idx) {
       return {
-        _active:
-          this.activeBoardIdx > -1 ? idx === this.activeBoardIdx : idx === 0,
-        ['_read-only']: item.isReadOnly,
+        _active: this.activeIdx > -1 ? idx === this.activeIdx : idx === 0,
+        ['_read-only']: !item.editable,
       };
+    },
+    handleRemoveBoard(boardId) {
+      this.$emit('remove', boardId);
+    },
+    handleActivateBoard(boardIdx) {
+      this.$emit('activate', boardIdx);
     },
   },
 };

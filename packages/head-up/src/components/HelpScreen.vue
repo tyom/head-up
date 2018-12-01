@@ -1,53 +1,35 @@
-<template>
-  <ModalDialogue
-    :show="show"
-    :heading="heading"
-    @close="$emit('close')"
-  >
-    <dl class="shortcuts">
-      <div>
-        <dt>j</dt>
-        <dd>Next board</dd>
-      </div>
-      <div>
-        <dt>k</dt>
-        <dd>Previous board</dd>
-      </div>
-      <div>
-        <dt>s</dt>
-        <dd>Toggle sidebar</dd>
-      </div>
-      <div>
-        <dt>e</dt>
-        <dd>Toggle edit mode</dd>
-      </div>
-      <div>
-        <dt>a</dt>
-        <dd>Insert new board</dd>
-      </div>
-    </dl>
-  </ModalDialogue>
+<template functional>
+  <dl class="shortcuts">
+    <div>
+      <dt>j</dt>
+      <dd>Next board</dd>
+    </div>
+    <div>
+      <dt>k</dt>
+      <dd>Previous board</dd>
+    </div>
+    <div>
+      <dt>s</dt>
+      <dd>Toggle sidebar</dd>
+    </div>
+    <div>
+      <dt>e</dt>
+      <dd>Toggle edit mode</dd>
+    </div>
+    <div>
+      <dt>a</dt>
+      <dd>Insert new board</dd>
+    </div>
+    <div>
+      <dt>Shift ?</dt>
+      <dd>Show help screen</dd>
+    </div>
+    <div>
+      <dt>Shift &lt;</dt>
+      <dd>Insert settings</dd>
+    </div>
+  </dl>
 </template>
-
-<script>
-import ModalDialogue from './ModalDialogue';
-
-export default {
-  components: {
-    ModalDialogue,
-  },
-  props: {
-    show: {
-      type: Boolean,
-      default: false,
-    },
-    heading: {
-      type: String,
-      default: '',
-    },
-  },
-};
-</script>
 
 <style scoped>
 .shortcuts {
@@ -57,16 +39,10 @@ export default {
     padding: 0.5em 0;
   }
 
-  & > div + div {
-    border-top: 1px solid #ddd;
-  }
-
   & dt {
-    width: 2em;
-    height: 2em;
-    line-height: 1.9em;
+    padding: 0.5em 1em;
     text-align: center;
-    background-color: #555;
+    background-color: #fff3;
     color: #fff;
     border-radius: 0.2em;
     font-weight: bold;

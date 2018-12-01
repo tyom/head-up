@@ -7,62 +7,84 @@
   >
     <Sidebar
       v-if="!hideSidebar"
-      :visible="true"
-      :boards="boardSummary"
+      :visible="state.showSidebar"
+      @toggle="handleSidebarToggle"
+      @board:add="handleAddBoard"
+      @board:remove="handleRemoveBoard"
+      @board:activate="handleActivateBoard"
+      @board:edit="handleToggleEdit"
+      @modal:settings="toggleSettingsScreen"
+      @modal:help="toggleHelpScreen"
     />
     <div class="main">
-      <HeadUpBoards :boards="boards" ref="boardsContainer">
+      <HeadUpBoards :boards="state.boards" ref="boardsContainer">
         <slot/>
       </HeadUpBoards>
     </div>
-    <HelpScreen
-      :show="showHelp"
-      heading="Keyboard help"
-      @close="toggleHelpScreen(false)"
-    />
-    <SettingsScreen
-      :show="showSettings"
-      heading="Settings"
-      @close="toggleSettingsScreen(false)"
-      @save="handleSettingsSave"
-    />
+    <ModalDialogue
+      v-if="modal"
+      :heading="modal.heading"
+      @close="modal = null"
+    >
+      <HelpScreen
+        v-if="modal.name === 'help'"
+      />
+      <SettingsScreen
+        v-if="modal.name === 'settings'"
+        :settings="state.settings"
+        @save="handleSettingsSave"
+      />
+    </ModalDialogue>
   </div>
 </template>
 
 <script>
-import { get } from 'lodash';
-import { mapActions, mapState } from 'vuex';
-import HeadUpBoards from './HeadUpBoards';
+import { uniqueId, get } from 'lodash';
+import { serializeSlot } from '../../transformers';
+import ModalDialogue from '../ModalDialogue';
 import Sidebar from '../Sidebar';
 import SettingsScreen from '../SettingsScreen';
 import HelpScreen from '../HelpScreen';
-
-function getOption(slot, prop) {
-  return get(slot, `componentOptions${prop ? '.' + prop : ''}`);
-}
-
-function getChildComponents(children = []) {
-  return children.filter(x => x.tag);
-}
+import HeadUpBoards from './HeadUpBoards';
 
 export default {
   name: 'HeadUp',
   components: {
     HeadUpBoards,
     Sidebar,
+    ModalDialogue,
     SettingsScreen,
     HelpScreen,
   },
   data() {
     return {
-      showHelp: false,
-      showSettings: false,
+      state: {
+        activeBoardIdx: 0,
+        editMode: false,
+        showSidebar: true,
+        boards: this.boards,
+        settings: {
+          smoothScrolling: {
+            type: 'toggle',
+            label: 'Smooth scrolling',
+            value: true,
+          },
+          persistState: {
+            type: 'toggle',
+            label: 'Persist to local storage',
+            value: true,
+          },
+        },
+      },
+      persistedState: null,
+      modal: null,
       shortkeys: {
         up: ['k'],
         down: ['j'],
         sidebar: ['s'],
         edit: ['e'],
         add: ['a'],
+        settings: ['shift', '<'],
         help: ['shift', '?'],
       },
     };
@@ -72,37 +94,108 @@ export default {
       type: Boolean,
       default: false,
     },
+    boards: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
-    ...mapState(['activeBoardIdx', 'editMode', 'boards', 'smoothScrolling']),
     rootClass() {
       return {
-        _edit: this.editMode,
+        _edit: this.state.editMode,
       };
     },
     boardSummary() {
-      return [...this.$store.state.boards, ...this.parseSlotToConfig().boards];
+      return [...this.state.boards, ...serializeSlot(this.$slots.default)];
     },
   },
   watch: {
-    activeBoardIdx() {
+    'state.activeBoardIdx'() {
       this.scrollToActiveBoard();
     },
+    state: {
+      deep: true,
+      handler(newVal) {
+        if (newVal.settings.persistState.value) {
+          localStorage.setItem('headUp', JSON.stringify(newVal));
+          return;
+        }
+        // save persistence setting but not the state
+        const newState = JSON.parse(this.persistedState);
+        newState.settings.persistState.value =
+          newVal.settings.persistState.value;
+        localStorage.setItem('headUp', JSON.stringify(newState));
+      },
+    },
+  },
+  provide() {
+    return {
+      isEditing: () => this.state.editMode,
+      getBoardSummary: () => this.boardSummary,
+      getActiveBoardIdx: () => this.state.activeBoardIdx,
+      handleEditDone: this.handleEditDone,
+      handleEditSave: this.handleEditSave,
+    };
+  },
+  created() {
+    this.persistedState = localStorage.getItem('headUp');
+    if (this.persistedState) {
+      this.state = JSON.parse(this.persistedState);
+    }
   },
   mounted() {
     window.addEventListener('resize', () => this.scrollToActiveBoard(false));
     this.scrollToActiveBoard(false);
-
-    this.$root.$on('toggle:help', this.toggleHelpScreen);
-    this.$root.$on('toggle:settings', this.toggleSettingsScreen);
   },
   methods: {
-    ...mapActions([
-      'ADD_BOARD',
-      'ACTIVATE_BOARD',
-      'TOGGLE_SIDEBAR',
-      'TOGGLE_EDIT_MODE',
-    ]),
+    handleSidebarToggle(value) {
+      this.state.showSidebar =
+        typeof value === 'undefined' ? !this.state.showSidebar : value;
+    },
+    handleActivateBoard(value) {
+      this.state.activeBoardIdx = value;
+    },
+    handleToggleEdit(value) {
+      this.state.editMode =
+        typeof value === 'undefined' ? !this.state.editMode : value;
+    },
+    handleEditSave(board) {
+      this.state.boards = this.state.boards.map(
+        x => (x.id === board.id ? board : x),
+      );
+    },
+    handleEditDone(board) {
+      this.handleEditSave(board);
+      this.state.editMode = false;
+    },
+    handleAddBoard() {
+      const newBoardTemplate = {
+        title: `Board #${this.boardSummary.length + 1}`,
+        id: uniqueId(),
+        editable: true,
+        cells: [
+          {
+            title: 'Cell #1',
+          },
+        ],
+      };
+
+      this.state.boards = [newBoardTemplate, ...this.state.boards];
+      this.state.activeBoardIdx = 0;
+      this.handleToggleEdit(true);
+    },
+    handleRemoveBoard(id) {
+      const deletedIndex = this.state.boards.findIndex(x => x.id === id);
+      this.state.boards = this.state.boards.filter(x => x.id !== id);
+
+      if (this.state.activeBoardIdx === this.boardSummary.length) {
+        this.state.activeBoardIdx--;
+      } else if (this.state.activeBoardIdx === deletedIndex) {
+        this.state.activeBoardIdx = deletedIndex;
+      } else {
+        this.state.activeBoardIdx = deletedIndex > 0 ? deletedIndex - 1 : 0;
+      }
+    },
     handleKeys(evt) {
       switch (evt.srcKey) {
         case 'up':
@@ -112,14 +205,16 @@ export default {
           this.activateNextBoard();
           break;
         case 'sidebar':
-          this.TOGGLE_SIDEBAR();
+          this.handleSidebarToggle();
           break;
         case 'edit':
-          this.TOGGLE_EDIT_MODE();
+          this.handleToggleEdit();
           break;
         case 'add':
-          this.TOGGLE_SIDEBAR(true);
-          this.ADD_BOARD();
+          this.handleAddBoard();
+          break;
+        case 'settings':
+          this.toggleSettingsScreen();
           break;
         case 'help':
           this.toggleHelpScreen();
@@ -128,60 +223,46 @@ export default {
       }
     },
     scrollToActiveBoard(useGlobalSetting = true) {
+      if (!this.boardSummary.length) {
+        return;
+      }
       const boardEls = get(this.$refs, 'boardsContainer.$el.childNodes', []);
-      const currentBoardEl = boardEls[this.activeBoardIdx];
+      const currentBoardEl = boardEls[this.state.activeBoardIdx];
       if (!currentBoardEl) {
         return;
       }
       const scrollOptions =
-        useGlobalSetting && this.smoothScrolling ? { behavior: 'smooth' } : {};
+        useGlobalSetting && this.state.settings.smoothScrolling.value
+          ? { behavior: 'smooth' }
+          : {};
       currentBoardEl.scrollIntoView(scrollOptions);
     },
     activateNextBoard() {
-      if (this.activeBoardIdx === this.boardSummary.length - 1) {
-        this.ACTIVATE_BOARD(0);
+      if (this.state.activeBoardIdx === this.boardSummary.length - 1) {
+        this.handleActivateBoard(0);
         return;
       }
-      this.ACTIVATE_BOARD(this.activeBoardIdx + 1);
+      this.handleActivateBoard(this.state.activeBoardIdx + 1);
     },
     activatePreviousBoard() {
-      if (this.activeBoardIdx === 0) {
-        this.ACTIVATE_BOARD(this.boardSummary.length - 1);
+      if (this.state.activeBoardIdx === 0) {
+        this.handleActivateBoard(this.boardSummary.length - 1);
         return;
       }
-      this.ACTIVATE_BOARD(this.activeBoardIdx - 1);
+      this.handleActivateBoard(this.state.activeBoardIdx - 1);
     },
-    parseSlotToConfig() {
-      if (!this.$slots.default) {
-        return {
-          boards: [],
-        };
-      }
-      return {
-        boards: getChildComponents(this.$slots.default).map(slot => ({
-          title: getOption(slot, 'propsData.title'),
-          isReadOnly: true,
-          cells: getChildComponents(getOption(slot, 'children')).map(cell => ({
-            title: getOption(cell, 'propsData.title'),
-            content: getChildComponents(getOption(cell, 'children')).map(
-              item => ({
-                type: getOption(item, 'tag'),
-                props: getOption(item, 'propsData'),
-              }),
-            ),
-          })),
-        })),
-      };
+    toggleHelpScreen() {
+      this.toggleModal({ name: 'help', heading: 'Keyboard help' });
     },
-    toggleHelpScreen(state) {
-      this.showHelp = typeof state === 'undefined' ? !this.showHelp : state;
+    toggleSettingsScreen() {
+      this.toggleModal({ name: 'settings', heading: 'Settings' });
     },
-    toggleSettingsScreen(state) {
-      this.showSettings =
-        typeof state === 'undefined' ? !this.showSettings : state;
+    toggleModal(modalData) {
+      const existingModalName = this.modal && this.modal.name;
+      this.modal = existingModalName === modalData.name ? null : modalData;
     },
     handleSettingsSave(payload) {
-      console.log(payload);
+      this.state.settings = payload;
     },
   },
 };
