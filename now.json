@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "head-up-example",
+  "alias": "head-up-example",
+  "builds": [
+    { "src":  "packages/example/dist/**/*", "use": "@now/static" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/packages/example/dist/$1" }
+  ]
+}

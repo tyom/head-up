@@ -24,15 +24,6 @@ references:
       command: npm install && npm run bootstrap
 
 jobs:
-  build:
-    <<: *container_config
-    steps:
-      - setup_remote_docker
-      - checkout
-      - *restore_deps_cache
-      - *install_deps
-      - *save_deps_cache
-
   test:
     <<: *container_config
     steps:
@@ -56,13 +47,27 @@ jobs:
       -
         store_artifacts:
           path: packages/head-up/coverage
+  deploy:
+    <<: *container_config
+    steps:
+      - checkout
+      - *restore_deps_cache
+      - *install_deps
+      - *save_deps_cache
+      - run:
+            name: Build packages
+            command: npm run build
+      -
+        run:
+          name: Deploy to now.sh
+          command: npx now -t ${NOW_TOKEN} && npx now alias -t ${NOW_TOKEN}
 
 workflows:
   version: 2
-  test-and-build:
+  test-and-deploy:
     jobs:
       - test
-      - build:
+      - deploy:
           requires:
             - test
           filters:
