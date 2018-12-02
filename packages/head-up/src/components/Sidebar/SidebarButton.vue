@@ -14,13 +14,20 @@
   width: 100%;
   padding: 0.7em;
   background: none;
+  text-align: center;
+  line-height: 1;
   color: inherit;
   border: 0;
   outline: 0;
 
   &:hover {
     color: #fff;
-    background-color: #ffffff05;
+    background-color: rgba(#fff, 0.05);
+  }
+
+  &.focus-visible {
+    box-shadow: 0 0 0 1px #fffa;
+    background-color: rgba(#fff, 0.05);
   }
 
   &:active {

@@ -23,12 +23,16 @@
             </button>
           </div>
         </transition>
-        <Board
-          :cells="board.cells"
-          is-thumb
-          class="board"
-          @click.native="handleActivateBoard(idx)"
-        />
+        <button
+          class="board-button"
+          @click="handleActivateBoard(idx)"
+        >
+          <Board
+            :cells="board.cells"
+            is-thumb
+            class="board"
+          />
+        </button>
         <div v-if="board.title" class="board-title">
           {{ board.title }}
         </div>
@@ -114,6 +118,17 @@ export default {
 
   &:active {
     border-color: #fff;
+  }
+}
+
+.board-button {
+  background: none;
+  padding: 2px;
+  border: 0;
+  outline: 0;
+
+  &.focus-visible {
+    box-shadow: 0 0 0 1px rgba(#fff, 0.5);
   }
 }
 

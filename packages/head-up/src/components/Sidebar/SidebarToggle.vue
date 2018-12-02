@@ -30,8 +30,7 @@ export default {
   bottom: 0;
   left: 0;
   z-index: 2;
-  border-right: 1px solid rgba(#fff, 0.1);
-  box-shadow: 1px 0 1px rgba(#000, 0.5);
+  box-shadow: 1px 0 1px rgba(#000, 0.5), inset -1px 0 rgba(#fff, 0.1);
 }
 
 .toggle {
@@ -42,7 +41,7 @@ export default {
   color: inherit;
   outline: 0;
   background-color: transparent;
-  transition: 0.1s;
+  transition: background-color 0.1s;
 
   &:hover {
     color: #fff;
@@ -52,6 +51,10 @@ export default {
   &:active {
     background-color: #142a59;
     transform: scaleY(1.2);
+  }
+
+  &.focus-visible {
+    box-shadow: inset 0 0 0 1px rgba(#fff, 0.3);
   }
 }
 </style>
