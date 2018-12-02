@@ -126,7 +126,7 @@ export default {
     opacity: 1;
   }
 
-  &:focus-visible {
+  &.focus-visible {
     background-color: rgba(#20416d, 0.7);
     box-shadow: 0 0 0 1px #fff;
   }
