@@ -26,7 +26,7 @@
     </div>
     <div>
       <dt>Shift &lt;</dt>
-      <dd>Insert settings</dd>
+      <dd>Show settings</dd>
     </div>
   </dl>
 </template>
