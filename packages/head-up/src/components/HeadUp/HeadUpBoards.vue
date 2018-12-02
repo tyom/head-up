@@ -2,7 +2,6 @@
   <div class="HeadUpBoards">
     <Board
       v-for="(board, idx) in boards"
-      ref="activeBoardEl"
       v-bind="board"
       :key="board.title + board.id + idx"
     />

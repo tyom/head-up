@@ -9,6 +9,7 @@
       v-if="!hideSidebar"
       :visible="state.showSidebar"
       @toggle="handleSidebarToggle"
+      ref="sidebarContainer"
       @board:add="handleAddBoard"
       @board:remove="handleRemoveBoard"
       @board:activate="handleActivateBoard"
@@ -17,7 +18,10 @@
       @modal:help="toggleHelpScreen"
     />
     <div class="main">
-      <HeadUpBoards :boards="state.boards" ref="boardsContainer">
+      <HeadUpBoards
+        :boards="state.boards"
+        ref="boardContainer"
+      >
         <slot/>
       </HeadUpBoards>
     </div>
@@ -40,6 +44,7 @@
 
 <script>
 import { uniqueId, get } from 'lodash';
+import ally from 'ally.js';
 import { serializeSlot } from '../../transformers';
 import ModalDialogue from '../ModalDialogue';
 import Sidebar from '../Sidebar';
@@ -76,6 +81,7 @@ export default {
           },
         },
       },
+      focusTrap: null,
       persistedState: null,
       modal: null,
       shortkeys: {
@@ -112,6 +118,10 @@ export default {
   watch: {
     'state.activeBoardIdx'() {
       this.scrollToActiveBoard();
+      this.handleFocusTrap();
+    },
+    'state.editMode'() {
+      this.handleFocusTrap();
     },
     state: {
       deep: true,
@@ -148,6 +158,21 @@ export default {
     this.scrollToActiveBoard(false);
   },
   methods: {
+    handleFocusTrap() {
+      this.focusTrap && this.focusTrap.disengage();
+
+      if (!this.state.editMode) {
+        return;
+      }
+
+      const activeBoard = this.$refs.boardContainer.$children.map(x => x.$el)[
+        this.state.activeBoardIdx
+      ];
+
+      this.focusTrap = ally.maintain.tabFocus({
+        context: activeBoard,
+      });
+    },
     handleSidebarToggle(value) {
       this.state.showSidebar =
         typeof value === 'undefined' ? !this.state.showSidebar : value;
@@ -226,7 +251,7 @@ export default {
       if (!this.boardSummary.length) {
         return;
       }
-      const boardEls = get(this.$refs, 'boardsContainer.$el.childNodes', []);
+      const boardEls = get(this.$refs, 'boardContainer.$el.childNodes', []);
       const currentBoardEl = boardEls[this.state.activeBoardIdx];
       if (!currentBoardEl) {
         return;

@@ -108,7 +108,7 @@ export default {
   &:focus {
     color: #000;
     background-color: #fff6;
-    box-shadow: inset 0 0 2px 1px #0004;
+    box-shadow: inset 0 0 1px 1px #0006, 0 0 0 1px #fffa;
   }
 
   &::placeholder {

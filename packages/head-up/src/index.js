@@ -1,3 +1,4 @@
+import 'focus-visible';
 import ShortKey from 'vue-shortkey';
 import HeadUp from './components/HeadUp';
 import Board from './components/Board';

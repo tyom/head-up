@@ -115,6 +115,7 @@ export default {
   background: none;
   color: #fff;
   position: absolute;
+  z-index: 1;
   top: 0;
   right: 0;
   bottom: 0;
@@ -125,8 +126,9 @@ export default {
     opacity: 1;
   }
 
-  &:focus {
-    background-color: rgba(#20416d, 0.5);
+  &:focus-visible {
+    background-color: rgba(#20416d, 0.7);
+    box-shadow: 0 0 0 1px #fff;
   }
 
   &._toggled {
@@ -135,7 +137,9 @@ export default {
   }
 
   &:active {
-    background-color: #193254;
+    opacity: 1;
+    transition: none;
+    background-color: #20416d;
   }
 }
 

@@ -1,4 +1,5 @@
 import { merge } from 'lodash';
+import ally from 'ally.js';
 import ShortKey from 'vue-shortkey';
 import { createLocalVue, shallowMount, mount } from '@vue/test-utils';
 import Board from '../Board';
@@ -9,6 +10,8 @@ import SettingsScreen from '../SettingsScreen';
 import VSwitchToggle from '../VSwitchToggle';
 import HeadUp from './HeadUp';
 import HeadUpBoards from './HeadUpBoards';
+
+jest.mock('ally.js');
 
 const localVue = createLocalVue();
 localVue.use(ShortKey);
@@ -232,7 +235,7 @@ describe('modal dialogues', () => {
   });
 });
 
-test('save settins', () => {
+test('save settings', () => {
   const wrapper = mount(HeadUp, {
     localVue,
     stubs: ['v-icon'],
@@ -369,4 +372,16 @@ describe('respond to keystrokes', () => {
   });
 
   //  TODO: Keystroke combinations
+});
+
+test('focus trap', () => {
+  const wrapper = mountWithSlot();
+
+  wrapper.setData({
+    state: {
+      editMode: true,
+    },
+  });
+
+  expect(ally.maintain.tabFocus).toHaveBeenCalled();
 });

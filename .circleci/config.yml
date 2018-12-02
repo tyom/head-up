@@ -60,7 +60,9 @@ jobs:
       -
         run:
           name: Deploy to now.sh
-          command: npx now -t ${NOW_TOKEN} && npx now alias -t ${NOW_TOKEN}
+          command: |
+            npx now -t ${NOW_TOKEN}
+            npx now alias -t ${NOW_TOKEN}
 
 workflows:
   version: 2
