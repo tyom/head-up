@@ -3,12 +3,13 @@ import SidebarBoards from './SidebarBoards';
 
 const boardsMock = [
   {
+    id: '1',
     title: 'Board #1',
     cells: [{ title: 'Cell #1' }, { title: 'Cell #2' }],
   },
   {
+    id: '2',
     title: 'Board #2',
-    id: '1',
     editable: true,
     cells: [{ title: 'Cell #1' }, { title: 'Cell #2' }],
   },
@@ -17,7 +18,7 @@ const boardsMock = [
 const provideMock = {
   isEditing: () => false,
   getBoardSummary: () => [],
-  getActiveBoardIdx: () => 0,
+  getActiveBoardId: () => '1',
 };
 
 test('render default', () => {
@@ -38,12 +39,12 @@ test('render with boards', () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-test('render with active board index', () => {
+test('render to active board id', () => {
   const wrapper = shallowMount(SidebarBoards, {
     provide: {
       ...provideMock,
       getBoardSummary: () => boardsMock,
-      getActiveBoardIdx: () => 1,
+      getActiveBoardId: () => '2',
     },
   });
 
@@ -61,7 +62,7 @@ test('responds to remove board actions', () => {
 
   const removeButton = wrapper.find('.remove-button');
   removeButton.trigger('click');
-  expect(wrapper.emitted('remove')[0]).toEqual(['1']);
+  expect(wrapper.emitted('remove')[0]).toEqual(['2']);
 });
 
 test('responds to board activation', () => {
@@ -74,7 +75,7 @@ test('responds to board activation', () => {
 
   const boards = wrapper.findAll('.board');
   boards.at(0).trigger('click');
-  expect(wrapper.emitted('activate')[0]).toEqual([0]);
+  expect(wrapper.emitted('activate')[0]).toEqual(['1']);
   boards.at(1).trigger('click');
-  expect(wrapper.emitted('activate')[1]).toEqual([1]);
+  expect(wrapper.emitted('activate')[1]).toEqual(['2']);
 });

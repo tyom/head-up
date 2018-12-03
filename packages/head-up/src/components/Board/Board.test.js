@@ -11,6 +11,9 @@ const commonSettings = {
 test('render empty', () => {
   const wrapper = shallowMount(Board, {
     ...commonSettings,
+    propsData: {
+      id: '1',
+    },
   });
   expect(wrapper).toMatchSnapshot();
 });
@@ -19,6 +22,7 @@ test('render normal', () => {
   const wrapper = shallowMount(Board, {
     ...commonSettings,
     propsData: {
+      id: '1',
       title: 'Board title',
     },
     slots: {
@@ -32,6 +36,7 @@ test('render as thumbnail', () => {
   const wrapper = shallowMount(Board, {
     ...commonSettings,
     propsData: {
+      id: '1',
       title: 'Board title',
       isThumb: true,
     },
@@ -46,6 +51,7 @@ test('render in edit mode', () => {
   const wrapper = shallowMount(Board, {
     ...commonSettings,
     propsData: {
+      id: '1',
       title: 'Board title',
       editable: true,
     },
