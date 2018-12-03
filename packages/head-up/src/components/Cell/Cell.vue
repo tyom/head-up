@@ -141,6 +141,10 @@ export default {
     transition: none;
     background-color: #20416d;
   }
+
+  & .fa-icon {
+    margin: -0.2em 0;
+  }
 }
 
 .title {

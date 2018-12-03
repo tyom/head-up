@@ -14,6 +14,7 @@ export function serializeSlot(slot) {
   );
 
   return boards.map(slot => ({
+    id: getOption(slot, 'propsData.id'),
     title: getOption(slot, 'propsData.title'),
     editable: false,
     cells: getChildComponents(getOption(slot, 'children')).map(cell => ({

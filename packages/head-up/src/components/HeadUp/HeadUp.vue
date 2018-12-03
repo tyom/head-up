@@ -18,6 +18,11 @@
       @modal:help="toggleHelpScreen"
     />
     <div class="main">
+      <transition name="boardTitle">
+        <div v-if="activeBoardTitle" class="board-title">
+          {{ activeBoardTitle }}
+        </div>
+      </transition>
       <HeadUpBoards
         :boards="state.boards"
         ref="boardContainer"
@@ -43,7 +48,7 @@
 </template>
 
 <script>
-import { uniqueId, get } from 'lodash';
+import { get } from 'lodash';
 import ally from 'ally.js';
 import { serializeSlot } from '../../transformers';
 import ModalDialogue from '../ModalDialogue';
@@ -51,6 +56,16 @@ import Sidebar from '../Sidebar';
 import SettingsScreen from '../SettingsScreen';
 import HelpScreen from '../HelpScreen';
 import HeadUpBoards from './HeadUpBoards';
+
+const shortkeys = {
+  up: ['k'],
+  down: ['j'],
+  sidebar: ['s'],
+  edit: ['e'],
+  add: ['a'],
+  settings: ['shift', '<'],
+  help: ['shift', '?'],
+};
 
 export default {
   name: 'HeadUp',
@@ -64,7 +79,7 @@ export default {
   data() {
     return {
       state: {
-        activeBoardIdx: 0,
+        activeBoardId: null,
         editMode: false,
         showSidebar: true,
         boards: this.boards,
@@ -81,18 +96,13 @@ export default {
           },
         },
       },
+      activeBoard: null,
+      activeBoardTitle: null,
+      activeBoardTitleTimeout: null,
       focusTrap: null,
       persistedState: null,
       modal: null,
-      shortkeys: {
-        up: ['k'],
-        down: ['j'],
-        sidebar: ['s'],
-        edit: ['e'],
-        add: ['a'],
-        settings: ['shift', '<'],
-        help: ['shift', '?'],
-      },
+      shortkeys,
     };
   },
   props: {
@@ -114,23 +124,25 @@ export default {
     boardSummary() {
       return [...this.state.boards, ...serializeSlot(this.$slots.default)];
     },
+    activeBoardIndex() {
+      return this.boardSummary.findIndex(
+        x => x.id === this.state.activeBoardId,
+      );
+    },
   },
   watch: {
-    'state.activeBoardIdx'() {
-      this.scrollToActiveBoard();
-      this.handleFocusTrap();
-    },
     'state.editMode'() {
       this.handleFocusTrap();
     },
     state: {
       deep: true,
       handler(newVal) {
+        // handle persistence to local storage
         if (newVal.settings.persistState.value) {
           localStorage.setItem('headUp', JSON.stringify(newVal));
           return;
         }
-        // save persistence setting but not the state
+        // save persistence setting but not the state when disabled
         const newState = JSON.parse(this.persistedState);
         newState.settings.persistState.value =
           newVal.settings.persistState.value;
@@ -142,7 +154,7 @@ export default {
     return {
       isEditing: () => this.state.editMode,
       getBoardSummary: () => this.boardSummary,
-      getActiveBoardIdx: () => this.state.activeBoardIdx,
+      getActiveBoardId: () => this.state.activeBoardId,
       handleEditDone: this.handleEditDone,
       handleEditSave: this.handleEditSave,
     };
@@ -154,31 +166,66 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('resize', () => this.scrollToActiveBoard(false));
-    this.scrollToActiveBoard(false);
+    if (!this.boardSummary.length) {
+      return;
+    }
+
+    const initialBoardId =
+      this.state.activeBoardId || get(this.boardSummary, '[0].id');
+    this.setActiveBoard(initialBoardId, false);
   },
   methods: {
-    handleFocusTrap() {
-      this.focusTrap && this.focusTrap.disengage();
+    getBoardById(id) {
+      return this.$refs.boardContainer.$children.find(x => x.id === id);
+    },
+    setActiveBoard(boardId, smoothScroll = true) {
+      this.state.activeBoardId = boardId;
+      this.activeBoard = this.getBoardById(boardId);
 
-      if (!this.state.editMode) {
+      this.displayBoardTitle(boardId);
+
+      if (!this.activeBoard) {
         return;
       }
 
-      const activeBoard = this.$refs.boardContainer.$children.map(x => x.$el)[
-        this.state.activeBoardIdx
-      ];
+      if (smoothScroll) {
+        this.preferredScrollToBoard(this.activeBoard.$el);
+      } else {
+        this.activeBoard.$el.scrollIntoView();
+      }
+    },
+    displayBoardTitle(boardId) {
+      if (!boardId) {
+        return;
+      }
+
+      const board = this.boardSummary.find(x => x.id === boardId);
+      this.activeBoardTitle = board.title;
+
+      // self-destruct
+      clearTimeout(this.activeBoardTitleTimeout);
+      this.activeBoardTitleTimeout = setTimeout(() => {
+        this.activeBoardTitle = null;
+      }, 1600);
+    },
+    handleFocusTrap() {
+      this.focusTrap && this.focusTrap.disengage();
+
+      if (!this.state.editMode || !this.activeBoard) {
+        return;
+      }
 
       this.focusTrap = ally.maintain.tabFocus({
-        context: activeBoard,
+        context: this.activeBoard.$el,
       });
     },
     handleSidebarToggle(value) {
       this.state.showSidebar =
         typeof value === 'undefined' ? !this.state.showSidebar : value;
     },
-    handleActivateBoard(value) {
-      this.state.activeBoardIdx = value;
+    handleActivateBoard(id) {
+      this.state.activeBoardId = id;
+      this.setActiveBoard(id);
     },
     handleToggleEdit(value) {
       this.state.editMode =
@@ -194,9 +241,10 @@ export default {
       this.state.editMode = false;
     },
     handleAddBoard() {
+      const boardId = `hu-${this.state.boards.length + 1}`;
       const newBoardTemplate = {
         title: `Board #${this.boardSummary.length + 1}`,
-        id: uniqueId(),
+        id: boardId,
         editable: true,
         cells: [
           {
@@ -206,20 +254,35 @@ export default {
       };
 
       this.state.boards = [newBoardTemplate, ...this.state.boards];
-      this.state.activeBoardIdx = 0;
       this.handleToggleEdit(true);
+
+      this.setActiveBoard(boardId);
     },
     handleRemoveBoard(id) {
       const deletedIndex = this.state.boards.findIndex(x => x.id === id);
+      const activeIndex = this.activeBoardIndex;
       this.state.boards = this.state.boards.filter(x => x.id !== id);
 
-      if (this.state.activeBoardIdx === this.boardSummary.length) {
-        this.state.activeBoardIdx--;
-      } else if (this.state.activeBoardIdx === deletedIndex) {
-        this.state.activeBoardIdx = deletedIndex;
-      } else {
-        this.state.activeBoardIdx = deletedIndex > 0 ? deletedIndex - 1 : 0;
+      const beforeActive = deletedIndex < activeIndex;
+      const active = deletedIndex === activeIndex;
+      const afterActive = deletedIndex > activeIndex;
+      const last = deletedIndex === this.state.boards.length;
+      const getBoardIdByIndex = idx => get(this.boardSummary, `[${idx}].id`);
+
+      let nextId;
+
+      if (beforeActive) {
+        nextId = getBoardIdByIndex(activeIndex - 1);
       }
+      if (active) {
+        nextId = last
+          ? getBoardIdByIndex(this.state.boards.length - 1)
+          : getBoardIdByIndex(activeIndex);
+      }
+      if (afterActive) {
+        nextId = getBoardIdByIndex(activeIndex);
+      }
+      this.setActiveBoard(nextId);
     },
     handleKeys(evt) {
       switch (evt.srcKey) {
@@ -247,34 +310,30 @@ export default {
         default:
       }
     },
-    scrollToActiveBoard(useGlobalSetting = true) {
-      if (!this.boardSummary.length) {
+    preferredScrollToBoard(element) {
+      if (!element) {
         return;
       }
-      const boardEls = get(this.$refs, 'boardContainer.$el.childNodes', []);
-      const currentBoardEl = boardEls[this.state.activeBoardIdx];
-      if (!currentBoardEl) {
-        return;
-      }
-      const scrollOptions =
-        useGlobalSetting && this.state.settings.smoothScrolling.value
-          ? { behavior: 'smooth' }
-          : {};
-      currentBoardEl.scrollIntoView(scrollOptions);
+      const scrollOptions = this.state.settings.smoothScrolling.value
+        ? { behavior: 'smooth' }
+        : {};
+      element.scrollIntoView(scrollOptions);
     },
     activateNextBoard() {
-      if (this.state.activeBoardIdx === this.boardSummary.length - 1) {
-        this.handleActivateBoard(0);
-        return;
-      }
-      this.handleActivateBoard(this.state.activeBoardIdx + 1);
+      const nextId =
+        this.activeBoardIndex === this.boardSummary.length - 1
+          ? get(this.boardSummary, '[0].id')
+          : get(this.boardSummary, `[${this.activeBoardIndex + 1}].id`);
+
+      this.handleActivateBoard(nextId);
     },
     activatePreviousBoard() {
-      if (this.state.activeBoardIdx === 0) {
-        this.handleActivateBoard(this.boardSummary.length - 1);
-        return;
-      }
-      this.handleActivateBoard(this.state.activeBoardIdx - 1);
+      const prevId =
+        this.activeBoardIndex === 0
+          ? get(this.boardSummary, `[${this.boardSummary.length - 1}].id`)
+          : get(this.boardSummary, `[${this.activeBoardIndex - 1}].id`);
+
+      this.handleActivateBoard(prevId);
     },
     toggleHelpScreen() {
       this.toggleModal({ name: 'help', heading: 'Keyboard help' });
@@ -320,10 +379,31 @@ export default {
   }
 }
 
+.board-title {
+  color: #fff;
+  padding: 1em 2em;
+  background-color: #0004;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 2em;
+}
+
 .main {
   height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.boardTitle-enter-active,
+.boardTitle-leave-active {
+  transition: 0.3s;
+}
+.boardTitle-enter,
+.boardTitle-leave-to {
+  opacity: 0;
 }
 </style>

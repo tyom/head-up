@@ -8,7 +8,7 @@
       <li
         v-for="(board, idx) in boards"
         :key="idx"
-        :class="getBoardListItemClass(board, idx)"
+        :class="getBoardListItemClass(board)"
         :title="getBoardTitle(board)"
         class="list-item"
       >
@@ -25,9 +25,10 @@
         </transition>
         <button
           class="board-button"
-          @click="handleActivateBoard(idx)"
+          @click="handleActivateBoard(board.id)"
         >
           <Board
+            :id="board.id"
             :cells="board.cells"
             is-thumb
             class="board"
@@ -49,8 +50,8 @@ export default {
     Board,
   },
   computed: {
-    activeIdx() {
-      return this.getActiveBoardIdx();
+    activeId() {
+      return this.getActiveBoardId();
     },
     boards() {
       return this.getBoardSummary();
@@ -59,22 +60,22 @@ export default {
       return this.isEditing();
     },
   },
-  inject: ['isEditing', 'getBoardSummary', 'getActiveBoardIdx'],
+  inject: ['isEditing', 'getBoardSummary', 'getActiveBoardId'],
   methods: {
     getBoardTitle(board) {
       return board.title + (board.editable ? '' : ' (read-only)');
     },
-    getBoardListItemClass(item, idx) {
+    getBoardListItemClass(board) {
       return {
-        _active: this.activeIdx > -1 ? idx === this.activeIdx : idx === 0,
-        ['_read-only']: !item.editable,
+        _active: this.activeId === board.id,
+        ['_read-only']: !board.editable,
       };
     },
-    handleRemoveBoard(boardId) {
-      this.$emit('remove', boardId);
+    handleRemoveBoard(board) {
+      this.$emit('remove', board);
     },
-    handleActivateBoard(boardIdx) {
-      this.$emit('activate', boardIdx);
+    handleActivateBoard(board) {
+      this.$emit('activate', board);
     },
   },
 };
