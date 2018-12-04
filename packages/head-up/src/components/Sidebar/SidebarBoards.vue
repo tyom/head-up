@@ -96,7 +96,7 @@ export default {
 
 .board-title {
   font-size: 0.6em;
-  margin: 0.5em -0.5em 0;
+  margin: 0.5em -1em 0;
   text-align: center;
   transition: 0.1s;
 }
