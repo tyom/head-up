@@ -8,13 +8,14 @@ const provideMock = {
 };
 
 const slotContents = `
-  <Board title="Slot board #1">
+  <Board title="Slot board #1" id="b1">
     <Cell title="Cell #1"/>
   </Board>
 `;
 
 const boardsMock = [
   {
+    id: '1',
     title: 'Prop board #1',
     cells: [
       {

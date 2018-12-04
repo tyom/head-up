@@ -1,6 +1,6 @@
 <template>
   <HeadUp class="head-up">
-    <Board title="Cell components #1">
+    <Board id="b1" title="Cell components #1">
       <Cell title="Cell #1" padded>
         <div>First section</div>
         <div>Second section</div>
@@ -11,7 +11,7 @@
       </Cell>
       <Cell/>
     </Board>
-    <Board title="Cell components #2">
+    <Board id="b2" title="Cell components #2">
       <Cell padded>
         <div>First section</div>
         <div>Second section</div>

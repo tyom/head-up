@@ -4,6 +4,7 @@ exports[`modal dialogues help 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
+    <!---->
     <headupboards-stub boards="">
       <div class="Board">
         <!---->
@@ -33,6 +34,7 @@ exports[`modal dialogues settings 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
+    <!---->
     <headupboards-stub boards="">
       <div class="Board">
         <!---->
@@ -62,6 +64,7 @@ exports[`render default 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
+    <!---->
     <headupboards-stub boards=""></headupboards-stub>
   </div>
   <!---->
@@ -72,6 +75,7 @@ exports[`render in edit mode 1`] = `
 <div class="HeadUp _edit">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
+    <!---->
     <headupboards-stub boards=""></headupboards-stub>
   </div>
   <!---->
@@ -82,6 +86,7 @@ exports[`render with props 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
+    <!---->
     <div class="HeadUpBoards">
       <div class="Board">
         <!---->
@@ -148,6 +153,7 @@ exports[`render with slot 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
+    <!---->
     <headupboards-stub boards="">
       <div class="Board">
         <!---->
@@ -174,6 +180,7 @@ exports[`render without sidebar 1`] = `
 <div class="HeadUp">
   <!---->
   <div class="main">
+    <!---->
     <headupboards-stub boards=""></headupboards-stub>
   </div>
   <!---->

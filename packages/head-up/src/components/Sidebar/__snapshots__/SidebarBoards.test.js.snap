@@ -2,18 +2,18 @@
 
 exports[`render default 1`] = `<div class="SidebarBoards"><span tag="ul" name="boardReveal" class="board-list"></span></div>`;
 
-exports[`render with active board index 1`] = `
-<div class="SidebarBoards"><span tag="ul" name="boardReveal" class="board-list"><li title="Board #1 (read-only)" class="list-item _read-only"><!----> <button class="board-button"><board-stub id="" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub></button> <div class="board-title">
+exports[`render to active board id 1`] = `
+<div class="SidebarBoards"><span tag="ul" name="boardReveal" class="board-list"><li title="Board #1 (read-only)" class="list-item _read-only"><!----> <button class="board-button"><board-stub id="1" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub></button> <div class="board-title">
         Board #1
-      </div></li><li title="Board #2" class="list-item _active"><!----> <button class="board-button"><board-stub id="" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub></button> <div class="board-title">
+      </div></li><li title="Board #2" class="list-item _active"><!----> <button class="board-button"><board-stub id="2" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub></button> <div class="board-title">
         Board #2
       </div></li></span></div>
 `;
 
 exports[`render with boards 1`] = `
-<div class="SidebarBoards"><span tag="ul" name="boardReveal" class="board-list"><li title="Board #1 (read-only)" class="list-item _active _read-only"><!----> <button class="board-button"><board-stub id="" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub></button> <div class="board-title">
+<div class="SidebarBoards"><span tag="ul" name="boardReveal" class="board-list"><li title="Board #1 (read-only)" class="list-item _active _read-only"><!----> <button class="board-button"><board-stub id="1" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub></button> <div class="board-title">
         Board #1
-      </div></li><li title="Board #2" class="list-item"><!----> <button class="board-button"><board-stub id="" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub></button> <div class="board-title">
+      </div></li><li title="Board #2" class="list-item"><!----> <button class="board-button"><board-stub id="2" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub></button> <div class="board-title">
         Board #2
       </div></li></span></div>
 `;

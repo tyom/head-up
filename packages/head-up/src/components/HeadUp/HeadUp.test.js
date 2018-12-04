@@ -1,6 +1,7 @@
 import { merge } from 'lodash';
 import ally from 'ally.js';
 import ShortKey from 'vue-shortkey';
+import Sentencer from 'sentencer';
 import { createLocalVue, shallowMount, mount } from '@vue/test-utils';
 import Board from '../Board';
 import Cell from '../Cell';
@@ -32,7 +33,7 @@ function mountWithSlot(options = {}) {
       {
         localVue,
         slots: {
-          default: '<Board><Cell title="Cell #1"/></Board>',
+          default: '<Board id="b1"><Cell title="Cell #1"/></Board>',
         },
         stubs: {
           Cell,
@@ -79,6 +80,7 @@ function mountWithProps(options = {}) {
 beforeEach(() => {
   jest.resetAllMocks();
   Element.prototype.scrollIntoView = scrollIntoViewSpy;
+  Sentencer.make = jest.fn(() => 'new board');
 });
 
 test('render default', () => {
@@ -111,13 +113,23 @@ test('render with slot', () => {
   const wrapper = mountWithSlot();
 
   expect(wrapper).toMatchSnapshot();
-  expect(scrollIntoViewSpy).toHaveBeenCalled();
 });
 
 test('render with props', () => {
   const wrapper = mountWithProps();
 
   expect(wrapper).toMatchSnapshot();
+});
+
+test('scroll to activeBoard', () => {
+  const wrapper = mountWithProps();
+
+  wrapper.setData({
+    state: {
+      activeBoardId: '2',
+    },
+  });
+
   expect(scrollIntoViewSpy).toHaveBeenCalled();
 });
 
@@ -129,7 +141,8 @@ test('add board in sidebar', () => {
   sidebar.vm.$emit('board:add');
 
   expect(wrapper.vm.state.boards.length).toEqual(4);
-  expect(wrapper.vm.state.boards[0].title).toEqual('Board #4');
+  expect(wrapper.vm.state.boards[0].title).toEqual('new board');
+  expect(wrapper.vm.state.boards[0].id).toEqual('new-board');
 });
 
 describe('remove board in sidebar', () => {
@@ -141,7 +154,8 @@ describe('remove board in sidebar', () => {
     sidebar.vm.$emit('board:remove', '1');
 
     expect(wrapper.vm.state.boards.length).toEqual(2);
-    expect(wrapper.vm.state.activeBoardIdx).toEqual(0);
+    expect(wrapper.vm.state.activeBoardId).toEqual('2');
+    expect(wrapper.vm.activeBoardIndex).toEqual(0);
   });
 
   test('remove last board in the list', () => {
@@ -150,30 +164,32 @@ describe('remove board in sidebar', () => {
 
     wrapper.setData({
       state: {
-        activeBoardIdx: 2,
+        activeBoardId: '3',
       },
     });
     expect(wrapper.vm.state.boards.length).toEqual(3);
     sidebar.vm.$emit('board:remove', '3');
 
     expect(wrapper.vm.state.boards.length).toEqual(2);
-    expect(wrapper.vm.state.activeBoardIdx).toEqual(1);
+    expect(wrapper.vm.state.activeBoardId).toEqual('2');
+    expect(wrapper.vm.activeBoardIndex).toEqual(1);
   });
 
-  test('remove board before active', () => {
+  test('remove board preceding the active one', () => {
     const wrapper = mountWithProps();
     const sidebar = wrapper.find(Sidebar);
 
     wrapper.setData({
       state: {
-        activeBoardIdx: 1,
+        activeBoardId: '2',
       },
     });
     expect(wrapper.vm.state.boards.length).toEqual(3);
+    expect(wrapper.vm.activeBoardIndex).toEqual(1);
     sidebar.vm.$emit('board:remove', '1');
 
     expect(wrapper.vm.state.boards.length).toEqual(2);
-    expect(wrapper.vm.state.activeBoardIdx).toEqual(0);
+    expect(wrapper.vm.activeBoardIndex).toEqual(0);
   });
 });
 
@@ -264,7 +280,7 @@ describe('persist changes', () => {
   test('enabled persistence', () => {
     wrapper.setData({
       state: {
-        activeBoardIdx: 1,
+        activeBoardId: '2',
       },
     });
 
@@ -287,7 +303,7 @@ describe('persist changes', () => {
     });
     wrapper.setData({
       state: {
-        activeBoardIdx: 1,
+        activeBoardId: '2',
       },
     });
 
@@ -316,35 +332,30 @@ describe('respond to keystrokes', () => {
   });
 
   test('next board', () => {
-    expect(wrapper.vm.state.activeBoardIdx).toEqual(0);
+    expect(wrapper.vm.state.activeBoardId).toEqual('1');
     wrapper.trigger('keydown', {
       key: 'j',
     });
-    expect(wrapper.vm.state.activeBoardIdx).toEqual(1);
+    expect(wrapper.vm.state.activeBoardId).toEqual('2');
     wrapper.trigger('keydown', {
       key: 'j',
     });
     wrapper.trigger('keydown', {
       key: 'j',
     });
-    expect(wrapper.vm.state.activeBoardIdx).toEqual(0);
+    expect(wrapper.vm.state.activeBoardId).toEqual('1');
   });
 
   test('previous board', () => {
-    wrapper.setData({
-      state: {
-        activeBoardIdx: 1,
-      },
-    });
     wrapper.trigger('keydown', {
       key: 'k',
     });
-    expect(wrapper.vm.state.activeBoardIdx).toEqual(0);
+    expect(wrapper.vm.state.activeBoardId).toEqual('3');
 
     wrapper.trigger('keydown', {
       key: 'k',
     });
-    expect(wrapper.vm.state.activeBoardIdx).toEqual(2);
+    expect(wrapper.vm.state.activeBoardId).toEqual('2');
   });
 
   test('toggle sidebar', () => {
