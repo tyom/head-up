@@ -12,7 +12,7 @@
       ref="sidebarContainer"
       @board:add="handleAddBoard"
       @board:remove="handleRemoveBoard"
-      @board:activate="handleActivateBoard"
+      @board:activate="setActiveBoard"
       @board:edit="handleToggleEdit"
       @modal:settings="toggleSettingsScreen"
       @modal:help="toggleHelpScreen"
@@ -176,33 +176,24 @@ export default {
     this.setActiveBoard(initialBoardId, false);
   },
   methods: {
-    getBoardById(id) {
-      return this.$refs.boardContainer.$children.find(x => x.id === id);
-    },
     setActiveBoard(boardId, smoothScroll = true) {
       this.state.activeBoardId = boardId;
-      this.activeBoard = this.getBoardById(boardId);
-
-      this.displayBoardTitle(boardId);
+      this.activeBoard = this.$refs.boardContainer.$children.find(
+        board => board.id === boardId,
+      );
 
       if (!this.activeBoard) {
         return;
       }
 
-      if (smoothScroll) {
-        this.preferredScrollToBoard(this.activeBoard.$el);
-      } else {
-        this.activeBoard.$el.scrollIntoView();
-      }
+      this.displayBoardTitle(this.activeBoard.title);
+
+      smoothScroll
+        ? this.preferredScrollToBoard(this.activeBoard.$el)
+        : this.activeBoard.$el.scrollIntoView();
     },
-    displayBoardTitle(boardId) {
-      if (!boardId) {
-        return;
-      }
-
-      const board = this.boardSummary.find(x => x.id === boardId);
-      this.activeBoardTitle = board.title;
-
+    displayBoardTitle(title) {
+      this.activeBoardTitle = title;
       // self-destruct
       clearTimeout(this.activeBoardTitleTimeout);
       this.activeBoardTitleTimeout = setTimeout(() => {
@@ -223,10 +214,6 @@ export default {
     handleSidebarToggle(value) {
       this.state.showSidebar =
         typeof value === 'undefined' ? !this.state.showSidebar : value;
-    },
-    handleActivateBoard(id) {
-      this.state.activeBoardId = id;
-      this.setActiveBoard(id);
     },
     handleToggleEdit(value) {
       this.state.editMode =
@@ -258,33 +245,30 @@ export default {
       this.state.boards = [newBoardTemplate, ...this.state.boards];
       this.handleToggleEdit(true);
 
-      this.setActiveBoard(boardId);
+      this.$nextTick(() => {
+        this.setActiveBoard(boardId);
+      });
     },
-    handleRemoveBoard(id) {
-      const deletedIndex = this.state.boards.findIndex(x => x.id === id);
+    async handleRemoveBoard(id) {
+      const deletionIndex = this.state.boards.findIndex(x => x.id === id);
       const activeIndex = this.activeBoardIndex;
-      this.state.boards = this.state.boards.filter(x => x.id !== id);
-
-      const beforeActive = deletedIndex < activeIndex;
-      const active = deletedIndex === activeIndex;
-      const afterActive = deletedIndex > activeIndex;
-      const last = deletedIndex === this.boardSummary.length;
-      const getBoardIdByIndex = idx => get(this.boardSummary, `[${idx}].id`);
 
       let nextId;
+      const getBoardIdByIndex = idx => get(this.boardSummary, `[${idx}].id`);
 
-      if (beforeActive) {
-        nextId = getBoardIdByIndex(activeIndex - 1);
-      }
-      if (active) {
+      if (deletionIndex === activeIndex) {
+        const last = deletionIndex === this.boardSummary.length - 1;
         nextId = last
-          ? getBoardIdByIndex(this.state.boards.length - 1)
-          : getBoardIdByIndex(activeIndex);
-      }
-      if (afterActive) {
+          ? getBoardIdByIndex(activeIndex - 1)
+          : getBoardIdByIndex(activeIndex + 1);
+      } else {
         nextId = getBoardIdByIndex(activeIndex);
       }
-      this.setActiveBoard(nextId);
+
+      this.state.boards = this.state.boards.filter(x => x.id !== id);
+      this.$nextTick(() => {
+        this.setActiveBoard(nextId);
+      });
     },
     handleKeys(evt) {
       switch (evt.srcKey) {
@@ -327,7 +311,7 @@ export default {
           ? get(this.boardSummary, '[0].id')
           : get(this.boardSummary, `[${this.activeBoardIndex + 1}].id`);
 
-      this.handleActivateBoard(nextId);
+      this.setActiveBoard(nextId);
     },
     activatePreviousBoard() {
       const prevId =
@@ -335,7 +319,7 @@ export default {
           ? get(this.boardSummary, `[${this.boardSummary.length - 1}].id`)
           : get(this.boardSummary, `[${this.activeBoardIndex - 1}].id`);
 
-      this.handleActivateBoard(prevId);
+      this.setActiveBoard(prevId);
     },
     toggleHelpScreen() {
       this.toggleModal({ name: 'help', heading: 'Keyboard help' });

@@ -154,8 +154,11 @@ describe('remove board in sidebar', () => {
     sidebar.vm.$emit('board:remove', '1');
 
     expect(wrapper.vm.state.boards.length).toEqual(2);
-    expect(wrapper.vm.state.activeBoardId).toEqual('2');
-    expect(wrapper.vm.activeBoardIndex).toEqual(0);
+
+    process.nextTick(() => {
+      expect(wrapper.vm.state.activeBoardId).toEqual('2');
+      expect(wrapper.vm.activeBoardIndex).toEqual(0);
+    });
   });
 
   test('remove last board in the list', () => {
@@ -171,8 +174,10 @@ describe('remove board in sidebar', () => {
     sidebar.vm.$emit('board:remove', '3');
 
     expect(wrapper.vm.state.boards.length).toEqual(2);
-    expect(wrapper.vm.state.activeBoardId).toEqual('2');
-    expect(wrapper.vm.activeBoardIndex).toEqual(1);
+    process.nextTick(() => {
+      expect(wrapper.vm.state.activeBoardId).toEqual('2');
+      expect(wrapper.vm.activeBoardIndex).toEqual(1);
+    });
   });
 
   test('remove board preceding the active one', () => {
