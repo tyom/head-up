@@ -49,6 +49,7 @@
 
 <script>
 import { get } from 'lodash';
+import Sentencer from 'sentencer';
 import ally from 'ally.js';
 import { serializeSlot } from '../../transformers';
 import ModalDialogue from '../ModalDialogue';
@@ -241,9 +242,10 @@ export default {
       this.state.editMode = false;
     },
     handleAddBoard() {
-      const boardId = `hu-${this.state.boards.length + 1}`;
+      const name = Sentencer.make('{{ adjective }} {{ noun }}');
+      const boardId = name.replace(' ', '-');
       const newBoardTemplate = {
-        title: `Board #${this.boardSummary.length + 1}`,
+        title: name,
         id: boardId,
         editable: true,
         cells: [

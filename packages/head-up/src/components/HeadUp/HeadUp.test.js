@@ -1,6 +1,7 @@
 import { merge } from 'lodash';
 import ally from 'ally.js';
 import ShortKey from 'vue-shortkey';
+import Sentencer from 'sentencer';
 import { createLocalVue, shallowMount, mount } from '@vue/test-utils';
 import Board from '../Board';
 import Cell from '../Cell';
@@ -79,6 +80,7 @@ function mountWithProps(options = {}) {
 beforeEach(() => {
   jest.resetAllMocks();
   Element.prototype.scrollIntoView = scrollIntoViewSpy;
+  Sentencer.make = jest.fn(() => 'new board');
 });
 
 test('render default', () => {
@@ -139,7 +141,8 @@ test('add board in sidebar', () => {
   sidebar.vm.$emit('board:add');
 
   expect(wrapper.vm.state.boards.length).toEqual(4);
-  expect(wrapper.vm.state.boards[0].title).toEqual('Board #4');
+  expect(wrapper.vm.state.boards[0].title).toEqual('new board');
+  expect(wrapper.vm.state.boards[0].id).toEqual('new-board');
 });
 
 describe('remove board in sidebar', () => {
