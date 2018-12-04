@@ -49,7 +49,7 @@
 
 <script>
 import { get } from 'lodash';
-import Sentencer from 'sentencer';
+import Chance from 'chance';
 import ally from 'ally.js';
 import { serializeSlot } from '../../transformers';
 import ModalDialogue from '../ModalDialogue';
@@ -57,6 +57,8 @@ import Sidebar from '../Sidebar';
 import SettingsScreen from '../SettingsScreen';
 import HelpScreen from '../HelpScreen';
 import HeadUpBoards from './HeadUpBoards';
+
+const chance = new Chance();
 
 const shortkeys = {
   up: ['k'],
@@ -229,11 +231,14 @@ export default {
       this.state.editMode = false;
     },
     handleAddBoard() {
-      const name = Sentencer.make('{{ adjective }} {{ noun }}');
-      const boardId = name.replace(' ', '-');
+      const title = chance
+        .sentence({ words: 2 })
+        .replace(/\.$/, '')
+        .toLowerCase();
+      const id = title.replace(' ', '-');
       const newBoardTemplate = {
-        title: name,
-        id: boardId,
+        id,
+        title,
         editable: true,
         cells: [
           {
@@ -246,7 +251,7 @@ export default {
       this.handleToggleEdit(true);
 
       this.$nextTick(() => {
-        this.setActiveBoard(boardId);
+        this.setActiveBoard(id);
       });
     },
     async handleRemoveBoard(id) {

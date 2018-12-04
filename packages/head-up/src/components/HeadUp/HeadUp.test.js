@@ -1,7 +1,7 @@
 import { merge } from 'lodash';
 import ally from 'ally.js';
 import ShortKey from 'vue-shortkey';
-import Sentencer from 'sentencer';
+import Chance from 'chance';
 import { createLocalVue, shallowMount, mount } from '@vue/test-utils';
 import Board from '../Board';
 import Cell from '../Cell';
@@ -80,7 +80,7 @@ function mountWithProps(options = {}) {
 beforeEach(() => {
   jest.resetAllMocks();
   Element.prototype.scrollIntoView = scrollIntoViewSpy;
-  Sentencer.make = jest.fn(() => 'new board');
+  Chance.prototype.sentence = jest.fn(() => 'New board.');
 });
 
 test('render default', () => {
