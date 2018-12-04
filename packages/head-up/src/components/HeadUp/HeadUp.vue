@@ -268,7 +268,7 @@ export default {
       const beforeActive = deletedIndex < activeIndex;
       const active = deletedIndex === activeIndex;
       const afterActive = deletedIndex > activeIndex;
-      const last = deletedIndex === this.state.boards.length;
+      const last = deletedIndex === this.boardSummary.length;
       const getBoardIdByIndex = idx => get(this.boardSummary, `[${idx}].id`);
 
       let nextId;
