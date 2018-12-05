@@ -1,4 +1,6 @@
 import 'focus-visible';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 import ShortKey from 'vue-shortkey';
 import HeadUp from './components/HeadUp';
 import Board from './components/Board';
@@ -15,6 +17,7 @@ import 'vue-awesome/icons/question';
 
 const HeadUpPlugin = {
   install(Vue) {
+    Vue.use(VueAxios, axios);
     Vue.use(ShortKey, { prevent: ['input', 'textarea'] });
     Vue.component('v-icon', Icon);
     Vue.component(HeadUp.name, HeadUp);
