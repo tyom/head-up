@@ -1,11 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render default 1`] = `
-<form class="settings">
+<div class="settings">
   <ul>
     <li>
       <vswitchtoggle-stub label="Setting I prefer" name="myFavouriteSetting"></vswitchtoggle-stub>
     </li>
+    <li><button type="button">Reset state</button></li>
   </ul>
-</form>
+</div>
 `;

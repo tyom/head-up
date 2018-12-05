@@ -147,6 +147,9 @@ export default {
         }
         // save persistence setting but not the state when disabled
         const newState = JSON.parse(this.persistedState);
+        if (!newState) {
+          return;
+        }
         newState.settings.persistState.value =
           newVal.settings.persistState.value;
         localStorage.setItem('headUp', JSON.stringify(newState));

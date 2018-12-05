@@ -1,5 +1,5 @@
 <template>
-  <form class="settings">
+  <div class="settings">
     <ul>
       <li v-for="(setting, key) in settings" :key="key">
         <VSwitchToggle
@@ -8,8 +8,11 @@
           :name="key"
         />
       </li>
+      <li>
+        <button type="button" @click="handleResetState">Reset state</button>
+      </li>
     </ul>
-  </form>
+  </div>
 </template>
 
 <script>
@@ -31,6 +34,12 @@ export default {
       handler() {
         this.$emit('save', this.settingsState);
       },
+    },
+  },
+  methods: {
+    handleResetState() {
+      localStorage.clear();
+      window.location.reload();
     },
   },
 };
