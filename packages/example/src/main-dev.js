@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import HeadUp from 'head-up/src';
+import HeadUp from '../../head-up/src';
 import App from './App.vue';
 
 Vue.config.productionTip = false;

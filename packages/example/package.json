@@ -7,10 +7,13 @@
   "license": "ISC",
   "scripts": {
     "serve": "vue-cli-service serve",
+    "serve:dev": "vue-cli-service serve src/main-dev.js",
     "build": "vue-cli-service build"
   },
   "devDependencies": {
-    "@vue/cli-service": "^3.1.4"
+    "@vue/cli-service": "^3.1.4",
+    "postcss-preset-env": "6.4.0",
+    "rucksack-css": "1.0.2"
   },
   "dependencies": {
     "head-up": "^0.0.0",

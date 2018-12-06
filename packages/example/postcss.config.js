@@ -4,7 +4,6 @@ module.exports = {
       stage: 1,
       features: {
         'nesting-rules': true,
-        'custom-properties': { preserve: false },
       },
     },
     'rucksack-css': {},
