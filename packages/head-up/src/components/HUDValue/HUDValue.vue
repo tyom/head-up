@@ -12,7 +12,12 @@
         name="caret-down"
         class="change-decrease"
       />
-      {{ tweenedValue }}
+      <template v-if="value">
+        {{ tween && tweenedValue || value }}
+      </template>
+      <template v-else>
+        N/A
+      </template>
     </dd>
   </dl>
 </template>
@@ -29,7 +34,7 @@ export default {
     },
     value: {
       type: [String, Number],
-      default: null,
+      default: '',
     },
     increase: {
       type: Boolean,
@@ -39,10 +44,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    tween: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
-      tweenedValue: this.value || 'N/A',
+      tweenedValue: this.value,
     };
   },
   watch: {
@@ -61,6 +70,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1.4em;
 }
 
 .fa-icon {
