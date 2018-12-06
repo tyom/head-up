@@ -1,5 +1,20 @@
 <template>
   <HeadUp class="head-up">
+    <Board id="poller1" title="Crypto">
+      <Cell title="Current crypto prices">
+        <VPoller endpoint="https://api.iextrading.com/1.0/stock/market/crypto?filter=companyName,latestPrice,changePercent">
+          <VTiles slot-scope="{result}" :items="result">
+            <HUDValue
+              slot-scope="{data}"
+              :label="data.companyName"
+              :value="data.latestPrice"
+              :increase="data.changePercent > 0"
+              :decrease="data.changePercent < 0"
+            />
+          </VTiles>
+        </VPoller>
+      </Cell>
+    </Board>
     <Board id="b1" title="Cell components #1">
       <Cell title="Cell #1" padded>
         <div>First section</div>

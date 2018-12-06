@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render default 1`] = `
+<dl class="HUDValue"><dt class="label"></dt>
+  <dd class="value">
+    N/A
+  </dd>
+</dl>
+`;
+
+exports[`render with down trend 1`] = `
+<dl class="HUDValue"><dt class="label">Strength</dt>
+  <dd class="value">
+    <!---->
+    <v-icon-stub name="caret-down" class="change-decrease"></v-icon-stub>
+    100
+  </dd>
+</dl>
+`;
+
+exports[`render with label and value 1`] = `
+<dl class="HUDValue"><dt class="label">Strength</dt>
+  <dd class="value">
+    <!---->
+    <!---->
+    100
+  </dd>
+</dl>
+`;
+
+exports[`render with up trend 1`] = `
+<dl class="HUDValue"><dt class="label">Strength</dt>
+  <dd class="value">
+    <v-icon-stub name="caret-up" class="change-increase"></v-icon-stub>
+    <!---->
+    100
+  </dd>
+</dl>
+`;
