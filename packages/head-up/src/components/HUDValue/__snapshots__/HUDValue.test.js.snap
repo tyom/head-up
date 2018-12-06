@@ -3,6 +3,8 @@
 exports[`render default 1`] = `
 <dl class="HUDValue"><dt class="label"></dt>
   <dd class="value">
+    <!---->
+    <!---->
     N/A
   </dd>
 </dl>

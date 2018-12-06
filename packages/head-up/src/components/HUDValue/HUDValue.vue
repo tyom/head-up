@@ -2,27 +2,24 @@
   <dl class="HUDValue">
     <dt class="label">{{ label }}</dt>
     <dd class="value">
-      <template v-if="value">
-        <v-icon
-          name="caret-up"
-          v-if="increase"
-          class="change-increase"
-        />
-        <v-icon
-          name="caret-down"
-          v-if="decrease"
-          class="change-decrease"
-        />
-        {{ value }}
-      </template>
-      <template v-else>
-        N/A
-      </template>
+      <v-icon
+        v-if="increase"
+        name="caret-up"
+        class="change-increase"
+      />
+      <v-icon
+        v-if="decrease"
+        name="caret-down"
+        class="change-decrease"
+      />
+      {{ tweenedValue }}
     </dd>
   </dl>
 </template>
 
 <script>
+import { tween } from 'femtotween';
+
 export default {
   name: 'HUDValue',
   props: {
@@ -41,6 +38,19 @@ export default {
     decrease: {
       type: Boolean,
       default: false,
+    },
+  },
+  data() {
+    return {
+      tweenedValue: this.value || 'N/A',
+    };
+  },
+  watch: {
+    value(newVal, oldVal) {
+      tween(oldVal, newVal, v => {
+        const newNumber = Number(v);
+        this.tweenedValue = newNumber ? newNumber.toFixed(3) : v;
+      });
     },
   },
 };
