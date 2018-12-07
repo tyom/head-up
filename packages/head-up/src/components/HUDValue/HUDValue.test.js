@@ -3,7 +3,7 @@ import { tween } from 'femtotween';
 import HUDValue from './HUDValue';
 
 jest.mock('femtotween', () => ({
-  tween: jest.fn(),
+  tween: jest.fn((oldVal, newVal, cb) => cb(newVal)),
 }));
 
 test('render default', () => {
@@ -53,24 +53,26 @@ describe('tweened value', () => {
         value: 100,
       },
     });
-
-    wrapper.setData({
-      value: 120,
-    });
   });
 
   test('calls tween function', () => {
+    wrapper.setProps({
+      value: 120,
+    });
+
     expect(tween).toHaveBeenCalledWith(100, 120, expect.any(Function));
   });
 
   test('sets tweenedValue data property', () => {
-    const [, , cb] = tween.mock.calls[0];
-
-    cb(123.456789);
+    wrapper.setProps({
+      value: 123.456789,
+    });
 
     expect(wrapper.vm.tweenedValue).toEqual('123.457');
 
-    cb('purple');
+    wrapper.setProps({
+      value: 'purple',
+    });
 
     expect(wrapper.vm.tweenedValue).toEqual('purple');
   });
