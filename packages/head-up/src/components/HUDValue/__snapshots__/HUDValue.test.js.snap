@@ -39,3 +39,13 @@ exports[`render with up trend 1`] = `
   </dd>
 </dl>
 `;
+
+exports[`tweens value 1`] = `
+<dl class="HUDValue"><dt class="label">Strength</dt>
+  <dd class="value">
+    <!---->
+    <v-icon-stub name="caret-down" class="change-decrease"></v-icon-stub>
+    100
+  </dd>
+</dl>
+`;
