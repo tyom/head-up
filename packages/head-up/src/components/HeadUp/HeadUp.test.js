@@ -1,29 +1,32 @@
 import { merge } from 'lodash';
+import Vuex from 'vuex';
 import ally from 'ally.js';
 import ShortKey from 'vue-shortkey';
 import Chance from 'chance';
-import { createLocalVue, shallowMount, mount } from '@vue/test-utils';
+import { createLocalVue, shallowMount } from '@vue/test-utils';
+import store, { initialState } from '../../store';
 import Board from '../Board';
 import Cell from '../Cell';
 import Sidebar from '../Sidebar';
 import ModalDialogue from '../ModalDialogue';
-import SettingsScreen from '../SettingsScreen';
 import VSwitchToggle from '../VSwitchToggle';
 import HeadUp from './HeadUp';
 import HeadUpBoards from './HeadUpBoards';
 
-jest.mock('ally.js');
-
 const localVue = createLocalVue();
+localVue.use(Vuex);
 localVue.use(ShortKey);
 localVue.component('VSwitchToggle', VSwitchToggle);
-
-const scrollIntoViewSpy = jest.fn();
 
 function mountHeadUp(options = {}) {
   return shallowMount(HeadUp, {
     localVue,
     ...options,
+    stubs: {
+      Cell,
+      Board,
+      HeadUpBoards,
+    },
   });
 }
 
@@ -33,11 +36,11 @@ function mountWithSlot(options = {}) {
       {
         localVue,
         slots: {
-          default: '<Board id="b1"><Cell title="Cell #1"/></Board>',
-        },
-        stubs: {
-          Cell,
-          Board,
+          default: `
+            <Board id="b1" title="Slot board">
+              <Cell title="Cell #1"/>
+            </Board>
+          `,
         },
       },
       options,
@@ -54,22 +57,23 @@ function mountWithProps(options = {}) {
           boards: [
             {
               id: '1',
+              title: 'Prop Board #1',
+              editable: true,
               cells: [{ title: 'Cell #1' }, { title: 'Cell #2' }],
             },
             {
               id: '2',
+              title: 'Prop Board #2',
+              editable: true,
               cells: [{ title: 'Cell #3' }],
             },
             {
               id: '3',
+              title: 'Prop Board #3',
+              editable: true,
               cells: [{ title: 'Cell #4' }],
             },
           ],
-        },
-        stubs: {
-          Cell,
-          Board,
-          HeadUpBoards,
         },
       },
       options,
@@ -78,151 +82,199 @@ function mountWithProps(options = {}) {
 }
 
 beforeEach(() => {
-  jest.resetAllMocks();
-  Element.prototype.scrollIntoView = scrollIntoViewSpy;
+  jest.clearAllMocks();
+  store.replaceState({ ...initialState });
+  Element.prototype.scrollIntoView = jest.fn();
   Chance.prototype.sentence = jest.fn(() => 'New board.');
 });
 
-test('render default', () => {
-  const wrapper = mountHeadUp();
-  expect(wrapper).toMatchSnapshot();
-});
-
-test('render without sidebar', () => {
-  const wrapper = mountHeadUp({
-    propsData: {
-      hideSidebar: true,
-    },
-  });
-  expect(wrapper).toMatchSnapshot();
-});
-
-test('render in edit mode', () => {
-  const wrapper = mountHeadUp();
-
-  wrapper.setData({
-    state: {
-      editMode: true,
-    },
+describe('rendering', () => {
+  test('render default', () => {
+    const wrapper = mountHeadUp();
+    expect(wrapper).toMatchSnapshot();
   });
 
-  expect(wrapper).toMatchSnapshot();
-});
-
-test('render with slot', () => {
-  const wrapper = mountWithSlot();
-
-  expect(wrapper).toMatchSnapshot();
-});
-
-test('render with props', () => {
-  const wrapper = mountWithProps();
-
-  expect(wrapper).toMatchSnapshot();
-});
-
-test('scroll to activeBoard', () => {
-  const wrapper = mountWithProps();
-
-  wrapper.setData({
-    state: {
-      activeBoardId: '2',
-    },
-  });
-
-  expect(scrollIntoViewSpy).toHaveBeenCalled();
-});
-
-test('add board in sidebar', () => {
-  const wrapper = mountWithProps();
-  const sidebar = wrapper.find(Sidebar);
-
-  expect(wrapper.vm.state.boards.length).toEqual(3);
-  sidebar.vm.$emit('board:add');
-
-  expect(wrapper.vm.state.boards.length).toEqual(4);
-  expect(wrapper.vm.state.boards[0].title).toEqual('new board');
-  expect(wrapper.vm.state.boards[0].id).toEqual('new-board');
-});
-
-describe('remove board in sidebar', () => {
-  test('remove active board', () => {
-    const wrapper = mountWithProps();
-    const sidebar = wrapper.find(Sidebar);
-
-    expect(wrapper.vm.state.boards.length).toEqual(3);
-    sidebar.vm.$emit('board:remove', '1');
-
-    expect(wrapper.vm.state.boards.length).toEqual(2);
-
-    process.nextTick(() => {
-      expect(wrapper.vm.state.activeBoardId).toEqual('2');
-      expect(wrapper.vm.activeBoardIndex).toEqual(0);
-    });
-  });
-
-  test('remove last board in the list', () => {
-    const wrapper = mountWithProps();
-    const sidebar = wrapper.find(Sidebar);
-
-    wrapper.setData({
-      state: {
-        activeBoardId: '3',
+  test('render without sidebar', () => {
+    const wrapper = mountHeadUp({
+      propsData: {
+        hideSidebar: true,
       },
     });
-    expect(wrapper.vm.state.boards.length).toEqual(3);
-    sidebar.vm.$emit('board:remove', '3');
+    expect(wrapper).toMatchSnapshot();
+  });
 
-    expect(wrapper.vm.state.boards.length).toEqual(2);
-    process.nextTick(() => {
+  test('render in edit mode', () => {
+    const wrapper = mountHeadUp();
+
+    store.state.editMode = true;
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  test('render with slot', () => {
+    const wrapper = mountWithSlot();
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  test('render with props', () => {
+    const wrapper = mountWithProps();
+
+    expect(wrapper).toMatchSnapshot();
+  });
+});
+
+describe('scrolling', () => {
+  beforeEach(() => {
+    mountWithProps();
+  });
+
+  test('initial scroll on mount', () => {
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalledTimes(1);
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({});
+  });
+
+  test('scroll on activation', () => {
+    store.dispatch('ACTIVATE_BOARD', '2');
+
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalledTimes(2);
+    expect(Element.prototype.scrollIntoView.mock.calls[1][0]).toEqual({
+      behavior: 'smooth',
+    });
+  });
+
+  test('invalid board id', () => {
+    Element.prototype.scrollIntoView.mockClear();
+
+    store.dispatch('ACTIVATE_BOARD', 'fake');
+
+    expect(Element.prototype.scrollIntoView).not.toHaveBeenCalled();
+  });
+});
+
+describe('focus trap', () => {
+  ally.maintain.tabFocus = jest.fn(() => ({
+    disengage: jest.fn(),
+  }));
+
+  let wrapper;
+
+  beforeEach(() => {
+    wrapper = mountWithProps();
+  });
+
+  test('trap focus', () => {
+    expect(wrapper.vm.focusTrap).toBeNull();
+
+    store.dispatch('TOGGLE_EDIT_MODE');
+
+    expect(ally.maintain.tabFocus).toHaveBeenCalledTimes(1);
+    expect(wrapper.vm.focusTrap).toBeTruthy();
+  });
+
+  test('untrap focus', () => {
+    store.dispatch('TOGGLE_EDIT_MODE');
+    store.dispatch('TOGGLE_EDIT_MODE');
+
+    expect(wrapper.vm.focusTrap.disengage).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('manipulations', () => {
+  test('add board', () => {
+    const wrapper = mountWithProps();
+
+    expect(wrapper.vm.state.serializedBoards.length).toEqual(3);
+
+    store.dispatch('ADD_BOARD');
+
+    expect(store.state.serializedBoards.length).toEqual(4);
+    expect(store.state.serializedBoards[0].title).toEqual('new board');
+    expect(store.state.serializedBoards[0].id).toEqual('new-board');
+
+    expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({});
+  });
+
+  test('remove active board', () => {
+    const wrapper = mountWithProps();
+
+    expect(store.state.serializedBoards.length).toEqual(3);
+    expect(wrapper.vm.state.activeBoardId).toEqual('1');
+
+    localVue.nextTick(() => {
+      store.dispatch('REMOVE_BOARD', '1');
+
+      expect(store.state.serializedBoards.length).toEqual(2);
       expect(wrapper.vm.state.activeBoardId).toEqual('2');
-      expect(wrapper.vm.activeBoardIndex).toEqual(1);
+      expect(wrapper.vm.activeBoardIndex).toEqual(0);
+
+      expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
+        behavior: 'smooth',
+      });
     });
   });
 
   test('remove board preceding the active one', () => {
     const wrapper = mountWithProps();
-    const sidebar = wrapper.find(Sidebar);
 
-    wrapper.setData({
-      state: {
-        activeBoardId: '2',
-      },
+    localVue.nextTick(() => {
+      wrapper.vm.state.activeBoardId = '2';
+
+      expect(store.state.serializedBoards.length).toEqual(3);
+      expect(wrapper.vm.state.activeBoardId).toEqual('2');
+
+      store.dispatch('REMOVE_BOARD', '1');
+
+      expect(store.state.serializedBoards.length).toEqual(2);
+      expect(wrapper.vm.state.activeBoardId).toEqual('2');
+      expect(wrapper.vm.activeBoardIndex).toEqual(0);
+
+      expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
+        behavior: 'smooth',
+      });
     });
-    expect(wrapper.vm.state.boards.length).toEqual(3);
-    expect(wrapper.vm.activeBoardIndex).toEqual(1);
-    sidebar.vm.$emit('board:remove', '1');
+  });
 
-    expect(wrapper.vm.state.boards.length).toEqual(2);
-    expect(wrapper.vm.activeBoardIndex).toEqual(0);
+  test('remove last active board in the list', () => {
+    const wrapper = mountWithProps();
+
+    localVue.nextTick(() => {
+      wrapper.vm.state.activeBoardId = '3';
+
+      expect(store.state.serializedBoards.length).toEqual(3);
+      expect(wrapper.vm.state.activeBoardId).toEqual('3');
+
+      store.dispatch('REMOVE_BOARD', '3');
+
+      expect(store.state.serializedBoards.length).toEqual(2);
+      expect(wrapper.vm.state.activeBoardId).toEqual('2');
+      expect(wrapper.vm.activeBoardIndex).toEqual(1);
+
+      expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
+        behavior: 'smooth',
+      });
+    });
   });
 });
 
-describe('respond to board edits', () => {
-  let wrapper;
-
+describe('board editing', () => {
   const newBoardData = {
     id: '1',
     title: 'Updated board',
   };
 
   beforeEach(() => {
-    wrapper = mountWithProps();
+    mountWithProps();
   });
 
-  test('save edit', () => {
-    wrapper.vm.handleEditSave(newBoardData);
-    expect(wrapper.vm.state.boards.find(x => x.id === '1')).toEqual(
-      newBoardData,
-    );
-  });
+  test('apply edits', () => {
+    store.dispatch('UPDATE_BOARD', {
+      boardId: '1',
+      payload: newBoardData,
+    });
 
-  test('finish edit', () => {
-    wrapper.vm.handleEditDone(newBoardData);
-    expect(wrapper.vm.state.boards.find(x => x.id === '1')).toEqual(
-      newBoardData,
-    );
-    expect(wrapper.vm.state.editMode).toBe(false);
+    const editedBoard = store.state.serializedBoards.find(x => x.id === '1');
+    expect(editedBoard).toHaveProperty('title', newBoardData.title);
   });
 });
 
@@ -235,95 +287,22 @@ describe('modal dialogues', () => {
     sidebar = wrapper.find(Sidebar);
   });
 
-  test('help', () => {
-    expect(wrapper.vm.modal).toBeNull();
-    sidebar.vm.$emit('modal:help');
+  test('open modal', () => {
+    sidebar.vm.$emit('toggle:help');
     expect(wrapper.vm.modal.name).toEqual('help');
     expect(wrapper).toMatchSnapshot();
 
-    sidebar.vm.$emit('modal:help');
+    sidebar.vm.$emit('toggle:help');
     expect(wrapper.vm.modal).toBeNull();
   });
 
   test('settings', () => {
-    expect(wrapper.vm.modal).toBeNull();
-    sidebar.vm.$emit('modal:settings');
+    sidebar.vm.$emit('toggle:settings');
     expect(wrapper.vm.modal.name).toEqual('settings');
     expect(wrapper).toMatchSnapshot();
 
     wrapper.find(ModalDialogue).vm.$emit('close');
     expect(wrapper.vm.modal).toBeNull();
-  });
-});
-
-test('save settings', () => {
-  const wrapper = mount(HeadUp, {
-    localVue,
-    stubs: ['v-icon'],
-  });
-  const sidebar = wrapper.find(Sidebar);
-
-  sidebar.vm.$emit('modal:settings');
-  const settings = wrapper.find(SettingsScreen);
-
-  expect(wrapper.vm.state.settings.smoothScrolling.value).toBe(true);
-  settings.find('[name="smoothScrolling"]').trigger('click');
-  expect(wrapper.vm.state.settings.smoothScrolling.value).toBe(false);
-});
-
-describe('persist changes', () => {
-  let wrapper;
-
-  beforeEach(() => {
-    wrapper = mountWithProps();
-  });
-
-  test('restore state from local storage', () => {
-    expect(localStorage.getItem).toHaveBeenCalledWith('headUp');
-  });
-
-  test('enabled persistence', () => {
-    wrapper.setData({
-      state: {
-        activeBoardId: '2',
-      },
-    });
-
-    expect(localStorage.setItem).toHaveBeenCalledWith(
-      'headUp',
-      JSON.stringify(wrapper.vm.state),
-    );
-  });
-
-  test('disabled persistence', () => {
-    wrapper.setData({
-      persistedState: JSON.stringify(wrapper.vm.state),
-      state: {
-        settings: {
-          persistState: {
-            value: false,
-          },
-        },
-      },
-    });
-    wrapper.setData({
-      state: {
-        activeBoardId: '2',
-      },
-    });
-
-    const expectedState = merge(JSON.parse(wrapper.vm.persistedState), {
-      settings: {
-        persistState: {
-          value: false,
-        },
-      },
-    });
-
-    expect(localStorage.setItem).toHaveBeenCalledWith(
-      'headUp',
-      JSON.stringify(expectedState),
-    );
   });
 });
 
@@ -380,24 +359,12 @@ describe('respond to keystrokes', () => {
   });
 
   test('add board', () => {
-    expect(wrapper.vm.state.boards.length).toEqual(3);
+    expect(wrapper.vm.state.serializedBoards.length).toEqual(3);
     wrapper.trigger('keydown', {
       key: 'a',
     });
-    expect(wrapper.vm.state.boards.length).toEqual(4);
+    expect(wrapper.vm.state.serializedBoards.length).toEqual(4);
   });
 
   //  TODO: Keystroke combinations
-});
-
-test('focus trap', () => {
-  const wrapper = mountWithSlot();
-
-  wrapper.setData({
-    state: {
-      editMode: true,
-    },
-  });
-
-  expect(ally.maintain.tabFocus).toHaveBeenCalled();
 });

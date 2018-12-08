@@ -1,9 +1,16 @@
 import { shallowMount } from '@vue/test-utils';
+import store from '../../store';
 import Sidebar from './Sidebar';
 import SidebarToggle from './SidebarToggle';
 import SidebarBoards from './SidebarBoards';
 import SidebarBoardActions from './SidebarBoardActions';
 import SidebarActions from './SidebarActions';
+
+jest.spyOn(store, 'dispatch');
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 
 test('render opened', () => {
   const wrapper = shallowMount(Sidebar, {
@@ -23,36 +30,45 @@ test('render closed', () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-test('respond to toggle', () => {
-  const wrapper = shallowMount(Sidebar);
+describe('respond to interactions', () => {
+  let wrapper;
 
-  wrapper.find(SidebarToggle).vm.$emit('toggle');
-  expect(wrapper.emitted('toggle')[0]).toEqual([true]);
-});
+  beforeEach(() => {
+    wrapper = shallowMount(Sidebar);
+  });
 
-test('respond to board control actions', () => {
-  const wrapper = shallowMount(Sidebar);
+  test('toggle sidebar', () => {
+    wrapper.find(SidebarToggle).vm.$emit('toggle');
+    expect(store.dispatch).toHaveBeenCalledWith('TOGGLE_SIDEBAR');
+  });
 
-  wrapper.find(SidebarBoardActions).vm.$emit('add-board');
-  wrapper.find(SidebarBoardActions).vm.$emit('toggle-edit');
-  expect(wrapper.emitted('board:add')[0]).toBeTruthy();
-  expect(wrapper.emitted('board:edit')[0]).toBeTruthy();
-});
+  test('add board', () => {
+    wrapper.find(SidebarBoardActions).vm.$emit('add-board');
+    expect(store.dispatch).toHaveBeenCalledWith('ADD_BOARD');
+  });
 
-test('respond to board thumb actions', () => {
-  const wrapper = shallowMount(Sidebar);
+  test('edit mode', () => {
+    wrapper.find(SidebarBoardActions).vm.$emit('toggle-edit');
+    expect(store.dispatch).toHaveBeenCalledWith('TOGGLE_EDIT_MODE');
+  });
 
-  wrapper.find(SidebarBoards).vm.$emit('activate', 2);
-  wrapper.find(SidebarBoards).vm.$emit('remove', '1');
-  expect(wrapper.emitted('board:activate')[0]).toEqual([2]);
-  expect(wrapper.emitted('board:remove')[0]).toEqual(['1']);
-});
+  test('activate board', () => {
+    wrapper.find(SidebarBoards).vm.$emit('activate', 'my-board');
+    expect(store.dispatch).toHaveBeenCalledWith('ACTIVATE_BOARD', 'my-board');
+  });
 
-test('respond to sidebar actions', () => {
-  const wrapper = shallowMount(Sidebar);
+  test('remove board', () => {
+    wrapper.find(SidebarBoards).vm.$emit('remove', 'my-board');
+    expect(store.dispatch).toHaveBeenCalledWith('REMOVE_BOARD', 'my-board');
+  });
 
-  wrapper.find(SidebarActions).vm.$emit('help');
-  wrapper.find(SidebarActions).vm.$emit('settings');
-  expect(wrapper.emitted('modal:help')[0]).toBeTruthy();
-  expect(wrapper.emitted('modal:settings')[0]).toBeTruthy();
+  test('toggle help overlay', () => {
+    wrapper.find(SidebarActions).vm.$emit('help');
+    expect(wrapper.emitted('toggle:help')[0]).toBeTruthy();
+  });
+
+  test('toggle settings overlay', () => {
+    wrapper.find(SidebarActions).vm.$emit('settings');
+    expect(wrapper.emitted('toggle:settings')[0]).toBeTruthy();
+  });
 });

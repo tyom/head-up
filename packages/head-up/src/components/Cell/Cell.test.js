@@ -1,19 +1,10 @@
 import { shallowMount } from '@vue/test-utils';
+import store from '../../store';
 import Cell from './Cell';
 import CellSettings from './CellSettings';
 
-const mockProvideNotEditing = {
-  isEditing: () => false,
-};
-
-const mockProvideEditing = {
-  isEditing: () => true,
-};
-
 test('default render', () => {
-  const wrapper = shallowMount(Cell, {
-    provide: mockProvideNotEditing,
-  });
+  const wrapper = shallowMount(Cell);
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -22,14 +13,12 @@ test('with title', () => {
     propsData: {
       title: 'Important section',
     },
-    provide: mockProvideNotEditing,
   });
   expect(wrapper).toMatchSnapshot();
 });
 
 test('with content in slots', () => {
   const wrapper = shallowMount(Cell, {
-    provide: mockProvideNotEditing,
     slots: {
       default: '<div>1</div><div>2</div><div>3</div>',
     },
@@ -46,29 +35,34 @@ test('with content in props', () => {
       ],
     },
     stubs: ['CustomComponent'],
-    provide: mockProvideNotEditing,
   });
   expect(wrapper).toMatchSnapshot();
 });
 
 test('editable', () => {
+  store.replaceState({
+    editMode: true,
+  });
+
   const wrapper = shallowMount(Cell, {
     propsData: {
       title: 'Important section',
       editable: true,
     },
-    provide: mockProvideEditing,
   });
   expect(wrapper).toMatchSnapshot();
 });
 
 test('toggle settings', () => {
+  store.replaceState({
+    editMode: true,
+  });
+
   const wrapper = shallowMount(Cell, {
     propsData: {
       title: 'Important section',
       editable: true,
     },
-    provide: mockProvideEditing,
   });
 
   expect(wrapper.find(CellSettings).exists()).toBe(false);

@@ -6,7 +6,9 @@ exports[`render as editable 1`] = `
     <div class="toolbar-item _info"><input type="text" placeholder="Board title" class="toolbar-input"></div>
     <div class="toolbar-item _actions"><button disabled="disabled" class="save">
         Apply
-      </button> <button class="done">OK</button></div>
+      </button> <button class="done">
+        OK
+      </button></div>
   </form>
 </div>
 `;
@@ -18,7 +20,9 @@ exports[`render default 1`] = `
          (read-only)
       </span></div>
     <div class="toolbar-item _actions">
-      <!----> <button class="done">OK</button></div>
+      <!----> <button class="done">
+        OK
+      </button></div>
   </form>
 </div>
 `;
@@ -30,7 +34,9 @@ exports[`render with board data 1`] = `
         Some collection (read-only)
       </span></div>
     <div class="toolbar-item _actions">
-      <!----> <button class="done">OK</button></div>
+      <!----> <button class="done">
+        OK
+      </button></div>
   </form>
 </div>
 `;

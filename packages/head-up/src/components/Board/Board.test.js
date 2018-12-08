@@ -1,12 +1,14 @@
 import { shallowMount } from '@vue/test-utils';
 import Board from './Board';
+import store from '../../store';
 
 const commonSettings = {
-  provide: {
-    isEditing: () => false,
-  },
   stubs: ['Cell', 'BoardToolbar'],
 };
+
+beforeEach(() => {
+  jest.resetAllMocks();
+});
 
 test('render empty', () => {
   const wrapper = shallowMount(Board, {
@@ -48,15 +50,15 @@ test('render as thumbnail', () => {
 });
 
 test('render in edit mode', () => {
+  store.replaceState({
+    editMode: true,
+  });
   const wrapper = shallowMount(Board, {
     ...commonSettings,
     propsData: {
       id: '1',
       title: 'Board title',
       editable: true,
-    },
-    provide: {
-      isEditing: () => true,
     },
     slots: {
       default: '<Cell/><Cell/>',

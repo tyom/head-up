@@ -1,12 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`modal dialogues help 1`] = `
+exports[`modal dialogues open modal 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
-    <!---->
-    <headupboards-stub boards="">
-      <div class="Board">
+    <div class="board-title" name="boardTitle">
+      Slot board
+    </div>
+    <div class="HeadUpBoards">
+      <div id="board-b1" class="Board">
         <!---->
         <div class="cells u-grid-1-x">
           <div class="Cell">
@@ -21,12 +23,9 @@ exports[`modal dialogues help 1`] = `
           </div>
         </div>
       </div>
-    </headupboards-stub>
+    </div>
   </div>
-  <modaldialogue-stub heading="Keyboard help">
-    <helpscreen-stub></helpscreen-stub>
-    <!---->
-  </modaldialogue-stub>
+  <modaldialogue-stub content="[object Object]"></modaldialogue-stub>
 </div>
 `;
 
@@ -34,9 +33,11 @@ exports[`modal dialogues settings 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
-    <!---->
-    <headupboards-stub boards="">
-      <div class="Board">
+    <div class="board-title" name="boardTitle">
+      Slot board
+    </div>
+    <div class="HeadUpBoards">
+      <div id="board-b1" class="Board">
         <!---->
         <div class="cells u-grid-1-x">
           <div class="Cell">
@@ -51,44 +52,41 @@ exports[`modal dialogues settings 1`] = `
           </div>
         </div>
       </div>
-    </headupboards-stub>
+    </div>
   </div>
-  <modaldialogue-stub heading="Settings">
-    <!---->
-    <settingsscreen-stub settings="[object Object]"></settingsscreen-stub>
-  </modaldialogue-stub>
+  <modaldialogue-stub content="[object Object]"></modaldialogue-stub>
 </div>
 `;
 
-exports[`render default 1`] = `
+exports[`rendering render default 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
     <!---->
-    <headupboards-stub boards=""></headupboards-stub>
+    <div class="HeadUpBoards"> </div>
   </div>
-  <!---->
+  <modaldialogue-stub></modaldialogue-stub>
 </div>
 `;
 
-exports[`render in edit mode 1`] = `
+exports[`rendering render in edit mode 1`] = `
 <div class="HeadUp _edit">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
     <!---->
-    <headupboards-stub boards=""></headupboards-stub>
+    <div class="HeadUpBoards"> </div>
   </div>
-  <!---->
+  <modaldialogue-stub></modaldialogue-stub>
 </div>
 `;
 
-exports[`render with props 1`] = `
+exports[`rendering render with props 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
     <!---->
     <div class="HeadUpBoards">
-      <div class="Board">
+      <div id="board-1" class="Board">
         <!---->
         <div class="cells u-grid-2-x">
           <div class="Cell cell">
@@ -113,7 +111,7 @@ exports[`render with props 1`] = `
           </div>
         </div>
       </div>
-      <div class="Board">
+      <div id="board-2" class="Board">
         <!---->
         <div class="cells u-grid-1-x">
           <div class="Cell cell">
@@ -128,7 +126,7 @@ exports[`render with props 1`] = `
           </div>
         </div>
       </div>
-      <div class="Board">
+      <div id="board-3" class="Board">
         <!---->
         <div class="cells u-grid-1-x">
           <div class="Cell cell">
@@ -145,17 +143,17 @@ exports[`render with props 1`] = `
       </div>
     </div>
   </div>
-  <!---->
+  <modaldialogue-stub></modaldialogue-stub>
 </div>
 `;
 
-exports[`render with slot 1`] = `
+exports[`rendering render with slot 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
     <!---->
-    <headupboards-stub boards="">
-      <div class="Board">
+    <div class="HeadUpBoards">
+      <div id="board-b1" class="Board">
         <!---->
         <div class="cells u-grid-1-x">
           <div class="Cell">
@@ -170,19 +168,19 @@ exports[`render with slot 1`] = `
           </div>
         </div>
       </div>
-    </headupboards-stub>
+    </div>
   </div>
-  <!---->
+  <modaldialogue-stub></modaldialogue-stub>
 </div>
 `;
 
-exports[`render without sidebar 1`] = `
+exports[`rendering render without sidebar 1`] = `
 <div class="HeadUp">
   <!---->
   <div class="main">
     <!---->
-    <headupboards-stub boards=""></headupboards-stub>
+    <div class="HeadUpBoards"> </div>
   </div>
-  <!---->
+  <modaldialogue-stub></modaldialogue-stub>
 </div>
 `;

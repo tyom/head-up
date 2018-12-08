@@ -10,17 +10,30 @@ test('render default', () => {
   const wrapper = shallowMount(ModalDialogue, {
     localVue,
   });
-  expect(wrapper).toMatchSnapshot();
+  expect(wrapper.html()).toBeUndefined();
 });
 
-test('render with heading and contents', () => {
+test('render help modal', () => {
   const wrapper = shallowMount(ModalDialogue, {
     localVue,
     propsData: {
-      heading: 'I’m floating',
+      content: {
+        name: 'help',
+        heading: 'Help is here',
+      },
     },
-    slots: {
-      default: '<p>I’m standing</p>',
+  });
+  expect(wrapper).toMatchSnapshot();
+});
+
+test('render settings modal', () => {
+  const wrapper = shallowMount(ModalDialogue, {
+    localVue,
+    propsData: {
+      content: {
+        name: 'settings',
+        heading: 'Settings is here',
+      },
     },
   });
   expect(wrapper).toMatchSnapshot();
@@ -29,6 +42,11 @@ test('render with heading and contents', () => {
 test('closes dialogue on backdrop click', () => {
   const wrapper = shallowMount(ModalDialogue, {
     localVue,
+    propsData: {
+      content: {
+        name: 'settings',
+      },
+    },
   });
 
   wrapper.find('.backdrop').trigger('click');
@@ -39,6 +57,11 @@ test('closes dialogue on escape key', () => {
   const wrapper = mount(ModalDialogue, {
     attachToDocument: true,
     localVue,
+    propsData: {
+      content: {
+        name: 'settings',
+      },
+    },
   });
 
   wrapper.trigger('keydown.esc', {

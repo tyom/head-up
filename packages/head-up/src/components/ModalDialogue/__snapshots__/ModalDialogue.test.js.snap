@@ -1,24 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`render default 1`] = `
-<div class="ModalDialogue" name="reveal">
-  <div class="backdrop"></div>
-  <div class="container">
-    <!---->
-    <div class="body"></div>
-  </div>
-</div>
-`;
-
-exports[`render with heading and contents 1`] = `
+exports[`render help modal 1`] = `
 <div class="ModalDialogue" name="reveal">
   <div class="backdrop"></div>
   <div class="container">
     <header>
-      <h2 class="title">I’m floating</h2>
+      <h2 class="title">Help is here</h2>
     </header>
     <div class="body">
-      <p>I’m standing</p>
+      <helpscreen-stub></helpscreen-stub>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`render settings modal 1`] = `
+<div class="ModalDialogue" name="reveal">
+  <div class="backdrop"></div>
+  <div class="container">
+    <header>
+      <h2 class="title">Settings is here</h2>
+    </header>
+    <div class="body">
+      <settingsscreen-stub></settingsscreen-stub>
     </div>
   </div>
 </div>

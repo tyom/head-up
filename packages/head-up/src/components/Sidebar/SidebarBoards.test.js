@@ -15,48 +15,48 @@ const boardsMock = [
   },
 ];
 
-const provideMock = {
-  isEditing: () => false,
-  getBoardSummary: () => [],
-  getActiveBoardId: () => '1',
-};
-
 test('render default', () => {
-  const wrapper = shallowMount(SidebarBoards, {
-    provide: provideMock,
-  });
+  const wrapper = shallowMount(SidebarBoards);
   expect(wrapper).toMatchSnapshot();
 });
 
 test('render with boards', () => {
   const wrapper = shallowMount(SidebarBoards, {
-    provide: {
-      ...provideMock,
-      getBoardSummary: () => boardsMock,
+    propsData: {
+      boards: boardsMock,
     },
   });
 
   expect(wrapper).toMatchSnapshot();
 });
 
-test('render to active board id', () => {
+test('render with active board', () => {
   const wrapper = shallowMount(SidebarBoards, {
-    provide: {
-      ...provideMock,
-      getBoardSummary: () => boardsMock,
-      getActiveBoardId: () => '2',
+    propsData: {
+      boards: boardsMock,
+      activeId: '1',
     },
   });
 
   expect(wrapper).toMatchSnapshot();
 });
 
-test('responds to remove board actions', () => {
+test('render in edit mode', () => {
   const wrapper = shallowMount(SidebarBoards, {
-    provide: {
-      ...provideMock,
-      isEditing: () => true,
-      getBoardSummary: () => boardsMock,
+    propsData: {
+      boards: boardsMock,
+      editMode: true,
+    },
+  });
+
+  expect(wrapper).toMatchSnapshot();
+});
+
+test('respond to board removal', () => {
+  const wrapper = shallowMount(SidebarBoards, {
+    propsData: {
+      boards: boardsMock,
+      editMode: true,
     },
   });
 
@@ -65,17 +65,17 @@ test('responds to remove board actions', () => {
   expect(wrapper.emitted('remove')[0]).toEqual(['2']);
 });
 
-test('responds to board activation', () => {
+test('respond to board activation', () => {
   const wrapper = shallowMount(SidebarBoards, {
-    provide: {
-      ...provideMock,
-      getBoardSummary: () => boardsMock,
+    propsData: {
+      boards: boardsMock,
+      activeId: '1',
     },
   });
 
   const boards = wrapper.findAll('.board');
-  boards.at(0).trigger('click');
-  expect(wrapper.emitted('activate')[0]).toEqual(['1']);
   boards.at(1).trigger('click');
-  expect(wrapper.emitted('activate')[1]).toEqual(['2']);
+  expect(wrapper.emitted('activate')[0]).toEqual(['2']);
+  boards.at(0).trigger('click');
+  expect(wrapper.emitted('activate')[1]).toEqual(['1']);
 });

@@ -5,7 +5,7 @@ exports[`render closed 1`] = `
   <sidebartoggle-stub title="Shortcut: s"></sidebartoggle-stub>
   <div class="container" style="display: none;" name="slideLeft">
     <sidebarboardactions-stub></sidebarboardactions-stub>
-    <sidebarboards-stub></sidebarboards-stub>
+    <sidebarboards-stub boards="" activeid=""></sidebarboards-stub>
     <sidebaractions-stub></sidebaractions-stub>
   </div>
 </div>
@@ -16,7 +16,7 @@ exports[`render opened 1`] = `
   <sidebartoggle-stub toggled="true" title="Shortcut: s"></sidebartoggle-stub>
   <div class="container" name="slideLeft">
     <sidebarboardactions-stub></sidebarboardactions-stub>
-    <sidebarboards-stub></sidebarboards-stub>
+    <sidebarboards-stub boards="" activeid=""></sidebarboards-stub>
     <sidebaractions-stub></sidebaractions-stub>
   </div>
 </div>

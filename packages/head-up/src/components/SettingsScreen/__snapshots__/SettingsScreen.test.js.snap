@@ -6,7 +6,9 @@ exports[`render default 1`] = `
     <li>
       <vswitchtoggle-stub label="Setting I prefer" name="myFavouriteSetting"></vswitchtoggle-stub>
     </li>
-    <li><button type="button">Reset state</button></li>
+    <li><button type="button" class="reset-button">
+        Reset state
+      </button></li>
   </ul>
 </div>
 `;

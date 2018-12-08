@@ -1,19 +1,12 @@
 import { shallowMount } from '@vue/test-utils';
 import BoardToolbar from './BoardToolbar';
 
-const provideMocks = {
-  handleEditDone: jest.fn(),
-  handleEditSave: jest.fn(),
-};
-
 beforeEach(() => {
   jest.resetAllMocks();
 });
 
 test('render default', () => {
-  const wrapper = shallowMount(BoardToolbar, {
-    provide: provideMocks,
-  });
+  const wrapper = shallowMount(BoardToolbar);
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -24,7 +17,6 @@ test('render with board data', () => {
         title: 'Some collection',
       },
     },
-    provide: provideMocks,
   });
   expect(wrapper).toMatchSnapshot();
 });
@@ -37,7 +29,6 @@ test('render as editable', () => {
         editable: true,
       },
     },
-    provide: provideMocks,
   });
   const inputField = wrapper.find('.toolbar-input');
   const saveButton = wrapper.find('.save');
@@ -65,7 +56,6 @@ describe('finish edits', () => {
   beforeEach(() => {
     wrapper = shallowMount(BoardToolbar, {
       propsData,
-      provide: provideMocks,
     });
     inputField = wrapper.find('.toolbar-input');
   });
@@ -78,7 +68,7 @@ describe('finish edits', () => {
     expect(saveButton.element.disabled).toBe(false);
 
     saveButton.trigger('submit');
-    expect(provideMocks.handleEditSave).toHaveBeenCalledWith({
+    expect(wrapper.emitted('save')[0][0]).toEqual({
       ...propsData.board,
       title: newTitle,
     });
@@ -90,7 +80,7 @@ describe('finish edits', () => {
     inputField.setValue(newTitle);
     doneButton.trigger('click');
 
-    expect(provideMocks.handleEditDone).toHaveBeenCalledWith({
+    expect(wrapper.emitted('done')[0][0]).toEqual({
       ...propsData.board,
       title: newTitle,
     });

@@ -1,29 +1,26 @@
 import { shallowMount } from '@vue/test-utils';
 import SidebarBoardActions from './SidebarBoardActions';
 
-const provideMock = {
-  isEditing: () => false,
-};
-
 test('render default', () => {
-  const wrapper = shallowMount(SidebarBoardActions, {
-    provide: provideMock,
-  });
+  const wrapper = shallowMount(SidebarBoardActions);
   expect(wrapper).toMatchSnapshot();
 });
 
 test('render edit-toggled', () => {
   const wrapper = shallowMount(SidebarBoardActions, {
-    provide: {
-      isEditing: () => true,
+    propsData: {
+      editMode: true,
     },
   });
+
   expect(wrapper).toMatchSnapshot();
 });
 
 test('respond to actions', () => {
   const wrapper = shallowMount(SidebarBoardActions, {
-    provide: provideMock,
+    propsData: {
+      editMode: true,
+    },
   });
 
   wrapper.find('.add-button').vm.$emit('click');

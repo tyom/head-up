@@ -2,7 +2,7 @@
 
 exports[`render with props 1`] = `
 <div class="HeadUpBoards">
-  <div class="Board">
+  <div id="board-1" class="Board">
     <!---->
     <div class="cells u-grid-2-x">
       <div class="Cell cell">
@@ -32,7 +32,7 @@ exports[`render with props 1`] = `
 
 exports[`render with slot and props 1`] = `
 <div class="HeadUpBoards">
-  <div class="Board">
+  <div id="board-1" class="Board">
     <!---->
     <div class="cells u-grid-2-x">
       <div class="Cell cell">
@@ -57,7 +57,7 @@ exports[`render with slot and props 1`] = `
       </div>
     </div>
   </div>
-  <div class="Board">
+  <div id="board-b1" class="Board">
     <!---->
     <div class="cells u-grid-1-x">
       <div class="Cell">
@@ -77,7 +77,7 @@ exports[`render with slot and props 1`] = `
 
 exports[`render with slots 1`] = `
 <div class="HeadUpBoards">
-  <div class="Board">
+  <div id="board-b1" class="Board">
     <!---->
     <div class="cells u-grid-1-x">
       <div class="Cell">

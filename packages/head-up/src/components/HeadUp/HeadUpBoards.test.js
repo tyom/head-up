@@ -3,10 +3,6 @@ import Board from '../Board';
 import Cell from '../Cell';
 import HeadUpBoards from './HeadUpBoards';
 
-const provideMock = {
-  isEditing: () => false,
-};
-
 const slotContents = `
   <Board title="Slot board #1" id="b1">
     <Cell title="Cell #1"/>
@@ -37,7 +33,6 @@ test('render with slots', () => {
       Board,
       Cell,
     },
-    provide: provideMock,
   });
   expect(wrapper).toMatchSnapshot();
 });
@@ -51,7 +46,6 @@ test('render with props', () => {
       Board,
       Cell,
     },
-    provide: provideMock,
   });
   expect(wrapper).toMatchSnapshot();
 });
@@ -68,7 +62,6 @@ test('render with slot and props', () => {
       Board,
       Cell,
     },
-    provide: provideMock,
   });
   expect(wrapper).toMatchSnapshot();
 });
