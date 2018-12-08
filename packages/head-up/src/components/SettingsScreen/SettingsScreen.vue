@@ -3,43 +3,44 @@
     <ul>
       <li v-for="(setting, key) in settings" :key="key">
         <VSwitchToggle
-          v-model="settingsState[key].value"
+          v-model="settings[key].value"
           :label="setting.label"
           :name="key"
         />
       </li>
       <li>
-        <button type="button" @click="handleResetState">Reset state</button>
+        <button
+          type="button"
+          class="reset-button"
+          @click="handleResetState"
+        >
+          Reset state
+        </button>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+import store from '../../store';
+
 export default {
-  props: {
-    settings: {
-      type: Object,
-      required: true,
-    },
-  },
   data() {
     return {
-      settingsState: this.settings,
+      settings: { ...store.state.settings },
     };
   },
   watch: {
-    settingsState: {
+    settings: {
       deep: true,
-      handler() {
-        this.$emit('save', this.settingsState);
+      handler(newSettings) {
+        store.dispatch('UPDATE_SETTINGS', newSettings);
       },
     },
   },
   methods: {
     handleResetState() {
-      localStorage.clear();
-      window.location.reload();
+      store.dispatch('RESET_STATE');
     },
   },
 };

@@ -17,7 +17,7 @@
             <button
               type="button"
               class="remove-button"
-              @click.stop="handleRemoveBoard(board.id)"
+              @click="$emit('remove', board.id)"
             >
               <v-icon name="minus-circle"/>
             </button>
@@ -25,7 +25,7 @@
         </transition>
         <button
           class="board-button"
-          @click="handleActivateBoard(board.id)"
+          @click="$emit('activate', board.id)"
         >
           <Board
             :id="board.id"
@@ -49,18 +49,20 @@ export default {
   components: {
     Board,
   },
-  computed: {
-    activeId() {
-      return this.getActiveBoardId();
+  props: {
+    boards: {
+      type: Array,
+      default: () => [],
     },
-    boards() {
-      return this.getBoardSummary();
+    activeId: {
+      type: String,
+      default: '',
     },
-    editMode() {
-      return this.isEditing();
+    editMode: {
+      type: Boolean,
+      default: false,
     },
   },
-  inject: ['isEditing', 'getBoardSummary', 'getActiveBoardId'],
   methods: {
     getBoardTitle(board) {
       return board.title + (board.editable ? '' : ' (read-only)');
@@ -70,12 +72,6 @@ export default {
         _active: this.activeId === board.id,
         ['_read-only']: !board.editable,
       };
-    },
-    handleRemoveBoard(board) {
-      this.$emit('remove', board);
-    },
-    handleActivateBoard(board) {
-      this.$emit('activate', board);
     },
   },
 };

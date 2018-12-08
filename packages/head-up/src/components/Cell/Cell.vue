@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import store from '../../store';
 import CellSettings from './CellSettings';
 
 export default {
@@ -64,7 +65,7 @@ export default {
   },
   computed: {
     isEditable() {
-      return this.editable && this.isEditing();
+      return this.editable && store.state.editMode;
     },
     bodyClass() {
       const content = this.$slots.default ? this.$slots.default : this.content;
@@ -74,7 +75,6 @@ export default {
       };
     },
   },
-  inject: ['isEditing'],
   methods: {
     handleSettingsClick() {
       this.showSettings = !this.showSettings;

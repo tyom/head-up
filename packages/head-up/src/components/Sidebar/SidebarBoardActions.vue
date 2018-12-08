@@ -3,15 +3,15 @@
     <SidebarButton
       class="add-button"
       title="Shortcut: a"
-      @click="handleAddBoard"
+      @click="$emit('add-board')"
     >
       <v-icon name="plus"/>
     </SidebarButton>
     <SidebarButton
-      :class="{_active: isEditing()}"
+      :class="{_active: editMode}"
       class="edit-button"
       title="Shortcut: e"
-      @click="handleEditToggle"
+      @click="$emit('toggle-edit')"
     >
       <v-icon name="edit"/>
     </SidebarButton>
@@ -25,13 +25,10 @@ export default {
   components: {
     SidebarButton,
   },
-  inject: ['isEditing'],
-  methods: {
-    handleAddBoard() {
-      this.$emit('add-board');
-    },
-    handleEditToggle() {
-      this.$emit('toggle-edit');
+  props: {
+    editMode: {
+      type: Boolean,
+      default: false,
     },
   },
 };

@@ -1,6 +1,9 @@
 <template>
   <div class="BoardToolbar">
-    <form class="toolbar-container" @submit.prevent="handleSubmit">
+    <form
+      class="toolbar-container"
+      @submit.prevent="$emit('save', boardState)"
+    >
       <div class="toolbar-item _info">
         <input
           v-if="boardState.editable"
@@ -21,7 +24,12 @@
         >
           Apply
         </button>
-        <button @click.prevent="handleDone" class="done">OK</button>
+        <button
+          class="done"
+          @click.prevent="$emit('done', boardState)"
+        >
+          OK
+        </button>
       </div>
     </form>
   </div>
@@ -43,15 +51,6 @@ export default {
   computed: {
     hasChanged() {
       return this.boardState.title !== this.board.title;
-    },
-  },
-  inject: ['handleEditDone', 'handleEditSave'],
-  methods: {
-    handleSubmit() {
-      this.handleEditSave(this.boardState);
-    },
-    handleDone() {
-      this.handleEditDone(this.boardState);
     },
   },
 };
