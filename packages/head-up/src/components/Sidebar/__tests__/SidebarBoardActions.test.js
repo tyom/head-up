@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import SidebarBoardActions from './SidebarBoardActions';
+import SidebarBoardActions from '../SidebarBoardActions';
 
 test('render default', () => {
   const wrapper = shallowMount(SidebarBoardActions);

@@ -1,7 +1,7 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import VueAxios from 'vue-axios';
 import axios from 'axios';
-import VPoller from './VPoller';
+import VPoller from '../VPoller';
 
 const nextTick = () => new Promise(res => process.nextTick(res));
 

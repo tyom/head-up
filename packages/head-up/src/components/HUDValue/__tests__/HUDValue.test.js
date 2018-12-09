@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
 import { tween } from 'femtotween';
-import HUDValue from './HUDValue';
+import HUDValue from '../HUDValue';
 
 jest.mock('femtotween', () => ({
   tween: jest.fn((oldVal, newVal, cb) => cb(newVal)),

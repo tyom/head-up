@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
-import store from '../../store';
-import Cell from './Cell';
-import CellSettings from './CellSettings';
+import store from '../../../store';
+import Cell from '../Cell';
+import CellSettings from '../CellSettings';
 
 test('default render', () => {
   const wrapper = shallowMount(Cell);

@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import BoardToolbar from './BoardToolbar';
+import BoardToolbar from '../BoardToolbar';
 
 beforeEach(() => {
   jest.resetAllMocks();

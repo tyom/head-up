@@ -1,10 +1,10 @@
 import { shallowMount } from '@vue/test-utils';
-import store from '../../store';
-import Sidebar from './Sidebar';
-import SidebarToggle from './SidebarToggle';
-import SidebarBoards from './SidebarBoards';
-import SidebarBoardActions from './SidebarBoardActions';
-import SidebarActions from './SidebarActions';
+import store from '../../../store';
+import Sidebar from '../Sidebar';
+import SidebarToggle from '../SidebarToggle';
+import SidebarBoards from '../SidebarBoards';
+import SidebarBoardActions from '../SidebarBoardActions';
+import SidebarActions from '../SidebarActions';
 
 jest.spyOn(store, 'dispatch');
 

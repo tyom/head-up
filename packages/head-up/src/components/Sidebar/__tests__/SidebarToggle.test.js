@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import SidebarToggle from './SidebarToggle';
+import SidebarToggle from '../SidebarToggle';
 
 test('render untoggled', () => {
   const wrapper = shallowMount(SidebarToggle, {

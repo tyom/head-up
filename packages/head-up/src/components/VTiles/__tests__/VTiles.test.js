@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import VTiles from './VTiles';
+import VTiles from '../VTiles';
 
 test('render default', () => {
   const wrapper = shallowMount(VTiles);

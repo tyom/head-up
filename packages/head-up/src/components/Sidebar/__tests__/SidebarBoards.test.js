@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import SidebarBoards from './SidebarBoards';
+import SidebarBoards from '../SidebarBoards';
 
 const boardsMock = [
   {

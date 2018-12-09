@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
-import Board from '../Board';
-import Cell from '../Cell';
-import HeadUpBoards from './HeadUpBoards';
+import Board from '../../Board';
+import Cell from '../../Cell';
+import HeadUpBoards from '../HeadUpBoards';
 
 const slotContents = `
   <Board title="Slot board #1" id="b1">

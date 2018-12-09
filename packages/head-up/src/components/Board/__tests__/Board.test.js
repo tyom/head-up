@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
-import Board from './Board';
-import store from '../../store';
+import Board from '../Board';
+import store from '../../../store';
 
 const commonSettings = {
   stubs: ['Cell', 'BoardToolbar'],

@@ -1,6 +1,6 @@
 import { shallowMount } from '@vue/test-utils';
-import store from '../../store';
-import SettingsScreen from './SettingsScreen';
+import store from '../../../store';
+import SettingsScreen from '../SettingsScreen';
 
 store.dispatch = jest.fn();
 

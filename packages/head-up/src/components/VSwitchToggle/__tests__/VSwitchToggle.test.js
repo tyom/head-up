@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import VSwitchToggle from './VSwitchToggle';
+import VSwitchToggle from '../VSwitchToggle';
 
 test('render default', () => {
   const wrapper = shallowMount(VSwitchToggle, {

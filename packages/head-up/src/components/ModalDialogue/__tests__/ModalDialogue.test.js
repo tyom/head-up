@@ -1,6 +1,6 @@
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils';
 import ShortKey from 'vue-shortkey';
-import ModalDialogue from './ModalDialogue';
+import ModalDialogue from '../ModalDialogue';
 
 const localVue = createLocalVue();
 
