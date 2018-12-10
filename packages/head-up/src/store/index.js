@@ -7,7 +7,16 @@ import mutations from './mutations';
 
 const vuexLocal = new VuexPersistence({
   key: 'headUp',
-  storage: window.localStorage,
+  saveState(key, state, storage) {
+    const persistenceSetting = state.settings.persistState.value;
+    if (persistenceSetting) {
+      localStorage.setItem(key, JSON.stringify(state));
+    } else {
+      const newState = JSON.parse(storage[key]);
+      newState.settings.persistState.value = persistenceSetting;
+      window.localStorage.setItem(key, JSON.stringify(newState));
+    }
+  },
 });
 
 Vue.use(Vuex);

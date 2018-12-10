@@ -1,6 +1,5 @@
 import { get } from 'lodash';
 import Chance from 'chance';
-import { initialState } from './';
 
 const chance = new Chance();
 
@@ -70,14 +69,6 @@ export default {
     dispatch('ACTIVATE_BOARD', boardId);
   },
   UPDATE_SETTINGS({ commit }, settings) {
-    const shouldPersist = get(settings, 'persistState.value');
-
-    if (!shouldPersist) {
-      const { settings: newSettings } = { ...initialState };
-      newSettings.persistState.value = shouldPersist;
-      commit('setSettings', newSettings);
-      return;
-    }
     commit('setSettings', settings);
   },
   TOGGLE_SIDEBAR({ commit, state }, value) {
