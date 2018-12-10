@@ -1,21 +1,15 @@
 <template>
   <div
     v-shortkey="shortkeys"
-    :class="rootClass"
+    :class="{_edit: state.editMode}"
     class="HeadUp"
     @shortkey="handleKeys"
   >
     <Sidebar
       v-if="!hideSidebar"
       :visible="state.showSidebar"
-      @toggle="handleSidebarToggle"
-      ref="sidebarContainer"
-      @board:add="handleAddBoard"
-      @board:remove="handleRemoveBoard"
-      @board:activate="setActiveBoard"
-      @board:edit="handleToggleEdit"
-      @modal:settings="toggleSettingsScreen"
-      @modal:help="toggleHelpScreen"
+      @toggle:settings="toggleSettingsScreen"
+      @toggle:help="toggleHelpScreen"
     />
     <div class="main">
       <transition name="boardTitle">
@@ -24,51 +18,27 @@
         </div>
       </transition>
       <HeadUpBoards
-        :boards="state.boards"
+        :boards="editableBoards"
         ref="boardContainer"
       >
         <slot/>
       </HeadUpBoards>
     </div>
     <ModalDialogue
-      v-if="modal"
-      :heading="modal.heading"
+      :content="modal"
       @close="modal = null"
-    >
-      <HelpScreen
-        v-if="modal.name === 'help'"
-      />
-      <SettingsScreen
-        v-if="modal.name === 'settings'"
-        :settings="state.settings"
-        @save="handleSettingsSave"
-      />
-    </ModalDialogue>
+    />
   </div>
 </template>
 
 <script>
 import { get } from 'lodash';
-import Chance from 'chance';
 import ally from 'ally.js';
+import store from '../../store';
 import { serializeSlot } from '../../transformers';
 import ModalDialogue from '../ModalDialogue';
 import Sidebar from '../Sidebar';
-import SettingsScreen from '../SettingsScreen';
-import HelpScreen from '../HelpScreen';
 import HeadUpBoards from './HeadUpBoards';
-
-const chance = new Chance();
-
-const shortkeys = {
-  up: ['k'],
-  down: ['j'],
-  sidebar: ['s'],
-  edit: ['e'],
-  add: ['a'],
-  settings: ['shift', '<'],
-  help: ['shift', '?'],
-};
 
 export default {
   name: 'HeadUp',
@@ -76,37 +46,6 @@ export default {
     HeadUpBoards,
     Sidebar,
     ModalDialogue,
-    SettingsScreen,
-    HelpScreen,
-  },
-  data() {
-    return {
-      state: {
-        activeBoardId: null,
-        editMode: false,
-        showSidebar: true,
-        boards: this.boards,
-        settings: {
-          smoothScrolling: {
-            type: 'toggle',
-            label: 'Smooth scrolling',
-            value: true,
-          },
-          persistState: {
-            type: 'toggle',
-            label: 'Persist to local storage',
-            value: true,
-          },
-        },
-      },
-      activeBoard: null,
-      activeBoardTitle: null,
-      activeBoardTitleTimeout: null,
-      focusTrap: null,
-      persistedState: null,
-      modal: null,
-      shortkeys,
-    };
   },
   props: {
     hideSidebar: {
@@ -118,165 +57,119 @@ export default {
       default: () => [],
     },
   },
+  data() {
+    return {
+      state: store.state,
+      activeBoard: null,
+      activeBoardTitle: null,
+      activeBoardTitleTimeout: null,
+      focusTrap: null,
+      persistedState: null,
+      modal: null,
+      shortkeys: {
+        up: ['k'],
+        down: ['j'],
+        sidebar: ['s'],
+        edit: ['e'],
+        add: ['a'],
+        settings: ['shift', '<'],
+        help: ['shift', '?'],
+      },
+    };
+  },
   computed: {
-    rootClass() {
-      return {
-        _edit: this.state.editMode,
-      };
-    },
-    boardSummary() {
-      return [...this.state.boards, ...serializeSlot(this.$slots.default)];
+    editableBoards() {
+      return store.state.serializedBoards.filter(x => x.editable);
     },
     activeBoardIndex() {
-      return this.boardSummary.findIndex(
+      return store.state.serializedBoards.findIndex(
         x => x.id === this.state.activeBoardId,
       );
     },
   },
-  watch: {
-    'state.editMode'() {
-      this.handleFocusTrap();
-    },
-    state: {
-      deep: true,
-      handler(newVal) {
-        // handle persistence to local storage
-        if (newVal.settings.persistState.value) {
-          localStorage.setItem('headUp', JSON.stringify(newVal));
-          return;
-        }
-        // save persistence setting but not the state when disabled
-        const newState = JSON.parse(this.persistedState);
-        if (!newState) {
-          return;
-        }
-        newState.settings.persistState.value =
-          newVal.settings.persistState.value;
-        localStorage.setItem('headUp', JSON.stringify(newState));
-      },
-    },
-  },
-  provide() {
-    return {
-      isEditing: () => this.state.editMode,
-      getBoardSummary: () => this.boardSummary,
-      getActiveBoardId: () => this.state.activeBoardId,
-      handleEditDone: this.handleEditDone,
-      handleEditSave: this.handleEditSave,
-    };
-  },
   created() {
-    this.persistedState = localStorage.getItem('headUp');
-    if (this.persistedState) {
-      this.state = JSON.parse(this.persistedState);
-    }
+    store.dispatch('INIT_BOARDS', {
+      fromProps: [...this.editableBoards, ...this.boards],
+      fromSlots: serializeSlot(this.$slots.default),
+    });
   },
   mounted() {
-    if (!this.boardSummary.length) {
-      return;
-    }
+    // set up watchers on mount to get access to elements to scroll to
+    this.setUpWatchers();
 
     const initialBoardId =
-      this.state.activeBoardId || get(this.boardSummary, '[0].id');
-    this.setActiveBoard(initialBoardId, false);
+      this.state.activeBoardId || get(this.state, 'serializedBoards.[0].id');
+    store.dispatch('ACTIVATE_BOARD', initialBoardId);
   },
   methods: {
-    setActiveBoard(boardId, smoothScroll = true) {
-      this.state.activeBoardId = boardId;
-      this.activeBoard = this.$refs.boardContainer.$children.find(
-        board => board.id === boardId,
+    setUpWatchers() {
+      this.$watch(
+        'state.editMode',
+        newVal => {
+          newVal
+            ? this.trapFocusInBoard(this.state.activeBoardId)
+            : this.untrapFocus();
+        },
+        { immediate: true },
       );
 
-      if (!this.activeBoard) {
+      this.$watch(
+        'state.activeBoardId',
+        (newId, oldId) => {
+          newId && this.activateBoard(newId, Boolean(oldId));
+        },
+        { immediate: true },
+      );
+    },
+    activateBoard(boardId, smoothScroll = true) {
+      this.scrollToBoard(boardId, smoothScroll);
+      this.displayBoardTitle(boardId);
+
+      if (this.state.editMode) {
+        this.trapFocusInBoard(this.state.activeBoardId);
+      }
+    },
+    scrollToBoard(boardId, smoothScroll) {
+      const boardEl = this.$refs.boardContainer.$el.querySelector(
+        `#board-${boardId}`,
+      );
+
+      if (!boardEl) {
         return;
       }
 
-      this.displayBoardTitle(this.activeBoard.title);
-
-      smoothScroll
-        ? this.preferredScrollToBoard(this.activeBoard.$el)
-        : this.activeBoard.$el.scrollIntoView();
+      const scrollOptions =
+        smoothScroll && this.state.settings.smoothScrolling.value
+          ? { behavior: 'smooth' }
+          : {};
+      boardEl.scrollIntoView(scrollOptions);
     },
-    displayBoardTitle(title) {
-      this.activeBoardTitle = title;
+    displayBoardTitle(boardId, timeout = 1600) {
+      const board = this.state.serializedBoards.find(x => x.id === boardId);
+      if (!board) {
+        return;
+      }
+      this.activeBoardTitle = board.title;
       // self-destruct
       clearTimeout(this.activeBoardTitleTimeout);
       this.activeBoardTitleTimeout = setTimeout(() => {
         this.activeBoardTitle = null;
-      }, 1600);
+      }, timeout);
     },
-    handleFocusTrap() {
-      this.focusTrap && this.focusTrap.disengage();
+    trapFocusInBoard(boardId) {
+      this.untrapFocus();
 
-      if (!this.state.editMode || !this.activeBoard) {
-        return;
-      }
-
-      this.focusTrap = ally.maintain.tabFocus({
-        context: this.activeBoard.$el,
-      });
-    },
-    handleSidebarToggle(value) {
-      this.state.showSidebar =
-        typeof value === 'undefined' ? !this.state.showSidebar : value;
-    },
-    handleToggleEdit(value) {
-      this.state.editMode =
-        typeof value === 'undefined' ? !this.state.editMode : value;
-    },
-    handleEditSave(board) {
-      this.state.boards = this.state.boards.map(
-        x => (x.id === board.id ? board : x),
+      const boardEl = this.$refs.boardContainer.$el.querySelector(
+        `#board-${boardId}`,
       );
-    },
-    handleEditDone(board) {
-      this.handleEditSave(board);
-      this.state.editMode = false;
-    },
-    handleAddBoard() {
-      const title = chance
-        .sentence({ words: 2 })
-        .replace(/\.$/, '')
-        .toLowerCase();
-      const id = title.replace(' ', '-');
-      const newBoardTemplate = {
-        id,
-        title,
-        editable: true,
-        cells: [
-          {
-            title: 'Cell #1',
-          },
-        ],
-      };
-
-      this.state.boards = [newBoardTemplate, ...this.state.boards];
-      this.handleToggleEdit(true);
-
-      this.$nextTick(() => {
-        this.setActiveBoard(id);
+      this.focusTrap = ally.maintain.tabFocus({
+        context: boardEl,
       });
     },
-    async handleRemoveBoard(id) {
-      const deletionIndex = this.state.boards.findIndex(x => x.id === id);
-      const activeIndex = this.activeBoardIndex;
-
-      let nextId;
-      const getBoardIdByIndex = idx => get(this.boardSummary, `[${idx}].id`);
-
-      if (deletionIndex === activeIndex) {
-        const last = deletionIndex === this.boardSummary.length - 1;
-        nextId = last
-          ? getBoardIdByIndex(activeIndex - 1)
-          : getBoardIdByIndex(activeIndex + 1);
-      } else {
-        nextId = getBoardIdByIndex(activeIndex);
+    untrapFocus() {
+      if (this.focusTrap) {
+        this.focusTrap.disengage();
       }
-
-      this.state.boards = this.state.boards.filter(x => x.id !== id);
-      this.$nextTick(() => {
-        this.setActiveBoard(nextId);
-      });
     },
     handleKeys(evt) {
       switch (evt.srcKey) {
@@ -287,13 +180,13 @@ export default {
           this.activateNextBoard();
           break;
         case 'sidebar':
-          this.handleSidebarToggle();
+          store.dispatch('TOGGLE_SIDEBAR');
           break;
         case 'edit':
-          this.handleToggleEdit();
+          store.dispatch('TOGGLE_EDIT_MODE');
           break;
         case 'add':
-          this.handleAddBoard();
+          store.dispatch('ADD_BOARD');
           break;
         case 'settings':
           this.toggleSettingsScreen();
@@ -301,33 +194,29 @@ export default {
         case 'help':
           this.toggleHelpScreen();
           break;
+        case 'escape':
+          this.closeModal();
+          break;
         default:
       }
     },
-    preferredScrollToBoard(element) {
-      if (!element) {
-        return;
-      }
-      const scrollOptions = this.state.settings.smoothScrolling.value
-        ? { behavior: 'smooth' }
-        : {};
-      element.scrollIntoView(scrollOptions);
-    },
     activateNextBoard() {
+      const { serializedBoards } = this.state;
       const nextId =
-        this.activeBoardIndex === this.boardSummary.length - 1
-          ? get(this.boardSummary, '[0].id')
-          : get(this.boardSummary, `[${this.activeBoardIndex + 1}].id`);
+        this.activeBoardIndex === serializedBoards.length - 1
+          ? get(serializedBoards, '[0].id')
+          : get(serializedBoards, `[${this.activeBoardIndex + 1}].id`);
 
-      this.setActiveBoard(nextId);
+      store.dispatch('ACTIVATE_BOARD', nextId);
     },
     activatePreviousBoard() {
+      const { serializedBoards } = this.state;
       const prevId =
         this.activeBoardIndex === 0
-          ? get(this.boardSummary, `[${this.boardSummary.length - 1}].id`)
-          : get(this.boardSummary, `[${this.activeBoardIndex - 1}].id`);
+          ? get(serializedBoards, `[${serializedBoards.length - 1}].id`)
+          : get(serializedBoards, `[${this.activeBoardIndex - 1}].id`);
 
-      this.setActiveBoard(prevId);
+      store.dispatch('ACTIVATE_BOARD', prevId);
     },
     toggleHelpScreen() {
       this.toggleModal({ name: 'help', heading: 'Keyboard help' });
@@ -338,9 +227,6 @@ export default {
     toggleModal(modalData) {
       const existingModalName = this.modal && this.modal.name;
       this.modal = existingModalName === modalData.name ? null : modalData;
-    },
-    handleSettingsSave(payload) {
-      this.state.settings = payload;
     },
   },
 };
@@ -376,7 +262,8 @@ export default {
 .board-title {
   color: #fff;
   padding: 1em 2em;
-  background-color: #0004;
+  z-index: 1;
+  background-color: #111a;
   position: absolute;
   left: 50%;
   top: 50%;

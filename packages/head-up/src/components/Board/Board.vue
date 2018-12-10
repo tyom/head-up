@@ -1,9 +1,15 @@
 <template>
-  <div :class="boardClass" class="Board">
+  <div
+    :id="boardId"
+    :class="boardClass"
+    class="Board"
+  >
     <transition name="slideDown">
       <BoardToolbar
-        v-if="!isThumb && isEditing()"
+        v-if="!isThumb && editMode"
         :board="$props"
+        @save="handleSave"
+        @done="handleDone"
       />
     </transition>
     <div :class="layoutClass" class="cells">
@@ -31,6 +37,7 @@
 
 <script>
 import { get } from 'lodash';
+import store from '../../store';
 import Cell from '../Cell';
 import BoardToolbar from './BoardToolbar';
 
@@ -63,10 +70,16 @@ export default {
     },
   },
   computed: {
+    boardId() {
+      return this.isThumb ? null : `board-${this.id}`;
+    },
     boardClass() {
       return {
         _thumb: this.isThumb,
       };
+    },
+    editMode() {
+      return store.state.editMode;
     },
     slotCells() {
       if (!this.$slots.default) {
@@ -85,7 +98,20 @@ export default {
       return [`u-grid-${cells.length}-x`];
     },
   },
-  inject: ['isEditing'],
+  methods: {
+    handleSave(newState) {
+      store.dispatch('UPDATE_BOARD', {
+        boardId: this.id,
+        payload: newState,
+      });
+    },
+    handleDone(newState) {
+      if (this.editable) {
+        this.handleSave(newState);
+      }
+      store.dispatch('TOGGLE_EDIT_MODE', false);
+    },
+  },
 };
 </script>
 

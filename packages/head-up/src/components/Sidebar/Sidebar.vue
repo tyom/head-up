@@ -2,22 +2,26 @@
   <div class="Sidebar">
     <SidebarToggle
       :toggled="visible"
-      @toggle="$emit('toggle', !visible)"
+      @toggle="handleToggleSidebar"
       title="Shortcut: s"
     />
     <transition name="slideLeft">
       <div v-show="visible" class="container">
         <SidebarBoardActions
-          @add-board="$emit('board:add')"
-          @toggle-edit="$emit('board:edit')"
+          :edit-mode="editMode"
+          @add-board="handleAddBoard"
+          @toggle-edit="handleToggleEdit"
         />
         <SidebarBoards
-          @activate="$emit('board:activate', $event)"
-          @remove="$emit('board:remove', $event)"
+          :edit-mode="editMode"
+          :boards="boards"
+          :active-id="activeBoardId"
+          @activate="handleActivateBoard"
+          @remove="handleRemoveBoard"
         />
         <SidebarActions
-          @help="$emit('modal:help')"
-          @settings="$emit('modal:settings')"
+          @help="$emit('toggle:help')"
+          @settings="$emit('toggle:settings')"
         />
       </div>
     </transition>
@@ -25,6 +29,7 @@
 </template>
 
 <script>
+import store from '../../store';
 import SidebarToggle from './SidebarToggle';
 import SidebarBoards from './SidebarBoards';
 import SidebarActions from './SidebarActions';
@@ -41,6 +46,34 @@ export default {
     visible: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    boards() {
+      return store.state.serializedBoards;
+    },
+    editMode() {
+      return store.state.editMode;
+    },
+    activeBoardId() {
+      return store.state.activeBoardId;
+    },
+  },
+  methods: {
+    handleToggleSidebar() {
+      store.dispatch('TOGGLE_SIDEBAR');
+    },
+    handleAddBoard() {
+      store.dispatch('ADD_BOARD');
+    },
+    handleRemoveBoard(boardId) {
+      store.dispatch('REMOVE_BOARD', boardId);
+    },
+    handleToggleEdit() {
+      store.dispatch('TOGGLE_EDIT_MODE');
+    },
+    handleActivateBoard(boardId) {
+      store.dispatch('ACTIVATE_BOARD', boardId);
     },
   },
 };
