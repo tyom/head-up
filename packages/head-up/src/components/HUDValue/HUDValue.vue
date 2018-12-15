@@ -66,6 +66,10 @@ export default {
 </script>
 
 <style scoped>
+.HUDValue {
+  text-align: center;
+}
+
 .value {
   display: flex;
   align-items: center;
