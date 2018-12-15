@@ -1,6 +1,48 @@
 <template>
   <HeadUp class="head-up">
-    <Board id="poller1" title="Crypto">
+    <Board id="socket1" title="Crypto real-time">
+      <Cell title="HitBTC Trade" padded>
+        <VSocket
+          endpoint="wss://api.hitbtc.com/api/2/ws"
+          :throttle="100"
+          @open="$event.send(JSON.stringify({
+            method: 'subscribeTicker',
+            params: { symbol: 'BTCUSD' },
+          }))"
+        >
+          <HUDValue
+            slot-scope="{result}"
+            :label="$get(result, 'params.symbol')"
+            :value="`$${Number($get(result, 'params.last')).toLocaleString()}`"
+          />
+        </VSocket>
+        <VSocket
+          endpoint="wss://api.hitbtc.com/api/2/ws"
+          @open="$event.send(JSON.stringify({
+            method: 'subscribeTicker',
+            params: { symbol: 'ETHUSD' },
+          }))"
+        >
+          <HUDValue
+            slot-scope="{result}"
+            :label="$get(result, 'params.symbol')"
+            :value="`$${Number($get(result, 'params.last')).toLocaleString()}`"
+          />
+        </VSocket>
+      </Cell>
+      <Cell title="Gemini market data" padded>
+        <VSocket endpoint="wss://api.gemini.com/v1/marketdata/btcusd">
+          <HUDValue
+            slot-scope="{result}"
+            label="BTC USD"
+            :value="`$${Number($get(result, 'events[0].price')).toLocaleString()}`"
+            :increase="$get(result, 'events[0].delta') > 0"
+            :decrease="$get(result, 'events[0].delta') < 0"
+          />
+        </VSocket>
+      </Cell>
+    </Board>
+    <Board id="poller1" title="Crypto poll">
       <Cell title="Crypto market">
         <VPoller endpoint="https://api.iextrading.com/1.0/stock/market/crypto?filter=companyName,latestPrice,changePercent">
           <VTiles slot-scope="{result}" :items="result">
