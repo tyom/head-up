@@ -120,6 +120,10 @@ export default {
         },
         { immediate: true },
       );
+
+      window.addEventListener('resize', () => {
+        this.activateBoard(this.state.activeBoardId, false);
+      });
     },
     activateBoard(boardId, smoothScroll = true) {
       this.scrollToBoard(boardId, smoothScroll);

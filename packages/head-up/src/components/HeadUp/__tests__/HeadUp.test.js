@@ -368,3 +368,15 @@ describe('respond to keystrokes', () => {
 
   //  TODO: Keystroke combinations
 });
+
+test('reactivate board on window resize', () => {
+  const wrapper = mountWithSlot({
+    attachToDocument: true,
+  });
+  jest.spyOn(wrapper.vm, 'activateBoard');
+
+  const resizeEvent = new Event('resize');
+  global.dispatchEvent(resizeEvent);
+
+  expect(wrapper.vm.activateBoard).toHaveBeenCalledWith('b1', false);
+});
