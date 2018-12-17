@@ -48,6 +48,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    tweenFixed: {
+      type: Number,
+      default: 3,
+    },
   },
   data() {
     return {
@@ -58,7 +62,7 @@ export default {
     value(newVal, oldVal) {
       tween(oldVal, newVal, v => {
         const newNumber = Number(v);
-        this.tweenedValue = newNumber ? newNumber.toFixed(3) : v;
+        this.tweenedValue = newNumber ? newNumber.toFixed(this.tweenFixed) : v;
       });
     },
   },
