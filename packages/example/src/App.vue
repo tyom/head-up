@@ -13,7 +13,11 @@
           <HUDValue
             slot-scope="{result}"
             :label="$get(result, 'params.symbol')"
-            :value="`$${Number($get(result, 'params.last')).toLocaleString()}`"
+            :value="$get(result, 'params.last')"
+            :format-number="{
+              style: 'currency',
+              currency: 'USD',
+            }"
           />
         </VSocket>
         <VSocket
@@ -26,7 +30,11 @@
           <HUDValue
             slot-scope="{result}"
             :label="$get(result, 'params.symbol')"
-            :value="`$${Number($get(result, 'params.last')).toLocaleString()}`"
+            :value="$get(result, 'params.last')"
+            :format-number="{
+              style: 'currency',
+              currency: 'USD',
+            }"
           />
         </VSocket>
       </Cell>
@@ -35,7 +43,11 @@
           <HUDValue
             slot-scope="{result}"
             label="BTC USD"
-            :value="`$${Number($get(result, 'events[0].price')).toLocaleString()}`"
+            :value="$get(result, 'events[0].price')"
+            :format-number="{
+              style: 'currency',
+              currency: 'USD',
+            }"
             :increase="$get(result, 'events[0].delta') > 0"
             :decrease="$get(result, 'events[0].delta') < 0"
           />
@@ -50,6 +62,10 @@
               slot-scope="{data}"
               :label="data.companyName"
               :value="data.latestPrice"
+              :format-number="{
+                style: 'currency',
+                currency: 'USD',
+              }"
               :increase="data.changePercent > 0"
               :decrease="data.changePercent < 0"
             />

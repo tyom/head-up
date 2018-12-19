@@ -3,17 +3,12 @@
     <dt class="label">{{ label }}</dt>
     <dd class="value">
       <v-icon
-        v-if="increase"
-        name="caret-up"
-        class="change-increase"
-      />
-      <v-icon
-        v-if="decrease"
-        name="caret-down"
-        class="change-decrease"
+        v-if="hasIcon"
+        :name="increase ? 'caret-up' : 'caret-down'"
+        :class="increase ? 'change-increase' : 'change-decrease'"
       />
       <template v-if="value">
-        {{ tween && tweenedValue || value }}
+        {{ tween && tweenedValue || value | format(formatNumber) }}
       </template>
       <template v-else>
         N/A
@@ -31,6 +26,10 @@ export default {
     label: {
       type: String,
       default: '',
+    },
+    formatNumber: {
+      type: Object,
+      default: () => {},
     },
     value: {
       type: [String, Number],
@@ -53,6 +52,11 @@ export default {
       default: 3,
     },
   },
+  computed: {
+    hasIcon() {
+      return Boolean(this.increase) || Boolean(this.decrease);
+    },
+  },
   data() {
     return {
       tweenedValue: this.value,
@@ -64,6 +68,11 @@ export default {
         const newNumber = Number(v);
         this.tweenedValue = newNumber ? newNumber.toFixed(this.tweenFixed) : v;
       });
+    },
+  },
+  filters: {
+    format(value, options) {
+      return Number(value).toLocaleString(undefined, options);
     },
   },
 };
