@@ -1,5 +1,6 @@
 import 'focus-visible';
 import axios from 'axios';
+import get from 'lodash/get';
 import VueAxios from 'vue-axios';
 import ShortKey from 'vue-shortkey';
 import HeadUp from './components/HeadUp';
@@ -20,6 +21,7 @@ import 'vue-awesome/icons/caret-down';
 
 const HeadUpPlugin = {
   install(Vue) {
+    Vue.prototype.$get = get;
     Vue.use(VueAxios, axios);
     Vue.use(ShortKey, { prevent: ['input', 'textarea'] });
     Vue.component('v-icon', Icon);
