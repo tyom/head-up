@@ -1,5 +1,5 @@
 <template>
-  <dl class="HUDValue">
+  <dl class="HValue">
     <dt class="label">{{ label }}</dt>
     <dd class="value">
       <v-icon
@@ -21,7 +21,7 @@
 import { tween } from 'femtotween';
 
 export default {
-  name: 'HUDValue',
+  name: 'HValue',
   props: {
     label: {
       type: String,
@@ -79,7 +79,7 @@ export default {
 </script>
 
 <style scoped>
-.HUDValue {
+.HValue {
   text-align: center;
 }
 

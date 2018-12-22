@@ -10,7 +10,7 @@
             params: { symbol: 'BTCUSD' },
           }))"
         >
-          <HUDValue
+          <HValue
             slot-scope="{result}"
             :label="$get(result, 'params.symbol')"
             :value="$get(result, 'params.last')"
@@ -27,7 +27,7 @@
             params: { symbol: 'ETHUSD' },
           }))"
         >
-          <HUDValue
+          <HValue
             slot-scope="{result}"
             :label="$get(result, 'params.symbol')"
             :value="$get(result, 'params.last')"
@@ -40,7 +40,7 @@
       </Cell>
       <Cell title="Gemini market data" padded>
         <VSocket endpoint="wss://api.gemini.com/v1/marketdata/btcusd">
-          <HUDValue
+          <HValue
             slot-scope="{result}"
             label="BTC USD"
             :value="$get(result, 'events[0].price')"
@@ -58,7 +58,7 @@
       <Cell title="Crypto market">
         <VPoller endpoint="https://api.iextrading.com/1.0/stock/market/crypto?filter=companyName,latestPrice,changePercent">
           <VTiles slot-scope="{result}" :items="result">
-            <HUDValue
+            <HValue
               slot-scope="{data}"
               :label="data.companyName"
               :value="data.latestPrice"

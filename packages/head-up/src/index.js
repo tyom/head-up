@@ -6,7 +6,7 @@ import ShortKey from 'vue-shortkey';
 import HeadUp from './components/HeadUp';
 import Board from './components/Board';
 import Cell from './components/Cell';
-import HUDValue from './components/HUDValue';
+import HValue from './components/HValue';
 import Icon from 'vue-awesome/components/Icon';
 import 'vue-awesome/icons/plus';
 import 'vue-awesome/icons/edit';
@@ -28,7 +28,7 @@ const HeadUpPlugin = {
     Vue.component(HeadUp.name, HeadUp);
     Vue.component(Board.name, Board);
     Vue.component(Cell.name, Cell);
-    Vue.component(HUDValue.name, HUDValue);
+    Vue.component(HValue.name, HValue);
 
     const requireComponent = require.context(
       './components', // components dir

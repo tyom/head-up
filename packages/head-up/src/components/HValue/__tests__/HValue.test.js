@@ -1,18 +1,18 @@
 import { shallowMount } from '@vue/test-utils';
 import { tween } from 'femtotween';
-import HUDValue from '../HUDValue';
+import HValue from '../HValue';
 
 jest.mock('femtotween', () => ({
   tween: jest.fn((oldVal, newVal, cb) => cb(newVal)),
 }));
 
 test('render default', () => {
-  const wrapper = shallowMount(HUDValue);
+  const wrapper = shallowMount(HValue);
   expect(wrapper).toMatchSnapshot();
 });
 
 test('render with label and value', () => {
-  const wrapper = shallowMount(HUDValue, {
+  const wrapper = shallowMount(HValue, {
     propsData: {
       label: 'Strength',
       value: 100,
@@ -22,7 +22,7 @@ test('render with label and value', () => {
 });
 
 test('render with up trend', () => {
-  const wrapper = shallowMount(HUDValue, {
+  const wrapper = shallowMount(HValue, {
     propsData: {
       label: 'Strength',
       value: 100,
@@ -33,7 +33,7 @@ test('render with up trend', () => {
 });
 
 test('render with down trend', () => {
-  const wrapper = shallowMount(HUDValue, {
+  const wrapper = shallowMount(HValue, {
     propsData: {
       label: 'Strength',
       value: 100,
@@ -47,7 +47,7 @@ describe('tweened value', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = shallowMount(HUDValue, {
+    wrapper = shallowMount(HValue, {
       propsData: {
         label: 'Strength',
         value: 100,
