@@ -25,7 +25,6 @@ export default {
 
 <style scoped>
 .VTiles {
-  padding: 0.5em;
   height: 100%;
 }
 
