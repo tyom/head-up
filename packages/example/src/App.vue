@@ -55,8 +55,11 @@
       </Cell>
     </Board>
     <Board id="poller1" title="Crypto poll">
-      <Cell title="Crypto market">
-        <VPoller endpoint="https://api.iextrading.com/1.0/stock/market/crypto?filter=companyName,latestPrice,changePercent">
+      <Cell title="Crypto market" padded>
+        <VPoller
+          endpoint="https://api.iextrading.com/1.0/stock/market/crypto?filter=companyName,latestPrice,changePercent"
+          interval="20s"
+        >
           <VTiles slot-scope="{result}" :items="result">
             <HValue
               slot-scope="{data}"
@@ -84,11 +87,20 @@
       </Cell>
       <Cell/>
     </Board>
-    <Board id="b2" title="Cell components #2">
+    <Board id="b2" title="Recent movies">
       <Cell padded>
-        <div>First section</div>
-        <div>Second section</div>
-        <div>Third section</div>
+        <VPoller
+          endpoint="https://api.themoviedb.org/3/discover/movie?api_key=b1f3b9b8476890da324fe569c53dfdbf"
+          interval="1h"
+        >
+          <VTiles slot-scope="{result}" :items="$get(result, 'results', [])">
+            <HValue
+              slot-scope="{data}"
+              :label="data.title"
+              :value="data.vote_average"
+            />
+          </VTiles>
+        </VPoller>
       </Cell>
     </Board>
   </HeadUp>

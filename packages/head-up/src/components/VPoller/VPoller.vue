@@ -2,7 +2,7 @@
   <div class="VPoller">
     <div
       v-if="statusVisible"
-      :style="{animationDuration: `${refreshTime}ms`}"
+      :style="{animationDuration: `${intervalMs}ms`}"
       class="status"
     />
     <slot :result="result"/>
@@ -10,15 +10,17 @@
 </template>
 
 <script>
+import parseDuration from 'parse-duration';
+
 export default {
   props: {
     endpoint: {
       type: String,
       required: true,
     },
-    refreshTime: {
-      type: Number,
-      default: 10000,
+    interval: {
+      type: String,
+      required: true,
     },
   },
   data() {
@@ -26,29 +28,29 @@ export default {
       statusVisible: false,
       timer: undefined,
       result: undefined,
+      intervalMs: parseDuration(this.interval),
     };
   },
   mounted() {
-    this.updateData();
+    this.startTimer();
+    this.update();
   },
   beforeDestroy() {
     this.stopTimer();
   },
   methods: {
     startTimer() {
-      this.timer = setInterval(this.updateData, this.refreshTime);
+      this.timer = setInterval(this.update, this.intervalMs);
       this.statusVisible = true;
     },
     stopTimer() {
       clearInterval(this.timer);
       this.statusVisible = false;
     },
-    async updateData() {
+    async update() {
       this.stopTimer();
-
       const { data } = await this.$http.get(this.endpoint);
       this.result = data;
-
       this.startTimer();
     },
   },
