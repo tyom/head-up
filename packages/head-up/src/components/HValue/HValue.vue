@@ -1,18 +1,18 @@
 <template>
   <dl class="HValue">
     <dt class="label">{{ label }}</dt>
-    <dd class="value">
+    <dd class="value-wrapper">
       <v-icon
         v-if="hasIcon"
         :name="increase ? 'caret-up' : 'caret-down'"
         :class="increase ? 'change-increase' : 'change-decrease'"
       />
-      <template v-if="value">
+      <span class="value" v-if="value">
         {{ tween && tweenedValue || value | format(formatNumber) }}
-      </template>
-      <template v-else>
+      </span>
+      <span class="value _na" v-else>
         N/A
-      </template>
+      </span>
     </dd>
   </dl>
 </template>
@@ -83,20 +83,24 @@ export default {
 </script>
 
 <style scoped>
-.value {
-  display: flex;
-  align-items: center;
+.value-wrapper {
+  white-space: nowrap;
   font-size: 1.4em;
+}
 
-  @nest .u-align-center & {
-    justify-content: center;
+.value {
+  vertical-align: middle;
+
+  &._na {
+    opacity: 0.3;
   }
 }
 
 .fa-icon {
   width: 1.2em;
   height: 1.2em;
-  margin-right: 0.2em;
+  vertical-align: middle;
+  display: inline-block;
 }
 
 .change-increase {
