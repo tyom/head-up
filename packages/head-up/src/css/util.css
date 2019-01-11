@@ -51,6 +51,10 @@
   }
 }
 
+.u-align-center {
+  text-align: center;
+}
+
 @keyframes bounce-1 {
   to {
     transform: scale(1.1);

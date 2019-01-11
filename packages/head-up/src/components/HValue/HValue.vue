@@ -23,6 +23,10 @@ import { tween } from 'femtotween';
 export default {
   name: 'HValue',
   props: {
+    align: {
+      type: String,
+      default: '',
+    },
     label: {
       type: String,
       default: '',
@@ -79,15 +83,14 @@ export default {
 </script>
 
 <style scoped>
-.HValue {
-  text-align: center;
-}
-
 .value {
   display: flex;
   align-items: center;
-  justify-content: center;
   font-size: 1.4em;
+
+  @nest .u-align-center & {
+    justify-content: center;
+  }
 }
 
 .fa-icon {

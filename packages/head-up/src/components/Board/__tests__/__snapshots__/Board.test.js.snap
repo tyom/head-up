@@ -18,8 +18,8 @@ exports[`render in edit mode 1`] = `
 <div id="board-1" class="Board">
   <boardtoolbar-stub board="[object Object]" name="slideDown"></boardtoolbar-stub>
   <div class="cells u-grid-2-x">
-    <cell-stub title="" content=""></cell-stub>
-    <cell-stub title="" content=""></cell-stub>
+    <cell-stub align="" title="" content=""></cell-stub>
+    <cell-stub align="" title="" content=""></cell-stub>
   </div>
 </div>
 `;
@@ -28,8 +28,8 @@ exports[`render normal 1`] = `
 <div id="board-1" class="Board">
   <!---->
   <div class="cells u-grid-2-x">
-    <cell-stub title="" content=""></cell-stub>
-    <cell-stub title="" content=""></cell-stub>
+    <cell-stub align="" title="" content=""></cell-stub>
+    <cell-stub align="" title="" content=""></cell-stub>
   </div>
 </div>
 `;

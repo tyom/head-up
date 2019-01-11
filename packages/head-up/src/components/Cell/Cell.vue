@@ -41,6 +41,10 @@ export default {
     CellSettings,
   },
   props: {
+    align: {
+      type: String,
+      default: '',
+    },
     title: {
       type: String,
       default: '',
@@ -71,6 +75,10 @@ export default {
       const content = this.$slots.default ? this.$slots.default : this.content;
       return {
         [`u-grid-${content.length}-x`]: !!content.length,
+        [this.align
+          .split(' ')
+          .map(x => `u-align-${x}`)
+          .join(' ')]: !!this.align,
         padded: this.padded,
       };
     },

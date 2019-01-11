@@ -1,7 +1,11 @@
 <template>
   <HeadUp class="head-up">
     <Board id="socket1" title="Crypto real-time">
-      <Cell title="HitBTC Trade" padded>
+      <Cell
+        title="HitBTC Trade"
+        align="center"
+        padded
+      >
         <VSocket
           endpoint="wss://api.hitbtc.com/api/2/ws"
           :throttle="100"
@@ -38,7 +42,11 @@
           />
         </VSocket>
       </Cell>
-      <Cell title="Gemini market data" padded>
+      <Cell
+        title="Gemini market data"
+        align="center"
+        padded
+      >
         <VSocket endpoint="wss://api.gemini.com/v1/marketdata/btcusd">
           <HValue
             slot-scope="{result}"
@@ -55,12 +63,20 @@
       </Cell>
     </Board>
     <Board id="poller1" title="Crypto poll">
-      <Cell title="Crypto market" padded>
+      <Cell
+        title="Crypto market"
+        align="center"
+        padded
+      >
         <VPoller
           endpoint="https://api.iextrading.com/1.0/stock/market/crypto?filter=companyName,latestPrice,changePercent"
           interval="20s"
         >
-          <VTiles slot-scope="{result}" :items="result">
+          <VList
+            slot-scope="{result}"
+            :items="result"
+            type="tiles"
+          >
             <HValue
               slot-scope="{data}"
               :label="data.companyName"
@@ -72,7 +88,7 @@
               :increase="data.changePercent > 0"
               :decrease="data.changePercent < 0"
             />
-          </VTiles>
+          </VList>
         </VPoller>
       </Cell>
     </Board>
@@ -93,13 +109,13 @@
           endpoint="https://api.themoviedb.org/3/discover/movie?api_key=b1f3b9b8476890da324fe569c53dfdbf"
           interval="1h"
         >
-          <VTiles slot-scope="{result}" :items="$get(result, 'results', [])">
+          <VList slot-scope="{result}" :items="$get(result, 'results', [])">
             <HValue
               slot-scope="{data}"
               :label="data.title"
               :value="data.vote_average"
             />
-          </VTiles>
+          </VList>
         </VPoller>
       </Cell>
     </Board>

@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render default 1`] = `
-<div class="VTiles">
-  <ul class="tile-list"></ul>
+<div class="VList">
+  <ul class="_stack"></ul>
 </div>
 `;
 
 exports[`render with items 1`] = `
-<div class="VTiles">
-  <ul class="tile-list">
-    <li class="tile">
+<div class="VList">
+  <ul class="_stack">
+    <li>
       <div>One</div>
     </li>
-    <li class="tile">
+    <li>
       <div>Two</div>
     </li>
   </ul>
