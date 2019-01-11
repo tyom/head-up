@@ -11,10 +11,15 @@ jest.useFakeTimers();
 const localVue = createLocalVue();
 localVue.use(VueAxios, axios);
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 test('render default', () => {
   const wrapper = shallowMount(VPoller, {
     propsData: {
       endpoint: 'http://localhost/',
+      interval: '10s',
     },
   });
   expect(wrapper).toMatchSnapshot();
@@ -27,10 +32,6 @@ describe('timers', () => {
     },
   };
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   test('calls endpoint after each interval', async () => {
     axios.get.mockResolvedValue(responseMock);
 
@@ -38,6 +39,7 @@ describe('timers', () => {
       localVue,
       propsData: {
         endpoint: 'http://localhost/',
+        interval: '10s',
       },
     });
 
@@ -61,6 +63,7 @@ describe('timers', () => {
       localVue,
       propsData: {
         endpoint: 'http://localhost/',
+        interval: '10s',
       },
     });
 

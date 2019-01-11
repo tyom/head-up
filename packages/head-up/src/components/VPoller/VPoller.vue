@@ -32,7 +32,6 @@ export default {
     };
   },
   mounted() {
-    this.startTimer();
     this.update();
   },
   beforeDestroy() {
