@@ -55,7 +55,7 @@ li {
 ._tiles {
   display: grid;
   grid-gap: 0.5em;
-  grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(12em, 1fr));
 }
 
 ._tiles > li {
