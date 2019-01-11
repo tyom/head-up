@@ -6,8 +6,8 @@
       class="board-list"
     >
       <li
-        v-for="(board, idx) in boards"
-        :key="idx"
+        v-for="board in boards"
+        :key="board.id"
         :class="getBoardListItemClass(board)"
         :title="getBoardTitle(board)"
         class="list-item"
