@@ -109,12 +109,21 @@
           endpoint="https://api.themoviedb.org/3/discover/movie?api_key=b1f3b9b8476890da324fe569c53dfdbf"
           interval="1h"
         >
-          <VList slot-scope="{result}" :items="$get(result, 'results', [])">
-            <HValue
+          <VList
+            slot-scope="{result}"
+            type="tiles"
+            :items="$get(result, 'results', [])"
+          >
+            <HCard
               slot-scope="{data}"
-              :label="data.title"
-              :value="data.vote_average"
-            />
+              :title="data.title"
+              :image="`https://image.tmdb.org/t/p/w342/${data.poster_path}`"
+            >
+              <template slot="subtitle">
+                {{ data.vote_average }} ({{ data.vote_count }} votes)
+              </template>
+              <p>{{ data.overview | truncate(300) }}</p>
+            </HCard>
           </VList>
         </VPoller>
       </Cell>
