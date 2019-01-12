@@ -83,6 +83,11 @@ export default {
 </script>
 
 <style scoped>
+.HValue {
+  margin: auto;
+  text-align: center;
+}
+
 .value-wrapper {
   white-space: nowrap;
   font-size: 1.4em;
