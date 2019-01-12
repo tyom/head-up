@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render default 1`] = `
-<div class="VList">
-  <ul class="_stack"></ul>
+<div class="VList _stack">
+  <ul></ul>
 </div>
 `;
 
 exports[`render with items 1`] = `
-<div class="VList">
-  <ul class="_stack">
+<div class="VList _stack">
+  <ul>
     <li>
       <div>One</div>
     </li>

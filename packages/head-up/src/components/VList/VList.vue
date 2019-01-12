@@ -1,6 +1,6 @@
 <template>
-  <div class="VList">
-    <ul :class="listClass">
+  <div class="VList" :class="listClass">
+    <ul>
       <li
         v-for="(item, idx) in items"
         :key="idx"
@@ -18,6 +18,10 @@ export default {
       type: String,
       default: 'stack',
     },
+    padded: {
+      type: Boolean,
+      default: false,
+    },
     items: {
       type: Array,
       default: () => [],
@@ -25,7 +29,10 @@ export default {
   },
   computed: {
     listClass() {
-      return `_${this.type}`;
+      return {
+        _padded: this.padded,
+        [`_${this.type}`]: this.type,
+      };
     },
   },
 };
@@ -44,7 +51,6 @@ ul {
 }
 
 li {
-  padding: 0.5em;
   background-color: rgba(#fff, 0.02);
 
   & + li {
@@ -52,17 +58,18 @@ li {
   }
 }
 
-._tiles {
-  display: grid;
-  grid-gap: 0.5em;
-  grid-template-columns: repeat(auto-fill, minmax(12em, 1fr));
+._padded > ul > li {
+  padding: 0.5em;
 }
 
-._tiles > li {
-  margin-top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+._tiles > ul {
+  display: grid;
+  grid-gap: 0.5em;
+  grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+
+  & > li {
+    margin-top: 0;
+    display: flex;
+  }
 }
 </style>
