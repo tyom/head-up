@@ -131,6 +131,7 @@ export default {
   height: 100%;
   grid-gap: 0.5em;
   padding: 0.5em;
+  overflow: auto;
 }
 
 ._thumb {
