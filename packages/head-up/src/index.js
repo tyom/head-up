@@ -29,6 +29,9 @@ const HeadUpPlugin = {
     Vue.component(Board.name, Board);
     Vue.component(Cell.name, Cell);
     Vue.component(HValue.name, HValue);
+    Vue.filter('truncate', (text, stop, clamp) => {
+      return text.slice(0, stop) + (stop < text.length ? clamp || '...' : '');
+    });
 
     const requireComponent = require.context(
       './components', // components dir
