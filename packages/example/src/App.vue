@@ -120,9 +120,14 @@
               :image="`https://image.tmdb.org/t/p/w342/${data.poster_path}`"
             >
               <template slot="subtitle">
-                {{ data.vote_average }} ({{ data.vote_count }} votes)
+                <HGauge
+                  :progress="data.vote_average * 10"
+                  :colour-ranges="{red: [0, 40], gold: [40, 70], limegreen: [70, 100]}"
+                  :label="data.vote_average"
+                  :side-label="`${data.vote_count} votes`"
+                />
               </template>
-              <p>{{ data.overview | truncate(300) }}</p>
+              <p>{{ data.overview | truncate(250) }}</p>
             </HCard>
           </VList>
         </VPoller>
