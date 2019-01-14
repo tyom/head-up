@@ -8,6 +8,7 @@ import Board from './components/Board';
 import Cell from './components/Cell';
 import HValue from './components/HValue';
 import HCard from './components/HCard';
+import HGauge from './components/HGauge';
 import Icon from 'vue-awesome/components/Icon';
 import 'vue-awesome/icons/plus';
 import 'vue-awesome/icons/edit';
@@ -31,6 +32,7 @@ const HeadUpPlugin = {
     Vue.component(Cell.name, Cell);
     Vue.component(HValue.name, HValue);
     Vue.component(HCard.name, HCard);
+    Vue.component(HGauge.name, HGauge);
 
     Vue.filter('truncate', (text, stop, clamp) => {
       return text.slice(0, stop) + (stop < text.length ? clamp || '...' : '');
