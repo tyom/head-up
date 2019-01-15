@@ -2,9 +2,11 @@
   <div class="VPoller">
     <div
       v-if="statusVisible"
-      :style="{animationDuration: `${intervalMs}ms`}"
       class="status"
-    />
+      :style="{backgroundSize: `${intervalPercent}% 100%`}"
+    >
+      <div class="status-head" :style="statusHeadStyles"/>
+    </div>
     <slot :result="result"/>
   </div>
 </template>
@@ -31,8 +33,25 @@ export default {
       intervalMs: parseDuration(this.interval),
     };
   },
+  computed: {
+    statusHeadStyles() {
+      return {
+        width: `${this.intervalPercent}%`,
+        animationDuration: `${this.intervalMs}ms, ${this.intervalMs /
+          this.intervalSeconds}ms`,
+        animationTimingFunction: `steps(${this.intervalSeconds}, end), ease`,
+      };
+    },
+    intervalSeconds() {
+      return this.intervalMs / 1000;
+    },
+    intervalPercent() {
+      return 100 / this.intervalSeconds;
+    },
+  },
   mounted() {
     this.update();
+    this.startTimer();
   },
   beforeDestroy() {
     this.stopTimer();
@@ -47,10 +66,8 @@ export default {
       this.statusVisible = false;
     },
     async update() {
-      this.stopTimer();
       const { data } = await this.$http.get(this.endpoint);
       this.result = data;
-      this.startTimer();
     },
   },
 };
@@ -62,33 +79,52 @@ export default {
 }
 
 .status {
-  animation: grow infinite linear;
   top: 0;
   left: 0;
+  right: 0;
   position: absolute;
-  background-image: linear-gradient(90deg, #17619c00, #17619c);
+  background-image: linear-gradient(
+    90deg,
+    transparent 2%,
+    rgba(#259fff, 0.4) 2%,
+    rgba(#259fff, 0.4) 100%
+  );
   height: 1px;
   z-index: 1;
+}
 
-  &::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    right: 0;
-    top: 0;
-    height: 1px;
-    width: 1px;
-    background-color: #fff;
-    box-shadow: 0 0 0 1px #fff8;
+.status-head {
+  animation: tick infinite linear, fade infinite backwards;
+  min-width: 1px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: #fff;
+}
+
+._paused .status {
+  visibility: hidden;
+}
+
+@keyframes tick {
+  from {
+    left: 0;
+  }
+  to {
+    left: 100%;
   }
 }
 
-@keyframes grow {
+@keyframes fade {
   from {
-    width: 0;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
   }
   to {
-    width: 100%;
+    opacity: 0;
   }
 }
 </style>
