@@ -1,7 +1,7 @@
 <template>
   <div
     v-shortkey="shortkeys"
-    :class="{_edit: state.editMode}"
+    :class="rootClass"
     class="HeadUp"
     @shortkey="handleKeys"
   >
@@ -66,6 +66,7 @@ export default {
       focusTrap: null,
       persistedState: null,
       modal: null,
+      tabFocused: true,
       shortkeys: {
         up: ['k'],
         down: ['j'],
@@ -86,6 +87,12 @@ export default {
         x => x.id === this.state.activeBoardId,
       );
     },
+    rootClass() {
+      return {
+        _edit: this.state.editMode,
+        _paused: !this.tabFocused,
+      };
+    },
   },
   created() {
     store.dispatch('INIT_BOARDS', {
@@ -100,6 +107,13 @@ export default {
     const initialBoardId =
       this.state.activeBoardId || get(this.state, 'serializedBoards.[0].id');
     store.dispatch('ACTIVATE_BOARD', initialBoardId);
+
+    window.addEventListener('focus', () => {
+      this.tabFocused = true;
+    });
+    window.addEventListener('blur', () => {
+      this.tabFocused = false;
+    });
   },
   methods: {
     setUpWatchers() {
