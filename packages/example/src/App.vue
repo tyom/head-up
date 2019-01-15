@@ -70,7 +70,7 @@
       >
         <VPoller
           endpoint="https://api.iextrading.com/1.0/stock/market/crypto?filter=companyName,latestPrice,changePercent"
-          interval="20s"
+          interval="30s"
         >
           <VList
             slot-scope="{result}"
@@ -107,7 +107,7 @@
       <Cell padded>
         <VPoller
           endpoint="https://api.themoviedb.org/3/discover/movie?api_key=b1f3b9b8476890da324fe569c53dfdbf"
-          interval="1h"
+          interval="30m"
         >
           <VList
             slot-scope="{result}"
