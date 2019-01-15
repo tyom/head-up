@@ -3,78 +3,57 @@ import VueAxios from 'vue-axios';
 import axios from 'axios';
 import VPoller from '../VPoller';
 
-const nextTick = () => new Promise(res => process.nextTick(res));
-
 jest.mock('axios');
 jest.useFakeTimers();
 
 const localVue = createLocalVue();
 localVue.use(VueAxios, axios);
 
-beforeEach(() => {
-  jest.clearAllMocks();
+axios.get.mockResolvedValue({
+  data: {
+    foo: 'bar',
+  },
 });
 
-test('render default', () => {
-  const wrapper = shallowMount(VPoller, {
+let wrapper;
+
+beforeEach(() => {
+  jest.clearAllMocks();
+
+  wrapper = shallowMount(VPoller, {
+    localVue,
     propsData: {
       endpoint: 'http://localhost/',
       interval: '10s',
     },
   });
-  expect(wrapper).toMatchSnapshot();
 });
 
-describe('timers', () => {
-  const responseMock = {
-    data: {
-      foo: 'bar',
-    },
-  };
+test('default render', () => {
+  expect(wrapper).toMatchSnapshot();
+  wrapper.destroy();
+});
 
-  test('calls endpoint after each interval', async () => {
-    axios.get.mockResolvedValue(responseMock);
+test('calls endpoint after each interval', () => {
+  expect(axios.get).toHaveBeenCalledTimes(1);
+  expect(setInterval).toHaveBeenCalledTimes(1);
 
-    shallowMount(VPoller, {
-      localVue,
-      propsData: {
-        endpoint: 'http://localhost/',
-        interval: '10s',
-      },
-    });
+  jest.runOnlyPendingTimers();
 
-    await nextTick();
+  expect(axios.get).toHaveBeenCalledTimes(2);
+  expect(setInterval).toHaveBeenCalledTimes(1);
 
-    expect(axios.get).toHaveBeenCalledTimes(1);
-    expect(setInterval).toHaveBeenCalledTimes(1);
+  jest.runOnlyPendingTimers();
 
-    jest.runOnlyPendingTimers();
+  expect(axios.get).toHaveBeenCalledTimes(3);
+  expect(setInterval).toHaveBeenCalledTimes(1);
+});
 
-    await nextTick();
+test('removes interval before destroy', () => {
+  expect(setInterval).toHaveBeenCalledTimes(1);
+  expect(clearInterval).not.toHaveBeenCalled();
 
-    expect(axios.get).toHaveBeenCalledTimes(2);
-    expect(setInterval).toHaveBeenCalledTimes(2);
-  });
+  wrapper.destroy();
 
-  test('removes timer on each update and when destroyed', async () => {
-    axios.get.mockResolvedValue(responseMock);
-
-    const wrapper = shallowMount(VPoller, {
-      localVue,
-      propsData: {
-        endpoint: 'http://localhost/',
-        interval: '10s',
-      },
-    });
-
-    await nextTick();
-
-    const timerId = wrapper.vm.timer;
-    expect(clearInterval).toHaveBeenCalledTimes(1);
-
-    wrapper.destroy();
-
-    expect(clearInterval).toHaveBeenCalledTimes(2);
-    expect(clearInterval).toHaveBeenCalledWith(timerId);
-  });
+  expect(clearInterval).toHaveBeenCalledTimes(1);
 });

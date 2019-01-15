@@ -66,8 +66,12 @@ export default {
       this.statusVisible = false;
     },
     async update() {
-      const { data } = await this.$http.get(this.endpoint);
-      this.result = data;
+      try {
+        const { data } = await this.$http.get(this.endpoint);
+        this.result = data;
+      } catch (err) {
+        console.log(err.message);
+      }
     },
   },
 };
