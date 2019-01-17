@@ -106,7 +106,8 @@
     <Board id="b2" title="Recent movies">
       <Cell padded>
         <VPoller
-          endpoint="https://api.themoviedb.org/3/discover/movie?api_key=b1f3b9b8476890da324fe569c53dfdbf"
+          endpoint="https://api.themoviedb.org/3/discover/movie"
+          :query="{api_key: tmdbApiKey}"
           interval="30m"
         >
           <VList
@@ -129,7 +130,7 @@
                     limegreen: [70, 100]
                   }"
                   :label="data.vote_average"
-                  :side-label="`${data.vote_count} votes`"
+                  :side-label="`${$formatNumber(data.vote_count)} votes`"
                 />
               </template>
               <p>{{ data.overview | truncate(250) }}</p>
@@ -145,6 +146,16 @@
     </Board>
   </HeadUp>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      tmdbApiKey: process.env.VUE_APP_TMDB_API_KEY,
+    };
+  },
+};
+</script>
 
 <style>
 body {
