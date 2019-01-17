@@ -70,7 +70,7 @@
       >
         <VPoller
           endpoint="https://api.iextrading.com/1.0/stock/market/crypto?filter=companyName,latestPrice,changePercent"
-          interval="30s"
+          interval="1m"
         >
           <VList
             slot-scope="{result}"
