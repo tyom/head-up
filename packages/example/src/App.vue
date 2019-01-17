@@ -122,7 +122,12 @@
               <template slot="subtitle">
                 <HGauge
                   :progress="data.vote_average * 10"
-                  :colour-ranges="{red: [0, 40], gold: [40, 70], limegreen: [70, 100]}"
+                  :colour-ranges="{
+                    red: [0, 30],
+                    tomato: [30, 50],
+                    gold: [50, 70],
+                    limegreen: [70, 100]
+                  }"
                   :label="data.vote_average"
                   :side-label="`${data.vote_count} votes`"
                 />
