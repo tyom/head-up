@@ -133,6 +133,11 @@
                 />
               </template>
               <p>{{ data.overview | truncate(250) }}</p>
+              <p>Released: {{ new Date(data.release_date).toLocaleString('en-GB', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+              }) }}</p>
             </HCard>
           </VList>
         </VPoller>
