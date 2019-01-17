@@ -8,7 +8,7 @@
         :class="increase ? 'change-increase' : 'change-decrease'"
       />
       <span class="value" v-if="value">
-        {{ tween && tweenedValue || value | format(formatNumber) }}
+        {{ tween && tweenedValue || value | formatNumber(formatNumber) }}
       </span>
       <span class="value _na" v-else>
         N/A
@@ -72,11 +72,6 @@ export default {
         const newNumber = Number(v);
         this.tweenedValue = newNumber ? newNumber.toFixed(this.tweenFixed) : v;
       });
-    },
-  },
-  filters: {
-    format(value, options) {
-      return Number(value).toLocaleString(undefined, options);
     },
   },
 };

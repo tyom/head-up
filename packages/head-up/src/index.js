@@ -24,6 +24,7 @@ import 'vue-awesome/icons/caret-down';
 const HeadUpPlugin = {
   install(Vue) {
     Vue.prototype.$get = get;
+    Vue.prototype.$formatNumber = formatNumber;
     Vue.use(VueAxios, axios);
     Vue.use(ShortKey, { prevent: ['input', 'textarea'] });
     Vue.component('v-icon', Icon);
@@ -37,6 +38,8 @@ const HeadUpPlugin = {
     Vue.filter('truncate', (text, stop, clamp) => {
       return text.slice(0, stop) + (stop < text.length ? clamp || '...' : '');
     });
+
+    Vue.filter('formatNumber', formatNumber);
 
     const requireComponent = require.context(
       './components', // components dir
