@@ -20,6 +20,10 @@ export default {
       type: String,
       required: true,
     },
+    query: {
+      type: Object,
+      default: () => {},
+    },
     interval: {
       type: String,
       required: true,
@@ -67,7 +71,9 @@ export default {
     },
     async update() {
       try {
-        const { data } = await this.$http.get(this.endpoint);
+        const { data } = await this.$http.get(this.endpoint, {
+          params: this.query,
+        });
         this.result = data;
       } catch (err) {
         console.log(err.message);
