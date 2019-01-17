@@ -21,6 +21,26 @@ import 'vue-awesome/icons/question';
 import 'vue-awesome/icons/caret-up';
 import 'vue-awesome/icons/caret-down';
 
+axios.interceptors.response.use(
+  res => {
+    return res;
+  },
+  err => {
+    if (err.response.status === 401) {
+      console.warn(
+        err.response.data.status_message,
+        '\n',
+        err.response.config.url,
+      );
+    }
+    return err;
+  },
+);
+
+function formatNumber(value, options = {}) {
+  return Number(value).toLocaleString(undefined, options);
+}
+
 const HeadUpPlugin = {
   install(Vue) {
     Vue.prototype.$get = get;
