@@ -7,8 +7,5 @@
   ],
   "routes": [
     { "src": "/(.*)", "dest": "/packages/example/dist/$1" }
-  ],
-  "env": {
-    "VUE_APP_TMDB_API_KEY": "@head-up-tmdb-api-key"
-  }
+  ]
 }
