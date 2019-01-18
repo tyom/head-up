@@ -81,11 +81,12 @@ export default {
 .HValue {
   margin: auto;
   text-align: center;
+  padding: 0.25em;
 }
 
 .value-wrapper {
   white-space: nowrap;
-  font-size: 1.4em;
+  font-size: 1.3em;
 }
 
 .value {
@@ -97,8 +98,8 @@ export default {
 }
 
 .fa-icon {
-  width: 1.2em;
-  height: 1.2em;
+  width: 1.1em;
+  height: 1.1em;
   vertical-align: middle;
   display: inline-block;
 }

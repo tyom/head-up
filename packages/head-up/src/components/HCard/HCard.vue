@@ -46,17 +46,17 @@ export default {
 
 * + .subtitle,
 * + p {
-  margin-top: 0.5rem;
+  margin-top: 0.5em;
 }
 
 .content {
-  font-size: 0.9rem;
+  font-size: 0.65em;
   padding: 1em;
   flex: 1;
 }
 
 .image {
-  max-width: 10rem;
+  max-width: 9em;
 
   & img {
     display: block;
