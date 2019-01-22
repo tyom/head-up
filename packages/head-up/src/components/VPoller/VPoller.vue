@@ -24,6 +24,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    requests: {
+      type: Array,
+      default: () => [],
+    },
     interval: {
       type: String,
       required: true,
@@ -69,14 +73,38 @@ export default {
       clearInterval(this.timer);
       this.statusVisible = false;
     },
-    async update() {
-      try {
-        const { data } = await this.$http.get(this.endpoint, {
-          params: this.query,
+    getData(url, query) {
+      return this.$http
+        .get(url, {
+          params: query,
+        })
+        .then(x => x.data);
+    },
+    populateRequests(requests) {
+      return requests.map(request => {
+        const url = this.endpoint.replace(/\/$/, '');
+        const path = request.path || '';
+
+        if (typeof request === 'string') {
+          return this.getData(url + request, this.query);
+        }
+        return this.getData(url + path, {
+          ...this.query,
+          ...request.query,
         });
-        this.result = data;
+      });
+    },
+    async update() {
+      const requests = this.populateRequests(this.requests);
+
+      try {
+        if (requests.length) {
+          this.result = await Promise.all(requests);
+        } else {
+          this.result = await this.getData(this.endpoint, this.query);
+        }
       } catch (err) {
-        console.log(err.message);
+        console.error(err.message);
       }
     },
   },
