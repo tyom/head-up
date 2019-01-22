@@ -142,19 +142,22 @@
               :title="item.title"
               :image="`https://image.tmdb.org/t/p/w342/${item.poster_path}`"
             >
-              <template slot="subtitle">
-                <HGauge
-                  :progress="item.vote_average * 10"
-                  :colour-ranges="{
-                    red: [0, 30],
-                    tomato: [30, 50],
-                    gold: [50, 70],
-                    limegreen: [70, 100]
-                  }"
-                  :label="item.vote_average"
-                  :side-label="`${$formatNumber(item.vote_count)} votes`"
-                />
-              </template>
+              <HGauge
+                slot="subtitle"
+                :progress="item.vote_average * 10"
+                :value="item.vote_average"
+                :colour-ranges="{
+                  red: [0, 30],
+                  tomato: [30, 50],
+                  gold: [50, 70],
+                  limegreen: [70, 100]
+                }"
+              >
+                <template slot="label">
+                  {{ item.vote_count.toLocaleString() }}
+                  {{ item.vote_count | pluralize('vote') }}
+                </template>
+              </HGauge>
               <p>{{ item.overview | truncate(250) }}</p>
               <p :style="{opacity: 0.7}">
                 Released: {{ new Date(item.release_date).toLocaleString('en-GB', {

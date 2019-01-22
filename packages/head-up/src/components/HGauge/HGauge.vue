@@ -22,10 +22,10 @@
           stroke-width="12"
         />
       </svg>
-      <span v-if="label" class="label">{{ label }}</span>
+      <span v-if="value" class="value">{{ value }}</span>
     </div>
-    <span class="side-label">
-      {{ sideLabel }}
+    <span v-if="$slots.label" class="label">
+      <slot name="label"/>
     </span>
   </div>
 </template>
@@ -52,12 +52,8 @@ export default {
       type: Object,
       default: () => {},
     },
-    label: {
+    value: {
       type: [String, Number],
-      default: '',
-    },
-    sideLabel: {
-      type: String,
       default: '',
     },
   },
@@ -119,7 +115,7 @@ svg {
   transition: 1s;
 }
 
-.label {
+.value {
   position: absolute;
   text-align: center;
   margin: auto;
@@ -132,7 +128,7 @@ svg {
   line-height: 1;
 }
 
-.side-label {
+.label {
   margin-left: 0.5rem;
   font-size: 0.7rem;
 }
