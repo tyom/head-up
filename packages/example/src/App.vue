@@ -20,7 +20,7 @@
             :value="$get(result, 'params.last')"
           >
             <template slot="value" slot-scope="{value}">
-              ${{ Number(value).toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+              {{ value | currency }}
             </template>
           </HValue>
         </VSocket>
@@ -37,7 +37,7 @@
             :value="$get(result, 'params.last')"
           >
             <template slot="value" slot-scope="{value}">
-              ${{ Number(value).toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+              {{ value | currency }}
             </template>
           </HValue>
         </VSocket>
@@ -58,7 +58,7 @@
               :change-value="$get(result, 'events[0].delta')"
             />
             <template slot="value" slot-scope="{value}">
-              ${{ Number(value).toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+              {{ value | currency }}
             </template>
           </HValue>
         </VSocket>
@@ -89,7 +89,7 @@
                 :change-value="item.changePercent"
               />
               <template slot="value" slot-scope="{value}">
-                ${{ Number(value).toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+                {{ value | currency }}
               </template>
             </HValue>
           </VList>
@@ -156,7 +156,7 @@
                 />
               </template>
               <p>{{ item.overview | truncate(250) }}</p>
-              <p>
+              <p :style="{opacity: 0.7}">
                 Released: {{ new Date(item.release_date).toLocaleString('en-GB', {
                   day: 'numeric',
                   month: 'short',

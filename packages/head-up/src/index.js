@@ -3,6 +3,7 @@ import axios from 'axios';
 import get from 'lodash/get';
 import VueAxios from 'vue-axios';
 import ShortKey from 'vue-shortkey';
+import Vue2Filters from 'vue2-filters';
 import HeadUp from './components/HeadUp';
 import Board from './components/Board';
 import Cell from './components/Cell';
@@ -37,15 +38,11 @@ axios.interceptors.response.use(
   },
 );
 
-function formatNumber(value, options = {}) {
-  return Number(value).toLocaleString(undefined, options);
-}
-
 const HeadUpPlugin = {
   install(Vue) {
     Vue.prototype.$get = get;
-    Vue.prototype.$formatNumber = formatNumber;
     Vue.use(VueAxios, axios);
+    Vue.use(Vue2Filters);
     Vue.use(ShortKey, { prevent: ['input', 'textarea'] });
     Vue.component('v-icon', Icon);
     Vue.component(HeadUp.name, HeadUp);
@@ -54,12 +51,6 @@ const HeadUpPlugin = {
     Vue.component(HValue.name, HValue);
     Vue.component(HCard.name, HCard);
     Vue.component(HGauge.name, HGauge);
-
-    Vue.filter('truncate', (text, stop, clamp) => {
-      return text.slice(0, stop) + (stop < text.length ? clamp || '...' : '');
-    });
-
-    Vue.filter('formatNumber', formatNumber);
 
     const requireComponent = require.context(
       './components', // components dir
