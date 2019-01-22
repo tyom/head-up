@@ -92,16 +92,25 @@
         </VPoller>
       </Cell>
     </Board>
-    <Board id="b1" title="Cell components #1">
-      <Cell title="Cell #1" padded>
-        <div>First section</div>
-        <div>Second section</div>
-        <div>Third section</div>
+    <Board id="b1" title="Weather">
+      <Cell title="London" padded>
+        <VPoller
+          endpoint="https://api.openweathermap.org/data/2.5/weather"
+          :query="{appid: opendWeatherAppApiKey, q: 'London', units: 'metric'}"
+          interval="5m"
+        >
+          <template slot-scope="{result}">
+            <HValue
+              label="Current temperature"
+              :value="$get(result, 'main.temp')"
+            />
+            <HValue
+              label="Humidity"
+              :value="$get(result, 'main.humidity')"
+            />
+          </template>
+        </VPoller>
       </Cell>
-      <Cell title="Cell #2" padded>
-        <div>Only section</div>
-      </Cell>
-      <Cell/>
     </Board>
     <Board id="b2" title="Recent movies">
       <Cell padded>
@@ -152,6 +161,7 @@ export default {
   data() {
     return {
       tmdbApiKey: process.env.VUE_APP_TMDB_API_KEY,
+      opendWeatherAppApiKey: process.env.VUE_APP_OPENWEATHERAPP_API_KEY,
     };
   },
 };
