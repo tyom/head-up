@@ -71,7 +71,8 @@
         padded
       >
         <VPoller
-          endpoint="https://api.iextrading.com/1.0/stock/market/crypto?filter=companyName,latestPrice,changePercent"
+          endpoint="https://api.iextrading.com/1.0/stock/market/crypto"
+          :query="{filter: 'companyName,latestPrice,changePercent'}"
           interval="1m"
         >
           <VList
