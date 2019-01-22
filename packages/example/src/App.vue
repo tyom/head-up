@@ -1,11 +1,7 @@
 <template>
   <HeadUp class="head-up">
     <Board id="socket1" title="Crypto real-time">
-      <Cell
-        title="HitBTC Trade"
-        align="center"
-        padded
-      >
+      <Cell title="HitBTC Trade" padded>
         <VSocket
           endpoint="wss://api.hitbtc.com/api/2/ws"
           :throttle="100"
@@ -42,11 +38,7 @@
           </HValue>
         </VSocket>
       </Cell>
-      <Cell
-        title="Gemini market data"
-        align="center"
-        padded
-      >
+      <Cell title="Gemini market data" padded>
         <VSocket endpoint="wss://api.gemini.com/v1/marketdata/btcusd">
           <HValue
             slot-scope="{result}"
@@ -65,11 +57,7 @@
       </Cell>
     </Board>
     <Board id="poller1" title="Crypto poll">
-      <Cell
-        title="Crypto market"
-        align="center"
-        padded
-      >
+      <Cell title="Crypto market" padded>
         <VPoller
           endpoint="https://api.iextrading.com/1.0/stock/market/crypto"
           :query="{filter: 'companyName,latestPrice,changePercent'}"
