@@ -5,7 +5,7 @@
         v-for="(item, idx) in items"
         :key="idx"
       >
-        <slot :data="item"/>
+        <slot :item="item"/>
       </li>
     </ul>
   </div>

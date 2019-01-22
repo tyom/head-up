@@ -78,15 +78,15 @@
             type="tiles"
           >
             <HValue
-              slot-scope="{data}"
-              :label="data.companyName"
-              :value="data.latestPrice"
+              slot-scope="{item}"
+              :label="item.companyName"
+              :value="item.latestPrice"
               :format-number="{
                 style: 'currency',
                 currency: 'USD',
               }"
-              :increase="data.changePercent > 0"
-              :decrease="data.changePercent < 0"
+              :increase="item.changePercent > 0"
+              :decrease="item.changePercent < 0"
             />
           </VList>
         </VPoller>
@@ -125,25 +125,25 @@
             :items="$get(result, 'results', [])"
           >
             <HCard
-              slot-scope="{data}"
-              :title="data.title"
-              :image="`https://image.tmdb.org/t/p/w342/${data.poster_path}`"
+              slot-scope="{item}"
+              :title="item.title"
+              :image="`https://image.tmdb.org/t/p/w342/${item.poster_path}`"
             >
               <template slot="subtitle">
                 <HGauge
-                  :progress="data.vote_average * 10"
+                  :progress="item.vote_average * 10"
                   :colour-ranges="{
                     red: [0, 30],
                     tomato: [30, 50],
                     gold: [50, 70],
                     limegreen: [70, 100]
                   }"
-                  :label="data.vote_average"
-                  :side-label="`${$formatNumber(data.vote_count)} votes`"
+                  :label="item.vote_average"
+                  :side-label="`${$formatNumber(item.vote_count)} votes`"
                 />
               </template>
-              <p>{{ data.overview | truncate(250) }}</p>
-              <p>Released: {{ new Date(data.release_date).toLocaleString('en-GB', {
+              <p>{{ item.overview | truncate(250) }}</p>
+              <p>Released: {{ new Date(item.release_date).toLocaleString('en-GB', {
                 day: 'numeric',
                 month: 'short',
                 year: 'numeric',

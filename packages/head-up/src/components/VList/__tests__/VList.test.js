@@ -12,7 +12,7 @@ test('render with items', () => {
       items: [{ label: 'One' }, { label: 'Two' }],
     },
     scopedSlots: {
-      default: '<div slot-scope="{data}">{{ data.label }}</div>',
+      default: '<div slot-scope="{item}">{{ item.label }}</div>',
     },
   });
   expect(wrapper).toMatchSnapshot();
