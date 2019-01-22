@@ -18,11 +18,11 @@
             slot-scope="{result}"
             :label="$get(result, 'params.symbol')"
             :value="$get(result, 'params.last')"
-            :format-number="{
-              style: 'currency',
-              currency: 'USD',
-            }"
-          />
+          >
+            <template slot="value" slot-scope="{value}">
+              ${{ Number(value).toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+            </template>
+          </HValue>
         </VSocket>
         <VSocket
           endpoint="wss://api.hitbtc.com/api/2/ws"
@@ -35,11 +35,11 @@
             slot-scope="{result}"
             :label="$get(result, 'params.symbol')"
             :value="$get(result, 'params.last')"
-            :format-number="{
-              style: 'currency',
-              currency: 'USD',
-            }"
-          />
+          >
+            <template slot="value" slot-scope="{value}">
+              ${{ Number(value).toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+            </template>
+          </HValue>
         </VSocket>
       </Cell>
       <Cell
@@ -52,13 +52,15 @@
             slot-scope="{result}"
             label="BTC USD"
             :value="$get(result, 'events[0].price')"
-            :format-number="{
-              style: 'currency',
-              currency: 'USD',
-            }"
-            :increase="$get(result, 'events[0].delta') > 0"
-            :decrease="$get(result, 'events[0].delta') < 0"
-          />
+          >
+            <ValueChangeIcon
+              slot="pre-value"
+              :change-value="$get(result, 'events[0].delta')"
+            />
+            <template slot="value" slot-scope="{value}">
+              ${{ Number(value).toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+            </template>
+          </HValue>
         </VSocket>
       </Cell>
     </Board>
@@ -81,13 +83,15 @@
               slot-scope="{item}"
               :label="item.companyName"
               :value="item.latestPrice"
-              :format-number="{
-                style: 'currency',
-                currency: 'USD',
-              }"
-              :increase="item.changePercent > 0"
-              :decrease="item.changePercent < 0"
-            />
+            >
+              <ValueChangeIcon
+                slot="pre-value"
+                :change-value="item.changePercent"
+              />
+              <template slot="value" slot-scope="{value}">
+                ${{ Number(value).toLocaleString(undefined, {minimumFractionDigits: 2}) }}
+              </template>
+            </HValue>
           </VList>
         </VPoller>
       </Cell>
@@ -103,11 +107,20 @@
             <HValue
               label="Current temperature"
               :value="$get(result, 'main.temp')"
-            />
+            >
+              <template slot="value" slot-scope="{value}">
+                {{ value }}°C
+              </template>
+            </HValue>
             <HValue
               label="Humidity"
               :value="$get(result, 'main.humidity')"
-            />
+              :tween-fixed="0"
+            >
+              <template slot="value" slot-scope="{value}">
+                {{ value }}%
+              </template>
+            </HValue>
           </template>
         </VPoller>
       </Cell>
@@ -143,11 +156,13 @@
                 />
               </template>
               <p>{{ item.overview | truncate(250) }}</p>
-              <p>Released: {{ new Date(item.release_date).toLocaleString('en-GB', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-              }) }}</p>
+              <p>
+                Released: {{ new Date(item.release_date).toLocaleString('en-GB', {
+                  day: 'numeric',
+                  month: 'short',
+                  year: 'numeric',
+                }) }}
+              </p>
             </HCard>
           </VList>
         </VPoller>
@@ -158,6 +173,9 @@
 
 <script>
 export default {
+  components: {
+    ValueChangeIcon: () => import('./components/ValueChangeIcon'),
+  },
   data() {
     return {
       tmdbApiKey: process.env.VUE_APP_TMDB_API_KEY,

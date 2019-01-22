@@ -2,17 +2,19 @@
   <dl class="HValue">
     <dt class="label">{{ label }}</dt>
     <dd class="value-wrapper">
-      <v-icon
-        v-if="hasIcon"
-        :name="increase ? 'caret-up' : 'caret-down'"
-        :class="increase ? 'change-increase' : 'change-decrease'"
-      />
+      <slot name="pre-value"/>
       <span class="value" v-if="value">
-        {{ tween && tweenedValue || value | formatNumber(formatNumber) }}
+        <slot
+          v-if="$scopedSlots.value"
+          name="value"
+          :value="tween ? tweenedValue : value"
+        />
+        <template v-else>{{ value }}</template>
       </span>
       <span class="value _na" v-else>
         N/A
       </span>
+      <slot name="post-value"/>
     </dd>
   </dl>
 </template>
@@ -23,29 +25,13 @@ import { tween } from 'femtotween';
 export default {
   name: 'HValue',
   props: {
-    align: {
-      type: String,
-      default: '',
-    },
     label: {
       type: String,
       default: '',
     },
-    formatNumber: {
-      type: Object,
-      default: () => {},
-    },
     value: {
       type: [String, Number],
       default: '',
-    },
-    increase: {
-      type: Boolean,
-      default: false,
-    },
-    decrease: {
-      type: Boolean,
-      default: false,
     },
     tween: {
       type: Boolean,
@@ -53,7 +39,7 @@ export default {
     },
     tweenFixed: {
       type: Number,
-      default: 3,
+      default: 2,
     },
   },
   computed: {
@@ -95,20 +81,5 @@ export default {
   &._na {
     opacity: 0.3;
   }
-}
-
-.fa-icon {
-  width: 1.1em;
-  height: 1.1em;
-  vertical-align: middle;
-  display: inline-block;
-}
-
-.change-increase {
-  color: #00c200;
-}
-
-.change-decrease {
-  color: #ff313e;
 }
 </style>

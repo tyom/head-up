@@ -21,23 +21,28 @@ test('render with label and value', () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-test('render with up trend', () => {
+test('render with value from scoped slot', () => {
   const wrapper = shallowMount(HValue, {
     propsData: {
       label: 'Strength',
       value: 100,
-      increase: true,
+    },
+    scopedSlots: {
+      value: '<h1 slot-scope="{value}">{{ value }}%</h1>',
     },
   });
   expect(wrapper).toMatchSnapshot();
 });
 
-test('render with down trend', () => {
+test('render with pre- and post-value slots', () => {
   const wrapper = shallowMount(HValue, {
     propsData: {
       label: 'Strength',
       value: 100,
-      decrease: true,
+    },
+    slots: {
+      'pre-value': '<h1>before value</h1>',
+      'post-value': '<h1>after value</h1>',
     },
   });
   expect(wrapper).toMatchSnapshot();
@@ -68,7 +73,7 @@ describe('tweened value', () => {
       value: 123.456789,
     });
 
-    expect(wrapper.vm.tweenedValue).toEqual('123.457');
+    expect(wrapper.vm.tweenedValue).toEqual('123.46');
 
     wrapper.setProps({
       value: 'purple',
