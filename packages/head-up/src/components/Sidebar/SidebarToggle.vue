@@ -30,6 +30,7 @@ export default {
   bottom: 0;
   left: 0;
   z-index: 2;
+  background-color: #222;
   box-shadow: 1px 0 1px rgba(#000, 0.5), inset -1px 0 rgba(#fff, 0.1);
 }
 
