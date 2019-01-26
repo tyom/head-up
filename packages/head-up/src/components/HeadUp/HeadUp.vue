@@ -212,9 +212,6 @@ export default {
         case 'help':
           this.toggleHelpScreen();
           break;
-        case 'escape':
-          this.closeModal();
-          break;
         default:
       }
     },
