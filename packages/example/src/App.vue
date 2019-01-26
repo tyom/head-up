@@ -1,6 +1,6 @@
 <template>
   <HeadUp class="head-up">
-    <Board id="socket1" title="Crypto real-time">
+    <Board id="crypto-real-time" title="Crypto real-time">
       <Cell title="HitBTC Trade" padded>
         <VSocket
           endpoint="wss://api.hitbtc.com/api/2/ws"
@@ -56,7 +56,7 @@
         </VSocket>
       </Cell>
     </Board>
-    <Board id="poller1" title="Crypto poll">
+    <Board id="crypto-collection" title="Crypto poll">
       <Cell title="Crypto market" padded>
         <VPoller
           endpoint="https://api.iextrading.com/1.0/stock/market/crypto"
@@ -85,7 +85,7 @@
         </VPoller>
       </Cell>
     </Board>
-    <Board id="b1" title="Weather">
+    <Board id="weather" title="Weather">
       <Cell title="London" padded>
         <VPoller
           endpoint="https://api.openweathermap.org/data/2.5/weather"
@@ -114,7 +114,7 @@
         </VPoller>
       </Cell>
     </Board>
-    <Board id="b2" title="Recent movies">
+    <Board id="movies" title="Recent movies">
       <Cell padded>
         <VPoller
           endpoint="https://api.themoviedb.org/3/discover/movie"
