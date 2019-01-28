@@ -131,6 +131,7 @@ export default {
         'state.activeBoardId',
         (newId, oldId) => {
           newId && this.activateBoard(newId, Boolean(oldId));
+          window.location.hash = newId;
         },
         { immediate: true },
       );

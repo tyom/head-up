@@ -22,7 +22,7 @@ const vuexLocal = new VuexPersistence({
 Vue.use(Vuex);
 
 export const initialState = {
-  activeBoardId: undefined,
+  activeBoardId: window.location.hash.replace(/^#/, ''),
   editMode: false,
   showSidebar: true,
   serializedBoards: [],
