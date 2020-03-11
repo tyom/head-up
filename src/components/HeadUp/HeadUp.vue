@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { get } from 'lodash';
+import get from 'lodash/get';
 import ally from 'ally.js';
 import store from '../../store';
 import { serializeSlot } from '../../transformers';

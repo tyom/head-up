@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 function getOption(slot, prop) {
   return get(slot, `componentOptions${prop ? '.' + prop : ''}`);

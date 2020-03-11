@@ -1,4 +1,4 @@
-import { merge } from 'lodash';
+import merge from 'lodash/merge';
 import Vuex from 'vuex';
 import ally from 'ally.js';
 import ShortKey from 'vue-shortkey';

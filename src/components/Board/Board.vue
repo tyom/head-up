@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { get } from 'lodash';
+import get from 'lodash/get';
 import store from '../../store';
 import Cell from '../Cell';
 import BoardToolbar from './BoardToolbar';

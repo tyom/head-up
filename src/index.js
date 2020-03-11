@@ -28,11 +28,12 @@ axios.interceptors.response.use(
   },
   err => {
     if (err.response.status === 401) {
-      console.warn(
-        err.response.data.status_message,
-        '\n',
-        err.response.config.url,
-      );
+      // eslint-disable-line no-console
+      // console.warn(
+      //   err.response.data.status_message,
+      //   '\n',
+      //   err.response.config.url,
+      // );
     }
     return err;
   },

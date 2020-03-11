@@ -1,7 +1,5 @@
-import { get } from 'lodash';
-import Chance from 'chance';
-
-const chance = new Chance();
+import get from 'lodash/get';
+import nanoid from 'nanoid';
 
 export default {
   INIT_BOARDS({ dispatch }, { fromProps = [], fromSlots = [] }) {
@@ -14,19 +12,15 @@ export default {
     commit('setActiveBoard', boardId);
   },
   ADD_BOARD({ dispatch, state }) {
-    const getWords = words => chance.sentence({ words });
-    const title = getWords(2)
-      .replace(/\.$/, '')
-      .toLowerCase();
-    const id = title.replace(' ', '-');
+    const id = nanoid(10);
 
     const newBoard = {
       id,
-      title,
+      title: id,
       editable: true,
       cells: [
         {
-          title: getWords(4),
+          title: nanoid(10),
         },
       ],
     };
