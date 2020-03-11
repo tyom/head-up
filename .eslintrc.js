@@ -1,5 +1,9 @@
 module.exports = {
-  extends: ['tyom'],
+  root: true,
+  extends: ['plugin:vue/essential', 'tyom'],
+  env: {
+    node: true,
+  },
   parserOptions: {
     parser: 'babel-eslint',
   },
