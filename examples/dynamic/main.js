@@ -1,10 +1,10 @@
 import Vue from 'vue';
+import HeadUpPlugin from '../../src';
 import App from './App.vue';
 
 Vue.config.productionTip = false;
 
-import HeadUp from '../../src';
-Vue.use(HeadUp);
+Vue.use(HeadUpPlugin);
 
 new Vue({
   render: h => h(App),

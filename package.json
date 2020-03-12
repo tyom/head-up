@@ -6,7 +6,7 @@
   "license": "ISC",
   "scripts": {
     "serve:dynamic": "vue-cli-service serve examples/dynamic/main.js",
-    "build": "vue-cli-service build --target lib --inline-vue src/index.js",
+    "build": "vue-cli-service build --target lib src/index.js",
     "lint": "vue-cli-service lint",
     "test": "jest"
   },

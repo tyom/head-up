@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Head-up static HTML example</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="../../dist/head-up.umd.js"></script>
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/x-template" id="headUp">
+      <HeadUp>
+        <Board id="a1">
+          <Cell></Cell>
+          <Cell></Cell>
+        </Board>
+        <Board id="a2">
+          <Cell></Cell>
+          <Cell></Cell>
+        </Board>
+      </HeadUp>
+    </script>
+    <script>
+      Vue.use(window['head-up']);
+      new Vue({
+        el: '#app',
+        template: '#headUp',
+      });
+    </script>
+  </body>
+</html>

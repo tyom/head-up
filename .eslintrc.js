@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ['plugin:vue/essential', 'tyom'],
+  extends: ['eslint:recommended', 'plugin:vue/essential', 'tyom/jest'],
   env: {
     node: true,
   },
