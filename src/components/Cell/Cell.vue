@@ -97,6 +97,7 @@ export default {
   border: 1px solid #0005;
   transition: 0.3s;
   display: flex;
+  flex: 1;
   flex-direction: column;
   user-select: none;
 
@@ -163,7 +164,7 @@ export default {
 .container {
   position: relative;
   flex: 1;
-  display: flex;
+  display: grid;
 }
 
 .body {
