@@ -2,34 +2,91 @@
   <head>
     <meta charset="utf-8" />
     <title>Head-up static HTML example</title>
-    <script src="https://unpkg.com/vue"></script>
-    <script src="../../dist/head-up.umd.js"></script>
+    <script src="../../dist/headUp.umd.js"></script>
     <style>
       body {
         margin: 0;
+        background-color: #222;
+        font: 16px 'Avenir', Helvetica, Arial, sans-serif;
       }
     </style>
+    <script>
+      window.headUp.initRuntime('#headUp');
+    </script>
   </head>
   <body>
     <div id="app"></div>
     <script type="text/x-template" id="headUp">
       <HeadUp>
-        <Board id="a1">
-          <Cell></Cell>
-          <Cell></Cell>
+        <Board id="socket1" title="Crypto real-time">
+          <Cell title="HitBTC Trade" padded>
+            <VSocket
+              endpoint="wss://api.hitbtc.com/api/2/ws"
+              :throttle="100"
+              @open="
+                $event.send(
+                  JSON.stringify({
+                    method: 'subscribeTicker',
+                    params: { symbol: 'BTCUSD' },
+                  }),
+                )
+              "
+            >
+              <HValue
+                slot-scope="{ result }"
+                :label="$get(result, 'params.symbol')"
+                :value="$get(result, 'params.last')"
+              >
+                <template slot="value" slot-scope="{ value }">
+                  {{ value | currency }}
+                </template>
+              </HValue>
+            </VSocket>
+            <VSocket
+              endpoint="wss://api.hitbtc.com/api/2/ws"
+              @open="
+                $event.send(
+                  JSON.stringify({
+                    method: 'subscribeTicker',
+                    params: { symbol: 'ETHUSD' },
+                  }),
+                )
+              "
+            >
+              <HValue
+                slot-scope="{ result }"
+                :label="$get(result, 'params.symbol')"
+                :value="$get(result, 'params.last')"
+              >
+                <template slot="value" slot-scope="{ value }">
+                  {{ value | currency }}
+                </template>
+              </HValue>
+            </VSocket>
+          </Cell>
+          <Cell title="Gemini market data" padded>
+            <VSocket endpoint="wss://api.gemini.com/v1/marketdata/btcusd">
+              <HValue
+                slot-scope="{ result }"
+                label="BTC USD"
+                :value="$get(result, 'events[0].price')"
+              >
+                <ValueChangeIcon
+                  slot="pre-value"
+                  :change-value="$get(result, 'events[0].delta')"
+                />
+                <template slot="value" slot-scope="{ value }">
+                  {{ value | currency }}
+                </template>
+              </HValue>
+            </VSocket>
+          </Cell>
         </Board>
         <Board id="a2">
           <Cell></Cell>
           <Cell></Cell>
         </Board>
       </HeadUp>
-    </script>
-    <script>
-      Vue.use(window['head-up']);
-      new Vue({
-        el: '#app',
-        template: '#headUp',
-      });
     </script>
   </body>
 </html>
