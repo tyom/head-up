@@ -18,7 +18,7 @@
   "dependencies": {
     "ally.js": "1.4.1",
     "axios": "0.19.2",
-    "femtotween": "1.0.2",
+    "femtotween": "1.1.0",
     "focus-visible": "5.0.2",
     "lodash": "4.17.15",
     "nanoid": "2.1.11",
@@ -41,9 +41,9 @@
     "eslint-config-tyom": "^2.6.0",
     "eslint-plugin-vue": "^6.2.2",
     "husky": "4.2.3",
-    "now": "17.0.4",
+    "now": "17.1.1",
     "postcss-preset-env": "6.7.0",
-    "prettier": "1.19.1",
+    "prettier": "2.0.2",
     "rucksack-css": "1.0.2",
     "vue-template-compiler": "^2.6.11"
   }

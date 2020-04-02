@@ -3591,10 +3591,10 @@ faye-websocket@~0.11.1:
   dependencies:
     websocket-driver ">=0.5.1"
 
-femtotween@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/femtotween/-/femtotween-1.0.2.tgz#62867b4c75348366bdb16ca730f55a24f9db1767"
-  integrity sha512-E0g3TtYVVy5ntu2lcEIbCqx1I4a0MG/B94V71yhyQoU102FuvPuxTms9+KgEYjuFqjvTpuFHkwuZUV4daPu1rA==
+femtotween@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/femtotween/-/femtotween-1.1.0.tgz#01d0798af71261be95a6cc6544f26356f0bfbea9"
+  integrity sha512-kGhEEzdDJIWWxsgFn/gWceDbgqVfVR5DA7HER7KuayYiwIc3hR/A7HhHP6fudz3T9k2TTTwgyT8kbWFJVT66+w==
 
 figgy-pudding@^3.5.1:
   version "3.5.1"
@@ -5638,10 +5638,10 @@ normalize-url@^3.0.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
 
-now@17.0.4:
-  version "17.0.4"
-  resolved "https://registry.yarnpkg.com/now/-/now-17.0.4.tgz#2204b84b3477937385835dbd975340935cf8151c"
-  integrity sha512-OP4DSlenZ+GJ3f9+dMRr1HL8naMbeU8qlPvprsqagKdrXDdtJRsQObCc7IVyyeTSQPAp3gg6nDP66/ml+dmmFQ==
+now@17.1.1:
+  version "17.1.1"
+  resolved "https://registry.yarnpkg.com/now/-/now-17.1.1.tgz#5e5fade17c3f9c3b7e3900be3febf7c21c7d6935"
+  integrity sha512-Hmh8eMSt4FxS1YBwaLrdJuzEVm6ZtS4JCY0AZE+JTnTtDGHVaQMUI85FaPvasSIhKLa+7xf6v7lmTgM39VW/8w==
 
 npm-run-path@^2.0.0:
   version "2.0.2"
@@ -6950,7 +6950,12 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@1.19.1, prettier@^1.18.2:
+prettier@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.2.tgz#1ba8f3eb92231e769b7fcd7cb73ae1b6b74ade08"
+  integrity sha512-5xJQIPT8BraI7ZnaDwSbu5zLrB6vvi8hVV58yHQ+QK64qrY40dULy0HSRlQ2/2IdzeBpjhDkqdcFBnFeDEMVdg==
+
+prettier@^1.18.2:
   version "1.19.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.19.1.tgz#f7d7f5ff8a9cd872a7be4ca142095956a60797cb"
   integrity sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==
