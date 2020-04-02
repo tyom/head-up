@@ -186,7 +186,7 @@ export default {
     };
   },
   created() {
-    document.title = 'Head-up Dashboard';
+    document.title = 'Dynamic Head-up Dashboard example';
   },
 };
 </script>

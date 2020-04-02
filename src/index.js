@@ -1,6 +1,7 @@
 import 'focus-visible';
 import axios from 'axios';
 import get from 'lodash/get';
+import Vue from 'vue/dist/vue.common';
 import VueAxios from 'vue-axios';
 import ShortKey from 'vue-shortkey';
 import Vue2Filters from 'vue2-filters';
@@ -39,7 +40,7 @@ axios.interceptors.response.use(
   },
 );
 
-const HeadUpPlugin = {
+export const HeadUpPlugin = {
   install(Vue) {
     Vue.prototype.$get = get;
     Vue.use(VueAxios, axios);
@@ -72,4 +73,24 @@ const HeadUpPlugin = {
   },
 };
 
-export default HeadUpPlugin;
+/**
+ * Initialise the library when running at runtime via script tag
+ *
+ * @param {string} template - template string or selector of a script tag of type="text/x-template"
+ * @param {string} el - container selector id which will contain the result
+ * @returns {Promise<void>}
+ */
+export async function initRuntime(template, el = '#app') {
+  if (!template) {
+    throw new Error(
+      `'template is required and should point to id of a <script type="text/x-template"> or template literal with actual template code.`,
+    );
+  }
+  Vue.use(HeadUpPlugin);
+  window.addEventListener('load', () => {
+    new Vue({
+      el,
+      template,
+    });
+  });
+}

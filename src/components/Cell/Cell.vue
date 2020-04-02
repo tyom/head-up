@@ -73,8 +73,9 @@ export default {
     },
     bodyClass() {
       const content = this.$slots.default ? this.$slots.default : this.content;
+      const elementCount = content.filter(x => x.tag).length;
       return {
-        [`u-grid-${content.length}-x`]: !!content.length,
+        [`u-grid-${elementCount}-x`]: !!elementCount,
         [this.align
           .split(' ')
           .map(x => `u-align-${x}`)
