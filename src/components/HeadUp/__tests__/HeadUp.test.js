@@ -2,7 +2,6 @@ import merge from 'lodash/merge';
 import Vuex from 'vuex';
 import ally from 'ally.js';
 import ShortKey from 'vue-shortkey';
-import Chance from 'chance';
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import store, { initialState } from '../../../store';
 import Board from '../../Board';
@@ -11,12 +10,14 @@ import Sidebar from '../../Sidebar';
 import ModalDialogue from '../../ModalDialogue';
 import VSwitchToggle from '../../VSwitchToggle';
 import HeadUp from '../HeadUp';
-import HeadUpBoards from '../HeadUpBoards';
+import Boards from '../Boards';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(ShortKey);
 localVue.component('VSwitchToggle', VSwitchToggle);
+
+jest.mock('nanoid', () => () => 'new-board');
 
 function mountHeadUp(options = {}) {
   return shallowMount(HeadUp, {
@@ -25,7 +26,7 @@ function mountHeadUp(options = {}) {
     stubs: {
       Cell,
       Board,
-      HeadUpBoards,
+      Boards,
     },
   });
 }
@@ -85,7 +86,6 @@ beforeEach(() => {
   jest.clearAllMocks();
   store.replaceState({ ...initialState });
   Element.prototype.scrollIntoView = jest.fn();
-  Chance.prototype.sentence = jest.fn(() => 'New board.');
 });
 
 describe('rendering', () => {
@@ -134,9 +134,10 @@ describe('scrolling', () => {
     expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({});
   });
 
-  test('scroll on activation', () => {
+  test('scroll on activation', async () => {
     store.dispatch('ACTIVATE_BOARD', '2');
 
+    await localVue.nextTick();
     expect(Element.prototype.scrollIntoView).toHaveBeenCalledTimes(2);
     expect(Element.prototype.scrollIntoView.mock.calls[1][0]).toEqual({
       behavior: 'smooth',
@@ -163,33 +164,37 @@ describe('focus trap', () => {
     wrapper = mountWithProps();
   });
 
-  test('trap focus', () => {
+  test('trap focus', async () => {
     expect(wrapper.vm.focusTrap).toBeNull();
 
     store.dispatch('TOGGLE_EDIT_MODE');
 
+    await localVue.nextTick();
     expect(ally.maintain.tabFocus).toHaveBeenCalledTimes(1);
     expect(wrapper.vm.focusTrap).toBeTruthy();
   });
 
-  test('untrap focus', () => {
+  test('untrap focus', async () => {
     store.dispatch('TOGGLE_EDIT_MODE');
+    await localVue.nextTick();
     store.dispatch('TOGGLE_EDIT_MODE');
+    await localVue.nextTick();
 
     expect(wrapper.vm.focusTrap.disengage).toHaveBeenCalledTimes(1);
   });
 });
 
 describe('manipulations', () => {
-  test('add board', () => {
+  test('add board', async () => {
     const wrapper = mountWithProps();
 
     expect(wrapper.vm.state.serializedBoards.length).toEqual(3);
 
     store.dispatch('ADD_BOARD');
+    await localVue.nextTick();
 
     expect(store.state.serializedBoards.length).toEqual(4);
-    expect(store.state.serializedBoards[0].title).toEqual('new board');
+    expect(store.state.serializedBoards[0].title).toEqual('new-board');
     expect(store.state.serializedBoards[0].id).toEqual('new-board');
 
     expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({});
@@ -273,7 +278,7 @@ describe('board editing', () => {
       payload: newBoardData,
     });
 
-    const editedBoard = store.state.serializedBoards.find(x => x.id === '1');
+    const editedBoard = store.state.serializedBoards.find((x) => x.id === '1');
     expect(editedBoard).toHaveProperty('title', newBoardData.title);
   });
 });
@@ -358,7 +363,7 @@ describe('respond to keystrokes', () => {
     expect(wrapper.vm.state.editMode).toEqual(true);
   });
 
-  test('add board', () => {
+  test('add board', async () => {
     expect(wrapper.vm.state.serializedBoards.length).toEqual(3);
     wrapper.trigger('keydown', {
       key: 'a',

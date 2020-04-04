@@ -23,11 +23,15 @@ import HValue from './components/HValue';
 import HCard from './components/HCard';
 import HGauge from './components/HGauge';
 
+import 'tailwindcss/base.css';
+import 'tailwindcss/components.css';
+import 'tailwindcss/utilities.css';
+
 axios.interceptors.response.use(
-  res => {
+  (res) => {
     return res;
   },
-  err => {
+  (err) => {
     if (err.response.status === 401) {
       // eslint-disable-line no-console
       // console.warn(
@@ -60,7 +64,7 @@ export const HeadUpPlugin = {
       /^(\.\/.*)*V[A-Z].+\.vue$/, // global name regex
     );
 
-    requireComponent.keys().forEach(fileName => {
+    requireComponent.keys().forEach((fileName) => {
       let baseComponentConfig = requireComponent(fileName);
       baseComponentConfig = baseComponentConfig.default || baseComponentConfig;
 

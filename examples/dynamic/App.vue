@@ -193,11 +193,7 @@ export default {
 
 <style>
 html {
+  @apply bg-gray-900;
   font: 16px 'Avenir', Helvetica, Arial, sans-serif;
-  background-color: #222;
-}
-
-body {
-  margin: 0;
 }
 </style>

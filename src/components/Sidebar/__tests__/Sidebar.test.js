@@ -1,10 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 import store from '../../../store';
 import Sidebar from '../Sidebar';
-import SidebarToggle from '../SidebarToggle';
-import SidebarBoards from '../SidebarBoards';
-import SidebarBoardActions from '../SidebarBoardActions';
-import SidebarActions from '../SidebarActions';
+import Toggle from '../Toggle';
+import Boards from '../Boards';
 
 jest.spyOn(store, 'dispatch');
 
@@ -38,37 +36,37 @@ describe('respond to interactions', () => {
   });
 
   test('toggle sidebar', () => {
-    wrapper.find(SidebarToggle).vm.$emit('toggle');
+    wrapper.find(Toggle).vm.$emit('toggle');
     expect(store.dispatch).toHaveBeenCalledWith('TOGGLE_SIDEBAR');
   });
 
   test('add board', () => {
-    wrapper.find(SidebarBoardActions).vm.$emit('add-board');
+    wrapper.find('.add-button').vm.$emit('click');
     expect(store.dispatch).toHaveBeenCalledWith('ADD_BOARD');
   });
 
   test('edit mode', () => {
-    wrapper.find(SidebarBoardActions).vm.$emit('toggle-edit');
+    wrapper.find('.edit-button').vm.$emit('click');
     expect(store.dispatch).toHaveBeenCalledWith('TOGGLE_EDIT_MODE');
   });
 
   test('activate board', () => {
-    wrapper.find(SidebarBoards).vm.$emit('activate', 'my-board');
+    wrapper.find(Boards).vm.$emit('activate', 'my-board');
     expect(store.dispatch).toHaveBeenCalledWith('ACTIVATE_BOARD', 'my-board');
   });
 
   test('remove board', () => {
-    wrapper.find(SidebarBoards).vm.$emit('remove', 'my-board');
+    wrapper.find(Boards).vm.$emit('remove', 'my-board');
     expect(store.dispatch).toHaveBeenCalledWith('REMOVE_BOARD', 'my-board');
   });
 
   test('toggle help overlay', () => {
-    wrapper.find(SidebarActions).vm.$emit('help');
+    wrapper.find('.help-button').vm.$emit('click');
     expect(wrapper.emitted('toggle:help')[0]).toBeTruthy();
   });
 
   test('toggle settings overlay', () => {
-    wrapper.find(SidebarActions).vm.$emit('settings');
+    wrapper.find('.settings-button').vm.$emit('click');
     expect(wrapper.emitted('toggle:settings')[0]).toBeTruthy();
   });
 });

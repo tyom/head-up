@@ -3,8 +3,8 @@
 exports[`render as editable 1`] = `
 <div class="BoardToolbar">
   <form class="toolbar-container">
-    <div class="toolbar-item _info"><input type="text" placeholder="Board title" class="toolbar-input"></div>
-    <div class="toolbar-item _actions"><button disabled="disabled" class="save">
+    <div class="toolbar-item flex-grow"><input type="text" placeholder="Board title" class="toolbar-input"></div>
+    <div class="toolbar-item ml-auto"><button disabled="disabled" class="save">
         Apply
       </button> <button class="done">
         OK
@@ -16,10 +16,10 @@ exports[`render as editable 1`] = `
 exports[`render default 1`] = `
 <div class="BoardToolbar">
   <form class="toolbar-container">
-    <div class="toolbar-item _info"><span class="toolbar-title">
+    <div class="toolbar-item flex-grow"><span class="toolbar-title">
          (read-only)
       </span></div>
-    <div class="toolbar-item _actions">
+    <div class="toolbar-item ml-auto">
       <!----> <button class="done">
         OK
       </button></div>
@@ -30,10 +30,10 @@ exports[`render default 1`] = `
 exports[`render with board data 1`] = `
 <div class="BoardToolbar">
   <form class="toolbar-container">
-    <div class="toolbar-item _info"><span class="toolbar-title">
+    <div class="toolbar-item flex-grow"><span class="toolbar-title">
         Some collection (read-only)
       </span></div>
-    <div class="toolbar-item _actions">
+    <div class="toolbar-item ml-auto">
       <!----> <button class="done">
         OK
       </button></div>

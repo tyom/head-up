@@ -34,13 +34,13 @@ export default {
   },
   REMOVE_BOARD({ dispatch, state }, boardId) {
     const { serializedBoards, activeBoardId } = state;
-    const deletionIndex = serializedBoards.findIndex(x => x.id === boardId);
+    const deletionIndex = serializedBoards.findIndex((x) => x.id === boardId);
     const currentIndex = serializedBoards.findIndex(
-      x => x.id === activeBoardId,
+      (x) => x.id === activeBoardId,
     );
 
     let nextId;
-    const getBoardIdByIndex = idx => get(serializedBoards, `[${idx}].id`);
+    const getBoardIdByIndex = (idx) => get(serializedBoards, `[${idx}].id`);
 
     if (deletionIndex === currentIndex) {
       const last = deletionIndex === serializedBoards.length - 1;
@@ -51,12 +51,12 @@ export default {
       nextId = getBoardIdByIndex(currentIndex);
     }
 
-    const updatedBoards = serializedBoards.filter(x => x.id !== boardId);
+    const updatedBoards = serializedBoards.filter((x) => x.id !== boardId);
     dispatch('UPDATE_SERIALIZED_BOARDS', updatedBoards);
     dispatch('ACTIVATE_BOARD', nextId);
   },
   UPDATE_BOARD({ dispatch, state }, { boardId, payload }) {
-    const updatedBoards = state.serializedBoards.map(board =>
+    const updatedBoards = state.serializedBoards.map((board) =>
       board.id === boardId ? payload : board,
     );
     dispatch('UPDATE_SERIALIZED_BOARDS', updatedBoards);

@@ -1,5 +1,5 @@
 <template>
-  <div class="HeadUpBoards">
+  <div class="HeadUpBoards flex-grow overflow-hidden">
     <Board
       v-for="(board, idx) in boards"
       v-bind="board"
@@ -24,10 +24,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.HeadUpBoards {
-  flex: 1;
-  overflow: hidden;
-}
-</style>

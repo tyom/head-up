@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render toggled 1`] = `
+<button class="Toggle">
+  <v-icon name="chevron-left"></v-icon>
+</button>
+`;
+
+exports[`render untoggled 1`] = `
+<button class="Toggle">
+  <v-icon name="ellipsis-v"></v-icon>
+</button>
+`;

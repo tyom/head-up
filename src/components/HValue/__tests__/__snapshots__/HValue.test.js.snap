@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render default 1`] = `
-<dl class="HValue"><dt class="label"></dt>
+<dl class="HValue">
+  <dt class="label"></dt>
   <dd class="value-wrapper"> <span class="value _na">
       N/A
     </span> </dd>
@@ -9,13 +10,15 @@ exports[`render default 1`] = `
 `;
 
 exports[`render with label and value 1`] = `
-<dl class="HValue"><dt class="label">Strength</dt>
+<dl class="HValue">
+  <dt class="label">Strength</dt>
   <dd class="value-wrapper"> <span class="value">100</span> </dd>
 </dl>
 `;
 
 exports[`render with pre- and post-value slots 1`] = `
-<dl class="HValue"><dt class="label">Strength</dt>
+<dl class="HValue">
+  <dt class="label">Strength</dt>
   <dd class="value-wrapper">
     <h1>before value</h1> <span class="value">100</span>
     <h1>after value</h1>
@@ -24,7 +27,8 @@ exports[`render with pre- and post-value slots 1`] = `
 `;
 
 exports[`render with value from scoped slot 1`] = `
-<dl class="HValue"><dt class="label">Strength</dt>
+<dl class="HValue">
+  <dt class="label">Strength</dt>
   <dd class="value-wrapper"> <span class="value"><h1>100%</h1></span> </dd>
 </dl>
 `;

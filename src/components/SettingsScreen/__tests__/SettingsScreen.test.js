@@ -24,7 +24,7 @@ test('render default', () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-test('dispatches action to save settings', () => {
+test('dispatches action to save settings', async () => {
   const initialSettings = {
     myFavouriteSetting: {
       value: true,
@@ -48,6 +48,7 @@ test('dispatches action to save settings', () => {
   });
 
   wrapper.vm.settings = newSettings;
+  await wrapper.vm.$nextTick();
 
   expect(store.dispatch).toHaveBeenCalledWith('UPDATE_SETTINGS', newSettings);
 });

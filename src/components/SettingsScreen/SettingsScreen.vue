@@ -43,13 +43,15 @@ export default {
 </script>
 
 <style scoped>
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+button {
+  @apply bg-gray-700 py-2 px-4 rounded;
+
+  &:hover {
+    @apply bg-gray-900;
+  }
 }
 
 li + li {
-  margin-top: 1em;
+  @apply mt-4;
 }
 </style>

@@ -17,9 +17,9 @@
           {{ activeBoardTitle }}
         </div>
       </transition>
-      <HeadUpBoards :boards="editableBoards" ref="boardContainer">
+      <Boards :boards="editableBoards" ref="boardContainer">
         <slot />
-      </HeadUpBoards>
+      </Boards>
     </div>
     <ModalDialogue :content="modal" @close="modal = null" />
   </div>
@@ -32,12 +32,12 @@ import store from '../../store';
 import { serializeSlot } from '../../transformers';
 import ModalDialogue from '../ModalDialogue';
 import Sidebar from '../Sidebar';
-import HeadUpBoards from './HeadUpBoards';
+import Boards from './Boards';
 
 export default {
   name: 'HeadUp',
   components: {
-    HeadUpBoards,
+    Boards,
     Sidebar,
     ModalDialogue,
   },
@@ -245,56 +245,36 @@ export default {
 <style src="../../css/util.css" />
 
 <style scoped>
->>> * {
-  &,
-  &::before,
-  &::after {
-    box-sizing: border-box;
-    margin: 0;
-  }
-}
-
 .HeadUp {
-  font-size: responsive 8px 23px;
-  transition: 0.4s background-color;
-  background-color: #222;
-  color: #bbb;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  align-items: center;
+  @apply flex items-center h-screen;
+  @apply bg-gray-900 transition transition-colors duration-300;
 
   &._edit {
-    background-color: #0d1a2b;
+    @apply bg-blue-900;
+
+    & >>> .Cell {
+      @apply shadow-md;
+    }
   }
 }
 
 .board-title {
-  color: #fff;
-  padding: 1em 2em;
-  z-index: 1;
+  @apply absolute top-1/2 left-1/2 z-10 px-8 py-4;
+  @apply transform -translate-y-1/2 -translate-x-1/2;
+  @apply text-white rounded-full;
   background-color: #111a;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 2em;
 }
 
 .main {
-  height: 100vh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  position: relative;
+  @apply flex flex-col relative h-screen w-full;
 }
 
 .boardTitle-enter-active,
 .boardTitle-leave-active {
-  transition: 0.3s;
+  @apply transition duration-300;
 }
 .boardTitle-enter,
 .boardTitle-leave-to {
-  opacity: 0;
+  @apply opacity-0;
 }
 </style>

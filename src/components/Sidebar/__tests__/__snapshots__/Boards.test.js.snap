@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render default 1`] = `
+<div class="Boards">
+  <transition-group-stub tag="ul" name="boardReveal" class="board-list"></transition-group-stub>
+</div>
+`;
+
+exports[`render in edit mode 1`] = `
+<div class="Boards">
+  <transition-group-stub tag="ul" name="boardReveal" class="board-list">
+    <li title="Board #1 (read-only)" class="relative _read-only">
+      <transition-stub name="actionsReveal">
+        <!---->
+      </transition-stub> <button class="board-button">
+        <board-stub id="1" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub>
+      </button>
+      <div class="board-title">
+        Board #1
+      </div>
+    </li>
+    <li title="Board #2" class="relative">
+      <transition-stub name="actionsReveal">
+        <div class="board-actions"><button type="button" class="remove-button">
+            <v-icon name="minus-circle"></v-icon>
+          </button></div>
+      </transition-stub> <button class="board-button">
+        <board-stub id="2" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub>
+      </button>
+      <div class="board-title">
+        Board #2
+      </div>
+    </li>
+  </transition-group-stub>
+</div>
+`;
+
+exports[`render with active board 1`] = `
+<div class="Boards">
+  <transition-group-stub tag="ul" name="boardReveal" class="board-list">
+    <li title="Board #1 (read-only)" class="relative _active _read-only">
+      <transition-stub name="actionsReveal">
+        <!---->
+      </transition-stub> <button class="board-button">
+        <board-stub id="1" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub>
+      </button>
+      <div class="board-title">
+        Board #1
+      </div>
+    </li>
+    <li title="Board #2" class="relative">
+      <transition-stub name="actionsReveal">
+        <!---->
+      </transition-stub> <button class="board-button">
+        <board-stub id="2" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub>
+      </button>
+      <div class="board-title">
+        Board #2
+      </div>
+    </li>
+  </transition-group-stub>
+</div>
+`;
+
+exports[`render with boards 1`] = `
+<div class="Boards">
+  <transition-group-stub tag="ul" name="boardReveal" class="board-list">
+    <li title="Board #1 (read-only)" class="relative _read-only">
+      <transition-stub name="actionsReveal">
+        <!---->
+      </transition-stub> <button class="board-button">
+        <board-stub id="1" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub>
+      </button>
+      <div class="board-title">
+        Board #1
+      </div>
+    </li>
+    <li title="Board #2" class="relative">
+      <transition-stub name="actionsReveal">
+        <!---->
+      </transition-stub> <button class="board-button">
+        <board-stub id="2" isthumb="true" title="" cells="[object Object],[object Object]" class="board"></board-stub>
+      </button>
+      <div class="board-title">
+        Board #2
+      </div>
+    </li>
+  </transition-group-stub>
+</div>
+`;

@@ -3,57 +3,64 @@
   "version": "0.1.0",
   "description": "Head-up dashboard system",
   "author": "Tyom Semonov <inspiro@gmail.com>",
-  "license": "ISC",
   "scripts": {
-    "serve:dynamic": "vue-cli-service serve examples/dynamic/main.js",
     "build": "vue-cli-service build --target lib --inline-vue --name headUp src/index.js",
+    "test": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "test": "jest",
-    "storybook": "start-storybook -p 6006 --ci",
-    "build-storybook": "build-storybook"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint"
-    }
+    "build-storybook": "build-storybook",
+    "serve:dynamic": "vue-cli-service serve examples/dynamic/main.js",
+    "storybook": "start-storybook -p 6006 --ci"
   },
   "dependencies": {
     "ally.js": "1.4.1",
     "axios": "0.19.2",
     "femtotween": "1.1.0",
     "focus-visible": "5.0.2",
+    "jest-serializer-vue": "2.0.2",
     "lodash": "4.17.15",
     "nanoid": "2.1.11",
     "parse-duration": "0.1.2",
+    "tailwindcss": "1.2.0",
     "vue": "^2.6.11",
     "vue-awesome": "4.0.2",
     "vue-axios": "2.1.5",
+    "vue-jest": "3.0.5",
     "vue-shortkey": "3.1.7",
     "vue2-filters": "0.10.0",
     "vuex": "3.1.3",
     "vuex-persist": "2.2.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0",
+    "@babel/core": "^7.1.6",
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-links": "^5.3.18",
     "@storybook/addons": "^5.3.18",
     "@storybook/vue": "^5.3.18",
     "@vue/cli-plugin-babel": "~4.2.3",
     "@vue/cli-plugin-eslint": "~4.2.3",
+    "@vue/cli-plugin-unit-jest": "~4.3.0",
     "@vue/cli-plugin-vuex": "~4.2.3",
     "@vue/cli-service": "~4.2.3",
+    "@vue/test-utils": "1.0.0-beta.32",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "25.2.6",
     "babel-loader": "^8.1.0",
     "babel-preset-vue": "^2.0.2",
     "eslint": "^6.8.0",
     "eslint-config-tyom": "^2.6.0",
     "eslint-plugin-vue": "^6.2.2",
     "husky": "4.2.3",
+    "jest-localstorage-mock": "2.4.0",
     "now": "17.1.1",
     "postcss-preset-env": "6.7.0",
     "prettier": "2.0.2",
     "rucksack-css": "1.0.2",
     "vue-template-compiler": "^2.6.11"
-  }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint"
+    }
+  },
+  "license": "ISC"
 }

@@ -104,7 +104,7 @@ export default {
           this.result = await this.getData(this.endpoint, this.query);
         }
       } catch (err) {
-        // console.error(err.message);
+        console.error(err.message);
       }
     },
   },

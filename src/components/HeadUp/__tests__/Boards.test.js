@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
 import Board from '../../Board';
 import Cell from '../../Cell';
-import HeadUpBoards from '../HeadUpBoards';
+import Boards from '../Boards';
 
 const slotContents = `
   <Board title="Slot board #1" id="b1">
@@ -25,7 +25,7 @@ const boardsMock = [
 ];
 
 test('render with slots', () => {
-  const wrapper = shallowMount(HeadUpBoards, {
+  const wrapper = shallowMount(Boards, {
     slots: {
       default: slotContents,
     },
@@ -38,7 +38,7 @@ test('render with slots', () => {
 });
 
 test('render with props', () => {
-  const wrapper = shallowMount(HeadUpBoards, {
+  const wrapper = shallowMount(Boards, {
     propsData: {
       boards: boardsMock,
     },
@@ -51,7 +51,7 @@ test('render with props', () => {
 });
 
 test('render with slot and props', () => {
-  const wrapper = shallowMount(HeadUpBoards, {
+  const wrapper = shallowMount(Boards, {
     propsData: {
       boards: boardsMock,
     },

@@ -1,23 +1,55 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render closed 1`] = `
-<div class="Sidebar">
-  <sidebartoggle-stub title="Shortcut: s"></sidebartoggle-stub>
-  <div class="container" style="display: none;" name="slideLeft">
-    <sidebarboardactions-stub></sidebarboardactions-stub>
-    <sidebarboards-stub boards="" activeid=""></sidebarboards-stub>
-    <sidebaractions-stub></sidebaractions-stub>
-  </div>
+<div class="Sidebar _collapsed">
+  <toggle-stub title="Shortcut: s"></toggle-stub>
+  <transition-stub name="fade">
+    <div class="wrapper" style="display: none;">
+      <div class="actions">
+        <button-stub title="Shortcut: a" class="add-button">
+          <v-icon name="plus"></v-icon>
+        </button-stub>
+        <button-stub title="Shortcut: e" class="edit-button">
+          <v-icon name="edit"></v-icon>
+        </button-stub>
+      </div>
+      <boards-stub boards="" activeid=""></boards-stub>
+      <div class="actions">
+        <button-stub title="Shortcut: ⇧<" class="settings-button">
+          <v-icon name="cog"></v-icon>
+        </button-stub>
+        <button-stub title="Shortcut: ⇧?" class="help-button">
+          <v-icon name="question"></v-icon>
+        </button-stub>
+      </div>
+    </div>
+  </transition-stub>
 </div>
 `;
 
 exports[`render opened 1`] = `
 <div class="Sidebar">
-  <sidebartoggle-stub toggled="true" title="Shortcut: s"></sidebartoggle-stub>
-  <div class="container" name="slideLeft">
-    <sidebarboardactions-stub></sidebarboardactions-stub>
-    <sidebarboards-stub boards="" activeid=""></sidebarboards-stub>
-    <sidebaractions-stub></sidebaractions-stub>
-  </div>
+  <toggle-stub toggled="true" title="Shortcut: s"></toggle-stub>
+  <transition-stub name="fade">
+    <div class="wrapper">
+      <div class="actions">
+        <button-stub title="Shortcut: a" class="add-button">
+          <v-icon name="plus"></v-icon>
+        </button-stub>
+        <button-stub title="Shortcut: e" class="edit-button">
+          <v-icon name="edit"></v-icon>
+        </button-stub>
+      </div>
+      <boards-stub boards="" activeid=""></boards-stub>
+      <div class="actions">
+        <button-stub title="Shortcut: ⇧<" class="settings-button">
+          <v-icon name="cog"></v-icon>
+        </button-stub>
+        <button-stub title="Shortcut: ⇧?" class="help-button">
+          <v-icon name="question"></v-icon>
+        </button-stub>
+      </div>
+    </div>
+  </transition-stub>
 </div>
 `;

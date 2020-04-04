@@ -3,7 +3,7 @@
 exports[`single request default render 1`] = `
 <div class="VPoller">
   <div class="status" style="background-size: 10% 100%;">
-    <div class="status-head" style="width: 10%;"></div>
+    <div class="status-head" style="width: 10%; animation-duration: 10000ms, 1000ms; animation-timing-function: steps(10, end), ease;"></div>
   </div>
 </div>
 `;

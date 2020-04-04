@@ -1,28 +1,52 @@
 <template>
-  <div class="Sidebar">
-    <SidebarToggle
+  <div class="Sidebar" :class="{ _collapsed: !visible }">
+    <Toggle
       :toggled="visible"
       @toggle="handleToggleSidebar"
       title="Shortcut: s"
     />
-    <transition name="slideLeft">
-      <div v-show="visible" class="container">
-        <SidebarBoardActions
-          :edit-mode="editMode"
-          @add-board="handleAddBoard"
-          @toggle-edit="handleToggleEdit"
-        />
-        <SidebarBoards
+    <transition name="fade">
+      <div class="wrapper" v-show="visible">
+        <div class="actions">
+          <Button
+            class="add-button"
+            title="Shortcut: a"
+            @click="handleAddBoard"
+          >
+            <v-icon name="plus" />
+          </Button>
+          <Button
+            :class="{ _active: editMode }"
+            class="edit-button"
+            title="Shortcut: e"
+            @click="handleToggleEdit"
+          >
+            <v-icon name="edit" />
+          </Button>
+        </div>
+        <Boards
           :edit-mode="editMode"
           :boards="boards"
           :active-id="activeBoardId"
           @activate="handleActivateBoard"
           @remove="handleRemoveBoard"
         />
-        <SidebarActions
-          @help="$emit('toggle:help')"
-          @settings="$emit('toggle:settings')"
-        />
+        <div class="actions">
+          <Button
+            title="Shortcut: ⇧<"
+            class="settings-button"
+            @click="$emit('toggle:settings')"
+          >
+            <v-icon name="cog" />
+          </Button>
+          <Button
+            title="Shortcut: ⇧?"
+            class="help-button"
+            @click="$emit('toggle:help')"
+          >
+            <v-icon name="question" />
+          </Button>
+        </div>
       </div>
     </transition>
   </div>
@@ -30,17 +54,15 @@
 
 <script>
 import store from '../../store';
-import SidebarToggle from './SidebarToggle';
-import SidebarBoards from './SidebarBoards';
-import SidebarActions from './SidebarActions';
-import SidebarBoardActions from './SidebarBoardActions';
+import Toggle from './Toggle';
+import Boards from './Boards';
+import Button from './Button';
 
 export default {
   components: {
-    SidebarToggle,
-    SidebarBoards,
-    SidebarActions,
-    SidebarBoardActions,
+    Toggle,
+    Boards,
+    Button,
   },
   props: {
     visible: {
@@ -81,31 +103,32 @@ export default {
 
 <style scoped>
 .Sidebar {
-  padding-left: 1.6rem;
-  height: 100%;
-  position: relative;
+  @apply relative flex overflow-hidden h-full pl-6 w-1/5 transition-all duration-300 ease-in;
+  max-width: 14rem;
+
+  &._collapsed {
+    @apply w-0;
+  }
 }
 
-.container {
-  display: grid;
-  grid-gap: 1em;
-  height: 100%;
+.wrapper {
+  @apply grid flex-grow gap-4 overflow-y-auto p-4 text-gray-500;
   grid-template-rows: auto 1fr auto;
-  overflow-y: auto;
-  padding: 1em;
   background-color: #0005;
-  color: #999;
-  box-shadow: inset -1px 0 rgba(#000, 0.5), 1px 0 rgba(#fff, 0.07);
+  box-shadow: inset 0 0 3px #0008;
 }
 
-.slideLeft-enter-active,
-.slideLeft-leave-active {
-  transition: 0.15s ease;
+.actions {
+  @apply grid grid-cols-2 gap-2;
 }
 
-.slideLeft-enter,
-.slideLeft-leave-to {
-  margin-left: calc((10vw + 1em) * -1);
-  opacity: 0;
+.fade-enter-active,
+.fade-leave-active {
+  @apply transition duration-700;
+}
+
+.fade-enter,
+.fade-leave-to {
+  @apply opacity-0;
 }
 </style>

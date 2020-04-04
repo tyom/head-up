@@ -6,12 +6,6 @@
 
 <style scoped>
 .CellSettings {
-  padding: 1rem;
-  position: absolute;
-  background-color: #000e;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  @apply absolute inset-0 p-3 bg-gray-800 text-white text-lg;
 }
 </style>

@@ -78,7 +78,7 @@ export default {
         return;
       }
       const cells = this.$slots.default.filter(
-        x => get(x, 'componentOptions.tag') === 'Cell',
+        (x) => get(x, 'componentOptions.tag') === 'Cell',
       );
       return cells.length ? cells : undefined;
     },
@@ -109,10 +109,7 @@ export default {
 
 <style scoped>
 .Board {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  height: 100%;
+  @apply flex flex-grow flex-col h-full;
 }
 
 .cell-placeholder {

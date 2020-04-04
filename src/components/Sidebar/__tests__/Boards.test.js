@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import SidebarBoards from '../SidebarBoards';
+import Boards from '../Boards';
 
 const boardsMock = [
   {
@@ -16,12 +16,12 @@ const boardsMock = [
 ];
 
 test('render default', () => {
-  const wrapper = shallowMount(SidebarBoards);
+  const wrapper = shallowMount(Boards);
   expect(wrapper).toMatchSnapshot();
 });
 
 test('render with boards', () => {
-  const wrapper = shallowMount(SidebarBoards, {
+  const wrapper = shallowMount(Boards, {
     propsData: {
       boards: boardsMock,
     },
@@ -31,7 +31,7 @@ test('render with boards', () => {
 });
 
 test('render with active board', () => {
-  const wrapper = shallowMount(SidebarBoards, {
+  const wrapper = shallowMount(Boards, {
     propsData: {
       boards: boardsMock,
       activeId: '1',
@@ -42,7 +42,7 @@ test('render with active board', () => {
 });
 
 test('render in edit mode', () => {
-  const wrapper = shallowMount(SidebarBoards, {
+  const wrapper = shallowMount(Boards, {
     propsData: {
       boards: boardsMock,
       editMode: true,
@@ -53,7 +53,7 @@ test('render in edit mode', () => {
 });
 
 test('respond to board removal', () => {
-  const wrapper = shallowMount(SidebarBoards, {
+  const wrapper = shallowMount(Boards, {
     propsData: {
       boards: boardsMock,
       editMode: true,
@@ -66,7 +66,7 @@ test('respond to board removal', () => {
 });
 
 test('respond to board activation', () => {
-  const wrapper = shallowMount(SidebarBoards, {
+  const wrapper = shallowMount(Boards, {
     propsData: {
       boards: boardsMock,
       activeId: '1',

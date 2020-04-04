@@ -8,5 +8,6 @@ module.exports = {
       },
     },
     'rucksack-css': {},
+    tailwindcss: {},
   },
 };

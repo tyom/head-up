@@ -8,7 +8,7 @@ export default {
 export const twoSlots = () => ({
   components: { Cell },
   template: `
-    <div style="display: flex; min-height: 100vh">
+    <div class="flex min-h-screen">
       <Cell title="HitBTC Trade" padded>
         <div>
           <h1>Hello</h1>

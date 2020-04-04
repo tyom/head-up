@@ -10,7 +10,7 @@ test('render default', () => {
   const wrapper = shallowMount(ModalDialogue, {
     localVue,
   });
-  expect(wrapper.html()).toBeUndefined();
+  expect(wrapper).toMatchSnapshot();
 });
 
 test('render help modal', () => {

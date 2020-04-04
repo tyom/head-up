@@ -7,7 +7,7 @@
       @shortkey="handleClose"
     >
       <div class="backdrop" @click="handleClose" />
-      <div class="container">
+      <div class="wrapper">
         <header v-if="content.heading">
           <h2 class="title">{{ content.heading }}</h2>
         </header>
@@ -59,56 +59,39 @@ export default {
 
 <style scoped>
 .ModalDialogue {
-  position: fixed;
-  z-index: 2;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
+  @apply fixed inset-0 z-10 flex justify-center items-center text-lg;
 }
 
 .backdrop {
+  @apply h-full w-full;
   background-color: #000b;
-  height: 100%;
-  width: 100%;
 }
 
-.container {
-  position: absolute;
-  border-radius: 0.3em;
-  z-index: 1;
-  background-color: #222;
-  border: 2px solid #fff4;
-  color: #ccc;
+.wrapper {
+  @apply absolute rounded-md border-solid border-2 shadow-lg;
+  @apply bg-gray-800 border-gray-600 text-gray-400 transition;
 }
 
 header {
-  padding: 1em;
-  background-color: #0002;
-  border-bottom: 0.1em solid #fff2;
+  @apply p-4 text-xl border-b-2 border-gray-600;
 }
 
 .body {
-  padding: 1em;
+  @apply p-4 overflow-auto;
   width: 60vw;
   min-height: 30vh;
-  overflow: auto;
 }
 
 .reveal-enter-active,
 .reveal-leave-active {
-  transition: 1s;
+  @apply transition duration-700;
 }
 .reveal-enter-active {
   & .backdrop {
-    transition: 0.5s;
+    @apply duration-500;
   }
 
-  & .container {
+  & .wrapper {
     transition: 0.2s 0.1s;
   }
 }
@@ -117,20 +100,19 @@ header {
     transition: 0.3s 0.1s;
   }
 
-  & .container {
-    transition: 0.1s;
+  & .wrapper {
+    @apply duration-100;
   }
 }
 
 .reveal-enter,
 .reveal-leave-to {
   & .backdrop {
-    opacity: 0;
+    @apply opacity-0;
   }
 
-  & .container {
-    opacity: 0;
-    transform: translateY(-50%);
+  & .wrapper {
+    @apply opacity-0 transform -translate-y-20;
   }
 }
 </style>

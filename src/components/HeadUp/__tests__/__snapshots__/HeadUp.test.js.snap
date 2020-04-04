@@ -4,28 +4,34 @@ exports[`modal dialogues open modal 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
-    <div class="board-title" name="boardTitle">
-      Slot board
-    </div>
-    <div class="HeadUpBoards">
+    <transition-stub name="boardTitle">
+      <div class="board-title">
+        Slot board
+      </div>
+    </transition-stub>
+    <div class="HeadUpBoards flex-grow overflow-hidden">
       <div id="board-b1" class="Board">
-        <!---->
+        <transition-stub name="slideDown">
+          <!---->
+        </transition-stub>
         <div class="cells u-grid-1-x">
           <div class="Cell">
             <header class="header">
               <h2 class="title">Cell #1</h2>
               <!---->
             </header>
-            <div class="container">
+            <div class="body-wrapper">
               <div class="body"></div>
-              <!---->
+              <transition-stub name="revealSettings">
+                <!---->
+              </transition-stub>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <modaldialogue-stub content="[object Object]"></modaldialogue-stub>
+  <modaldialogue-stub></modaldialogue-stub>
 </div>
 `;
 
@@ -33,28 +39,34 @@ exports[`modal dialogues settings 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
-    <div class="board-title" name="boardTitle">
-      Slot board
-    </div>
-    <div class="HeadUpBoards">
+    <transition-stub name="boardTitle">
+      <div class="board-title">
+        Slot board
+      </div>
+    </transition-stub>
+    <div class="HeadUpBoards flex-grow overflow-hidden">
       <div id="board-b1" class="Board">
-        <!---->
+        <transition-stub name="slideDown">
+          <!---->
+        </transition-stub>
         <div class="cells u-grid-1-x">
           <div class="Cell">
             <header class="header">
               <h2 class="title">Cell #1</h2>
               <!---->
             </header>
-            <div class="container">
+            <div class="body-wrapper">
               <div class="body"></div>
-              <!---->
+              <transition-stub name="revealSettings">
+                <!---->
+              </transition-stub>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <modaldialogue-stub content="[object Object]"></modaldialogue-stub>
+  <modaldialogue-stub></modaldialogue-stub>
 </div>
 `;
 
@@ -62,19 +74,23 @@ exports[`rendering render default 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
-    <!---->
-    <div class="HeadUpBoards"> </div>
+    <transition-stub name="boardTitle">
+      <!---->
+    </transition-stub>
+    <div class="HeadUpBoards flex-grow overflow-hidden"> </div>
   </div>
   <modaldialogue-stub></modaldialogue-stub>
 </div>
 `;
 
 exports[`rendering render in edit mode 1`] = `
-<div class="HeadUp _edit">
+<div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
-    <!---->
-    <div class="HeadUpBoards"> </div>
+    <transition-stub name="boardTitle">
+      <!---->
+    </transition-stub>
+    <div class="HeadUpBoards flex-grow overflow-hidden"> </div>
   </div>
   <modaldialogue-stub></modaldialogue-stub>
 </div>
@@ -84,19 +100,25 @@ exports[`rendering render with props 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
-    <!---->
-    <div class="HeadUpBoards">
+    <transition-stub name="boardTitle">
+      <!---->
+    </transition-stub>
+    <div class="HeadUpBoards flex-grow overflow-hidden">
       <div id="board-1" class="Board">
-        <!---->
+        <transition-stub name="slideDown">
+          <!---->
+        </transition-stub>
         <div class="cells u-grid-2-x">
           <div class="Cell cell">
             <header class="header">
               <h2 class="title">Cell #1</h2>
               <!---->
             </header>
-            <div class="container">
+            <div class="body-wrapper">
               <div class="body"></div>
-              <!---->
+              <transition-stub name="revealSettings">
+                <!---->
+              </transition-stub>
             </div>
           </div>
           <div class="Cell cell">
@@ -104,39 +126,49 @@ exports[`rendering render with props 1`] = `
               <h2 class="title">Cell #2</h2>
               <!---->
             </header>
-            <div class="container">
+            <div class="body-wrapper">
               <div class="body"></div>
-              <!---->
+              <transition-stub name="revealSettings">
+                <!---->
+              </transition-stub>
             </div>
           </div>
         </div>
       </div>
       <div id="board-2" class="Board">
-        <!---->
+        <transition-stub name="slideDown">
+          <!---->
+        </transition-stub>
         <div class="cells u-grid-1-x">
           <div class="Cell cell">
             <header class="header">
               <h2 class="title">Cell #3</h2>
               <!---->
             </header>
-            <div class="container">
+            <div class="body-wrapper">
               <div class="body"></div>
-              <!---->
+              <transition-stub name="revealSettings">
+                <!---->
+              </transition-stub>
             </div>
           </div>
         </div>
       </div>
       <div id="board-3" class="Board">
-        <!---->
+        <transition-stub name="slideDown">
+          <!---->
+        </transition-stub>
         <div class="cells u-grid-1-x">
           <div class="Cell cell">
             <header class="header">
               <h2 class="title">Cell #4</h2>
               <!---->
             </header>
-            <div class="container">
+            <div class="body-wrapper">
               <div class="body"></div>
-              <!---->
+              <transition-stub name="revealSettings">
+                <!---->
+              </transition-stub>
             </div>
           </div>
         </div>
@@ -151,19 +183,25 @@ exports[`rendering render with slot 1`] = `
 <div class="HeadUp">
   <sidebar-stub visible="true"></sidebar-stub>
   <div class="main">
-    <!---->
-    <div class="HeadUpBoards">
+    <transition-stub name="boardTitle">
+      <!---->
+    </transition-stub>
+    <div class="HeadUpBoards flex-grow overflow-hidden">
       <div id="board-b1" class="Board">
-        <!---->
+        <transition-stub name="slideDown">
+          <!---->
+        </transition-stub>
         <div class="cells u-grid-1-x">
           <div class="Cell">
             <header class="header">
               <h2 class="title">Cell #1</h2>
               <!---->
             </header>
-            <div class="container">
+            <div class="body-wrapper">
               <div class="body"></div>
-              <!---->
+              <transition-stub name="revealSettings">
+                <!---->
+              </transition-stub>
             </div>
           </div>
         </div>
@@ -178,8 +216,10 @@ exports[`rendering render without sidebar 1`] = `
 <div class="HeadUp">
   <!---->
   <div class="main">
-    <!---->
-    <div class="HeadUpBoards"> </div>
+    <transition-stub name="boardTitle">
+      <!---->
+    </transition-stub>
+    <div class="HeadUpBoards flex-grow overflow-hidden"> </div>
   </div>
   <modaldialogue-stub></modaldialogue-stub>
 </div>

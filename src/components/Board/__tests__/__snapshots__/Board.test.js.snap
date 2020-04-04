@@ -2,21 +2,27 @@
 
 exports[`render as thumbnail 1`] = `
 <div class="Board _thumb">
-  <!---->
+  <transition-stub name="slideDown">
+    <!---->
+  </transition-stub>
   <div class="cells u-grid-2-x"></div>
 </div>
 `;
 
 exports[`render empty 1`] = `
 <div id="board-1" class="Board">
-  <!---->
+  <transition-stub name="slideDown">
+    <!---->
+  </transition-stub>
   <div class="cells"></div>
 </div>
 `;
 
 exports[`render in edit mode 1`] = `
 <div id="board-1" class="Board">
-  <boardtoolbar-stub board="[object Object]" name="slideDown"></boardtoolbar-stub>
+  <transition-stub name="slideDown">
+    <boardtoolbar-stub board="[object Object]"></boardtoolbar-stub>
+  </transition-stub>
   <div class="cells u-grid-2-x">
     <cell-stub align="" title="" content=""></cell-stub>
     <cell-stub align="" title="" content=""></cell-stub>
@@ -26,7 +32,9 @@ exports[`render in edit mode 1`] = `
 
 exports[`render normal 1`] = `
 <div id="board-1" class="Board">
-  <!---->
+  <transition-stub name="slideDown">
+    <!---->
+  </transition-stub>
   <div class="cells u-grid-2-x">
     <cell-stub align="" title="" content=""></cell-stub>
     <cell-stub align="" title="" content=""></cell-stub>

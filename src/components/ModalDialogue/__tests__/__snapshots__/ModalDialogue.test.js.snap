@@ -1,29 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`render default 1`] = `
+<transition-stub name="reveal">
+  <!---->
+</transition-stub>
+`;
+
 exports[`render help modal 1`] = `
-<div class="ModalDialogue" name="reveal">
-  <div class="backdrop"></div>
-  <div class="container">
-    <header>
-      <h2 class="title">Help is here</h2>
-    </header>
-    <div class="body">
-      <helpscreen-stub></helpscreen-stub>
+<transition-stub name="reveal">
+  <div class="ModalDialogue">
+    <div class="backdrop"></div>
+    <div class="wrapper">
+      <header>
+        <h2 class="title">Help is here</h2>
+      </header>
+      <div class="body">
+        <helpscreen-stub></helpscreen-stub>
+      </div>
     </div>
   </div>
-</div>
+</transition-stub>
 `;
 
 exports[`render settings modal 1`] = `
-<div class="ModalDialogue" name="reveal">
-  <div class="backdrop"></div>
-  <div class="container">
-    <header>
-      <h2 class="title">Settings is here</h2>
-    </header>
-    <div class="body">
-      <settingsscreen-stub></settingsscreen-stub>
+<transition-stub name="reveal">
+  <div class="ModalDialogue">
+    <div class="backdrop"></div>
+    <div class="wrapper">
+      <header>
+        <h2 class="title">Settings is here</h2>
+      </header>
+      <div class="body">
+        <settingsscreen-stub></settingsscreen-stub>
+      </div>
     </div>
   </div>
-</div>
+</transition-stub>
 `;

@@ -50,7 +50,6 @@ test('render with pre- and post-value slots', () => {
 
 describe('tweened value', () => {
   let wrapper;
-
   beforeEach(() => {
     wrapper = shallowMount(HValue, {
       propsData: {
@@ -60,25 +59,28 @@ describe('tweened value', () => {
     });
   });
 
-  test('calls tween function', () => {
+  test('calls tween function', async () => {
     wrapper.setProps({
       value: 120,
     });
 
+    await wrapper.vm.$nextTick();
     expect(tween).toHaveBeenCalledWith(100, 120, expect.any(Function));
   });
 
-  test('sets tweenedValue data property', () => {
+  test('sets tweenedValue data property', async () => {
     wrapper.setProps({
       value: 123.456789,
     });
 
+    await wrapper.vm.$nextTick();
     expect(wrapper.vm.tweenedValue).toEqual('123.46');
 
     wrapper.setProps({
       value: 'purple',
     });
 
+    await wrapper.vm.$nextTick();
     expect(wrapper.vm.tweenedValue).toEqual('purple');
   });
 });

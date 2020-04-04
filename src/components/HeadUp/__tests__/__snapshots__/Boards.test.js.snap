@@ -1,18 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render with props 1`] = `
-<div class="HeadUpBoards">
+<div class="HeadUpBoards flex-grow overflow-hidden">
   <div id="board-1" class="Board">
-    <!---->
+    <transition-stub name="slideDown">
+      <!---->
+    </transition-stub>
     <div class="cells u-grid-2-x">
       <div class="Cell cell">
         <header class="header">
           <h2 class="title">Cell #1</h2>
           <!---->
         </header>
-        <div class="container">
+        <div class="body-wrapper">
           <div class="body"></div>
-          <!---->
+          <transition-stub name="revealSettings">
+            <!---->
+          </transition-stub>
         </div>
       </div>
       <div class="Cell cell">
@@ -20,9 +24,11 @@ exports[`render with props 1`] = `
           <h2 class="title">Cell #2</h2>
           <!---->
         </header>
-        <div class="container">
+        <div class="body-wrapper">
           <div class="body"></div>
-          <!---->
+          <transition-stub name="revealSettings">
+            <!---->
+          </transition-stub>
         </div>
       </div>
     </div>
@@ -31,18 +37,22 @@ exports[`render with props 1`] = `
 `;
 
 exports[`render with slot and props 1`] = `
-<div class="HeadUpBoards">
+<div class="HeadUpBoards flex-grow overflow-hidden">
   <div id="board-1" class="Board">
-    <!---->
+    <transition-stub name="slideDown">
+      <!---->
+    </transition-stub>
     <div class="cells u-grid-2-x">
       <div class="Cell cell">
         <header class="header">
           <h2 class="title">Cell #1</h2>
           <!---->
         </header>
-        <div class="container">
+        <div class="body-wrapper">
           <div class="body"></div>
-          <!---->
+          <transition-stub name="revealSettings">
+            <!---->
+          </transition-stub>
         </div>
       </div>
       <div class="Cell cell">
@@ -50,24 +60,30 @@ exports[`render with slot and props 1`] = `
           <h2 class="title">Cell #2</h2>
           <!---->
         </header>
-        <div class="container">
+        <div class="body-wrapper">
           <div class="body"></div>
-          <!---->
+          <transition-stub name="revealSettings">
+            <!---->
+          </transition-stub>
         </div>
       </div>
     </div>
   </div>
   <div id="board-b1" class="Board">
-    <!---->
+    <transition-stub name="slideDown">
+      <!---->
+    </transition-stub>
     <div class="cells u-grid-1-x">
       <div class="Cell">
         <header class="header">
           <h2 class="title">Cell #1</h2>
           <!---->
         </header>
-        <div class="container">
+        <div class="body-wrapper">
           <div class="body"></div>
-          <!---->
+          <transition-stub name="revealSettings">
+            <!---->
+          </transition-stub>
         </div>
       </div>
     </div>
@@ -76,18 +92,22 @@ exports[`render with slot and props 1`] = `
 `;
 
 exports[`render with slots 1`] = `
-<div class="HeadUpBoards">
+<div class="HeadUpBoards flex-grow overflow-hidden">
   <div id="board-b1" class="Board">
-    <!---->
+    <transition-stub name="slideDown">
+      <!---->
+    </transition-stub>
     <div class="cells u-grid-1-x">
       <div class="Cell">
         <header class="header">
           <h2 class="title">Cell #1</h2>
           <!---->
         </header>
-        <div class="container">
+        <div class="body-wrapper">
           <div class="body"></div>
-          <!---->
+          <transition-stub name="revealSettings">
+            <!---->
+          </transition-stub>
         </div>
       </div>
     </div>

@@ -21,7 +21,7 @@ test('render with board data', () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-test('render as editable', () => {
+test('render as editable', async () => {
   const wrapper = shallowMount(BoardToolbar, {
     propsData: {
       board: {
@@ -38,6 +38,7 @@ test('render as editable', () => {
   expect(saveButton.attributes('disabled')).toEqual('disabled');
 
   inputField.setValue('Changed collection');
+  await wrapper.vm.$nextTick();
   expect(saveButton.attributes('disabled')).toBeUndefined();
 });
 
@@ -60,11 +61,12 @@ describe('finish edits', () => {
     inputField = wrapper.find('.toolbar-input');
   });
 
-  test('save button', () => {
+  test('save button', async () => {
     const saveButton = wrapper.find('.save');
 
     expect(saveButton.element.disabled).toBe(true);
     inputField.setValue(newTitle);
+    await wrapper.vm.$nextTick();
     expect(saveButton.element.disabled).toBe(false);
 
     saveButton.trigger('submit');

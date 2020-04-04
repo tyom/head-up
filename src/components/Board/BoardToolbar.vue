@@ -1,7 +1,7 @@
 <template>
   <div class="BoardToolbar">
     <form class="toolbar-container" @submit.prevent="$emit('save', boardState)">
-      <div class="toolbar-item _info">
+      <div class="toolbar-item flex-grow">
         <input
           v-if="boardState.editable"
           v-model="boardState.title"
@@ -13,7 +13,7 @@
           {{ boardState.title }} (read-only)
         </span>
       </div>
-      <div class="toolbar-item _actions">
+      <div class="toolbar-item ml-auto">
         <button v-if="boardState.editable" :disabled="!hasChanged" class="save">
           Apply
         </button>
@@ -48,104 +48,52 @@ export default {
 
 <style scoped>
 .BoardToolbar {
-  background: radial-gradient(
-      circle at top left,
-      rgba(#20416d, 0.3),
-      rgba(#20416d, 0.6)
-    )
-    no-repeat;
-  height: 3.5rem;
-  display: flex;
-  align-items: stretch;
-  position: relative;
+  @apply bg-blue-700 flex shadow h-16;
 }
 
 .toolbar-container {
-  flex: 1;
-  display: flex;
-  align-items: stretch;
+  @apply flex flex-grow;
 }
 
 .toolbar-item {
-  display: flex;
-  align-items: center;
-  padding: 0.6rem 0.5em;
+  @apply flex items-center p-2;
 }
 
 .toolbar-title {
-  font-size: 1rem;
-  padding: 0.5rem;
+  @apply p-4;
 }
 
 .toolbar-input {
-  background: rgba(#fff, 0.1);
-  color: #fff;
-  border-radius: 0.3rem;
-  padding: 0.5rem;
-  min-width: 10em;
-  width: 100%;
-  border: 0;
-  font-size: 1rem;
-  text-align: inherit;
-  outline: 0;
-  transition: 0.2s;
+  @apply w-full p-2 rounded bg-blue-300 transition duration-200;
 
   &:hover {
-    background: rgba(#fff, 0.15);
+    @apply bg-blue-400;
   }
 
   &:focus {
-    color: #000;
-    background-color: #fff6;
-    box-shadow: inset 0 0 1px 1px #0006, 0 0 0 1px #fffa;
+    @apply text-black bg-white;
   }
 
   &::placeholder {
-    color: #fff4;
-  }
-
-  @media (min-width: 50em) {
-    max-width: 50%;
+    @apply text-gray-700;
   }
 }
 
-.toolbar-item._info {
-  flex: 1;
-}
+button {
+  @apply p-2 ml-2 bg-blue-900 text-white rounded shadow;
 
-.toolbar-item._actions {
-  margin-left: auto;
-
-  & button {
-    border-radius: 0.3rem;
-    padding: 0.6rem 1em;
-    font-size: 0.9rem;
-    line-height: 1;
-    background: #0005;
-    border: 1px solid #fff3;
-    color: #fff;
-    outline: 0;
-
-    &:hover {
-      border-color: #fff5;
-    }
-
-    &:focus {
-      border-color: #fff8;
-    }
-
-    &:active {
-      background: #000;
-    }
-
-    &[disabled] {
-      opacity: 0.4;
-      cursor: default;
-    }
+  &:hover:not(:disabled) {
+    @apply bg-gray-900;
   }
 
-  & button + button {
-    margin-left: 0.5em;
+  &[disabled] {
+    @apply opacity-50 cursor-default text-gray-600;
+  }
+}
+
+@screen lg {
+  .toolbar-input {
+    @apply max-w-3xl;
   }
 }
 </style>

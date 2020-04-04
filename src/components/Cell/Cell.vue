@@ -11,7 +11,7 @@
         <v-icon name="ellipsis-h" />
       </button>
     </header>
-    <div class="container">
+    <div class="body-wrapper">
       <div :class="bodyClass" class="body">
         <slot v-if="$slots.default" />
         <template v-else>
@@ -72,14 +72,14 @@ export default {
       return this.editable && store.state.editMode;
     },
     bodyClass() {
-      const content = this.$slots.default ? this.$slots.default : this.content;
-      const elementCount = content.filter(x => x.tag).length;
+      // const content = this.$slots.default ? this.$slots.default : this.content;
+      // const elementCount = content.filter((x) => x.tag).length;
       return {
-        [`u-grid-${elementCount}-x`]: !!elementCount,
-        [this.align
-          .split(' ')
-          .map(x => `u-align-${x}`)
-          .join(' ')]: !!this.align,
+        //   [`grid-rows-${elementCount}`]: !!elementCount,
+        //   [this.align
+        //     .split(' ')
+        //     .map((x) => `u-align-${x}`)
+        //     .join(' ')]: !!this.align,
         padded: this.padded,
       };
     },
@@ -94,62 +94,42 @@ export default {
 
 <style scoped>
 .Cell {
-  border: 1px solid #0005;
-  transition: 0.3s;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  user-select: none;
+  @apply flex flex-col flex-grow transition duration-300 select-none p-px antialiased;
+  background-color: #6277a244;
 
   &:hover {
-    transition: 0.1s;
+    @apply duration-100;
   }
 }
 
 .header {
-  font-size: 0.55em;
-  color: #fff6;
-  position: relative;
-  text-transform: uppercase;
-  background-color: #0003;
-  padding: 0.7em 1em;
-  line-height: 1;
-  justify-content: center;
-  display: flex;
-  align-items: center;
+  @apply py-2 px-4 relative flex justify-center items-center;
+  @apply uppercase leading-none font-bold;
+  color: #fff8;
+  font-size: 0.7rem;
+}
+
+.title {
+  text-shadow: -1px -1px #0001;
 }
 
 .header-button {
-  border: 0;
-  padding: 0.5em 1em;
-  background: none;
-  color: #fff;
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0.7;
-  outline: 0;
-
-  &:hover {
-    opacity: 1;
-  }
+  @apply absolute top-0 right-0 bottom-0 outline-none z-10 px-4;
 
   &.focus-visible {
-    background-color: rgba(#20416d, 0.7);
-    box-shadow: 0 0 0 1px #fff;
+    @apply shadow-outline;
   }
 
   &._toggled {
-    opacity: 1;
-    background-color: #20416d;
+    @apply bg-gray-900 text-white;
+  }
+
+  &:hover {
+    @apply text-white;
   }
 
   &:active {
-    opacity: 1;
-    transition: none;
-    background-color: #20416d;
+    @apply bg-gray-800 transition-none text-white;
   }
 
   & .fa-icon {
@@ -157,38 +137,28 @@ export default {
   }
 }
 
-.title {
-  font-size: inherit;
-}
-
-.container {
-  position: relative;
-  flex: 1;
-  display: grid;
+.body-wrapper {
+  @apply flex flex-grow relative items-stretch;
 }
 
 .body {
-  grid-gap: 1px;
-  background-color: rgba(#000, 0.2);
-  flex: 1;
-  justify-content: stretch;
-  align-items: stretch;
+  @apply grid gap-px text-gray-400 flex-grow;
 }
 
 .body > * {
-  background-color: rgba(#fff, 0.03);
+  @apply bg-gray-900;
 }
 
 .padded > * {
-  padding: 0.5em;
+  @apply p-2;
 }
 
 .revealSettings-enter-active,
 .revealSettings-leave-active {
-  transition: 0.3s;
+  @apply transition duration-300;
 }
 .revealSettings-enter,
 .revealSettings-leave-to {
-  opacity: 0;
+  @apply opacity-0;
 }
 </style>

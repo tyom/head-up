@@ -1,8 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
-import SidebarToggle from '../SidebarToggle';
+import Toggle from '../Toggle';
 
 test('render untoggled', () => {
-  const wrapper = shallowMount(SidebarToggle, {
+  const wrapper = shallowMount(Toggle, {
     propsData: {
       toggled: false,
     },
@@ -11,7 +11,7 @@ test('render untoggled', () => {
 });
 
 test('render toggled', () => {
-  const wrapper = shallowMount(SidebarToggle, {
+  const wrapper = shallowMount(Toggle, {
     propsData: {
       toggled: true,
     },
@@ -20,7 +20,7 @@ test('render toggled', () => {
 });
 
 test('responds to actions', () => {
-  const wrapper = shallowMount(SidebarToggle);
+  const wrapper = shallowMount(Toggle);
 
   wrapper.find('button').trigger('click');
   expect(wrapper.emitted('toggle')[0]).toBeTruthy();

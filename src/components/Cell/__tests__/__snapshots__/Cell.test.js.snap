@@ -3,9 +3,11 @@
 exports[`default render 1`] = `
 <div class="Cell">
   <!---->
-  <div class="container">
+  <div class="body-wrapper">
     <div class="body"></div>
-    <!---->
+    <transition-stub name="revealSettings">
+      <!---->
+    </transition-stub>
   </div>
 </div>
 `;
@@ -14,12 +16,14 @@ exports[`editable 1`] = `
 <div class="Cell">
   <header class="header">
     <h2 class="title">Important section</h2> <button class="header-button">
-      <v-icon-stub name="ellipsis-h"></v-icon-stub>
+      <v-icon name="ellipsis-h"></v-icon>
     </button>
   </header>
-  <div class="container">
+  <div class="body-wrapper">
     <div class="body"></div>
-    <!---->
+    <transition-stub name="revealSettings">
+      <!---->
+    </transition-stub>
   </div>
 </div>
 `;
@@ -27,13 +31,15 @@ exports[`editable 1`] = `
 exports[`toggle settings 1`] = `
 <div class="Cell">
   <header class="header">
-    <h2 class="title">Important section</h2> <button class="header-button _toggled">
-      <v-icon-stub name="ellipsis-h"></v-icon-stub>
+    <h2 class="title">Important section</h2> <button class="header-button">
+      <v-icon name="ellipsis-h"></v-icon>
     </button>
   </header>
-  <div class="container">
+  <div class="body-wrapper">
     <div class="body"></div>
-    <cellsettings-stub name="revealSettings"></cellsettings-stub>
+    <transition-stub name="revealSettings">
+      <!---->
+    </transition-stub>
   </div>
 </div>
 `;
@@ -41,12 +47,14 @@ exports[`toggle settings 1`] = `
 exports[`with content in props 1`] = `
 <div class="Cell">
   <!---->
-  <div class="container">
-    <div class="body u-grid-2-x">
+  <div class="body-wrapper">
+    <div class="body">
       <customcomponent-stub foo="custom-prop" class="body-item"></customcomponent-stub>
       <customcomponent-stub bar="2" class="body-item"></customcomponent-stub>
     </div>
-    <!---->
+    <transition-stub name="revealSettings">
+      <!---->
+    </transition-stub>
   </div>
 </div>
 `;
@@ -54,13 +62,15 @@ exports[`with content in props 1`] = `
 exports[`with content in slots 1`] = `
 <div class="Cell">
   <!---->
-  <div class="container">
-    <div class="body u-grid-3-x">
+  <div class="body-wrapper">
+    <div class="body">
       <div>1</div>
       <div>2</div>
       <div>3</div>
     </div>
-    <!---->
+    <transition-stub name="revealSettings">
+      <!---->
+    </transition-stub>
   </div>
 </div>
 `;
@@ -71,9 +81,11 @@ exports[`with title 1`] = `
     <h2 class="title">Important section</h2>
     <!---->
   </header>
-  <div class="container">
+  <div class="body-wrapper">
     <div class="body"></div>
-    <!---->
+    <transition-stub name="revealSettings">
+      <!---->
+    </transition-stub>
   </div>
 </div>
 `;

@@ -38,11 +38,10 @@ test('change on label click', () => {
   expect(wrapper.vm.toggled).toEqual(false);
 
   label.trigger('click');
-
   expect(wrapper.vm.toggled).toEqual(true);
 });
 
-test('emits input event', () => {
+test('emits input event', async () => {
   const wrapper = shallowMount(VSwitchToggle, {
     propsData: {
       label: 'Check it',
@@ -51,6 +50,7 @@ test('emits input event', () => {
 
   const input = wrapper.find('input');
   input.trigger('click');
+  await wrapper.vm.$nextTick();
 
   expect(wrapper.emitted('input')[0]).toEqual([true]);
 });

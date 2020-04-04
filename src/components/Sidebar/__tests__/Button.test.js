@@ -1,8 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
-import SidebarButton from '../SidebarButton';
+import Button from '../Button';
 
 test('render default', () => {
-  const wrapper = shallowMount(SidebarButton, {
+  const wrapper = shallowMount(Button, {
     slots: {
       default: 'Clicky',
     },

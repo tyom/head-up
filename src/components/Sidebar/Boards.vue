@@ -1,12 +1,12 @@
 <template>
-  <div class="SidebarBoards">
+  <div class="Boards">
     <transition-group tag="ul" name="boardReveal" class="board-list">
       <li
         v-for="board in boards"
         :key="board.id"
         :class="getBoardListItemClass(board)"
         :title="getBoardTitle(board)"
-        class="list-item"
+        class="relative"
       >
         <transition name="actionsReveal">
           <div v-if="editMode && board.editable" class="board-actions">
@@ -67,140 +67,77 @@ export default {
 
 <style scoped>
 .board-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  grid-gap: 1em;
-}
-
-.list-item {
-  position: relative;
+  @apply grid gap-3;
 }
 
 .board-title {
-  font-size: 0.6em;
-  margin: 0.5em -1em 0;
-  text-align: center;
-  transition: 0.1s;
+  @apply text-xs text-center mt-1 -mx-2 transition duration-100;
 }
 
 .board {
-  position: relative;
-  border: 1px solid #fff2;
+  @apply transition duration-200 relative border;
+  border-color: #fff4;
   min-width: 4rem;
-  width: 8vw;
   height: 10vh;
-  transition: 0.2s;
 
   &:hover {
-    border-color: #fff5;
+    border-color: #fff8;
   }
 
-  @nest ._active & {
-    border-color: #fffa;
-  }
-
+  @nest ._active &,
   &:active {
-    border-color: #fff;
+    @apply border-white;
   }
 }
 
 .board-button {
-  background: none;
-  padding: 2px;
-  border: 0;
-  outline: 0;
+  @apply block w-full p-px outline-none cursor-default;
 
   &.focus-visible {
-    box-shadow: 0 0 0 1px rgba(#fff, 0.5);
+    @apply shadow-outline;
   }
 }
 
 .board:hover + .board-title {
-  color: #fff;
+  @apply text-white;
 }
 
 ._read-only .board::after {
+  @apply opacity-0 absolute inset-0 transition duration-200 pointer-events-none;
   content: '';
-  opacity: 0;
-  transition: 0.2s;
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  bottom: 2px;
-  left: 2px;
-  pointer-events: none;
   background: repeating-linear-gradient(
     -45deg,
-    rgba(#fff, 0),
-    rgba(#fff, 0) 0.5rem,
-    rgba(#fff, 0.03) 0.5rem,
-    rgba(#fff, 0.03) 1rem
+    #fff0,
+    #fff0 0.5rem,
+    #fff1 0.5rem,
+    #fff1 1rem
   );
 
   @nest ._edit & {
-    opacity: 1;
-  }
-}
-
-.toggle {
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 1.6rem;
-  border: 0;
-  color: inherit;
-  outline: 0;
-  background-color: #111;
-  border-right: 1px solid #fff2;
-
-  &:hover {
-    color: #fff;
-    background-color: #161616;
-  }
-
-  &:active {
-    background-color: #142a59;
+    @apply opacity-100;
   }
 }
 
 .board-actions {
-  position: absolute;
-  z-index: 1;
-  top: -0.5rem;
-  right: -0.5rem;
+  @apply absolute z-10;
+  top: -0.2rem;
+  right: -0.2rem;
 }
 
 .remove-button {
-  border: 0;
-  padding: 1px;
-  background: #fff;
-  color: #740000;
-  border-radius: 50%;
-  display: flex;
-  outline: 0;
+  @apply flex p-px bg-white rounded-full outline-none text-red-800 shadow;
 
   & .fa-icon {
-    width: 0.8rem;
-    height: 0.8rem;
+    @apply w-3 h-3;
   }
 
   &:hover {
-    color: #bb0000;
+    @apply text-red-700;
   }
 
   &:active {
-    color: #800000;
+    @apply text-red-900;
   }
-}
-
-.board-actions {
-  position: absolute;
-  top: -0.5rem;
-  right: -0.5rem;
 }
 
 .boardReveal-enter-active,
