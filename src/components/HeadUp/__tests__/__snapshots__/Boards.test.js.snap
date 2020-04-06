@@ -6,8 +6,8 @@ exports[`render with props 1`] = `
     <transition-stub name="slideDown">
       <!---->
     </transition-stub>
-    <div class="cells u-grid-2-x">
-      <div class="Cell cell">
+    <div class="cells grid-cols-2">
+      <div class="Cell">
         <header class="header">
           <h2 class="title">Cell #1</h2>
           <!---->
@@ -19,7 +19,7 @@ exports[`render with props 1`] = `
           </transition-stub>
         </div>
       </div>
-      <div class="Cell cell">
+      <div class="Cell">
         <header class="header">
           <h2 class="title">Cell #2</h2>
           <!---->
@@ -42,8 +42,8 @@ exports[`render with slot and props 1`] = `
     <transition-stub name="slideDown">
       <!---->
     </transition-stub>
-    <div class="cells u-grid-2-x">
-      <div class="Cell cell">
+    <div class="cells grid-cols-2">
+      <div class="Cell">
         <header class="header">
           <h2 class="title">Cell #1</h2>
           <!---->
@@ -55,7 +55,7 @@ exports[`render with slot and props 1`] = `
           </transition-stub>
         </div>
       </div>
-      <div class="Cell cell">
+      <div class="Cell">
         <header class="header">
           <h2 class="title">Cell #2</h2>
           <!---->
@@ -73,7 +73,7 @@ exports[`render with slot and props 1`] = `
     <transition-stub name="slideDown">
       <!---->
     </transition-stub>
-    <div class="cells u-grid-1-x">
+    <div class="cells grid-cols-1">
       <div class="Cell">
         <header class="header">
           <h2 class="title">Cell #1</h2>
@@ -97,7 +97,7 @@ exports[`render with slots 1`] = `
     <transition-stub name="slideDown">
       <!---->
     </transition-stub>
-    <div class="cells u-grid-1-x">
+    <div class="cells grid-cols-1">
       <div class="Cell">
         <header class="header">
           <h2 class="title">Cell #1</h2>

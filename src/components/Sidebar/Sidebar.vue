@@ -103,11 +103,12 @@ export default {
 
 <style scoped>
 .Sidebar {
-  @apply relative flex overflow-hidden h-full pl-6 w-1/5 transition-all duration-300 ease-in;
-  max-width: 14rem;
+  @apply relative flex overflow-hidden h-full pl-6 w-1/5 transition-all duration-200 ease-in;
+  max-width: 13rem;
+  min-width: 8rem;
 
   &._collapsed {
-    @apply w-0;
+    @apply w-0 min-w-0;
   }
 }
 

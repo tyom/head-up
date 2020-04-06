@@ -1,11 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render as thumbnail 1`] = `
-<div class="Board _thumb">
+<div id="board-1" class="Board" isthumb="true">
   <transition-stub name="slideDown">
     <!---->
   </transition-stub>
-  <div class="cells u-grid-2-x"></div>
+  <div class="cells grid-cols-2">
+    <cell-stub align="" title="" content=""></cell-stub>
+    <cell-stub align="" title="" content=""></cell-stub>
+  </div>
 </div>
 `;
 
@@ -23,7 +26,7 @@ exports[`render in edit mode 1`] = `
   <transition-stub name="slideDown">
     <boardtoolbar-stub board="[object Object]"></boardtoolbar-stub>
   </transition-stub>
-  <div class="cells u-grid-2-x">
+  <div class="cells grid-cols-2">
     <cell-stub align="" title="" content=""></cell-stub>
     <cell-stub align="" title="" content=""></cell-stub>
   </div>
@@ -35,7 +38,7 @@ exports[`render normal 1`] = `
   <transition-stub name="slideDown">
     <!---->
   </transition-stub>
-  <div class="cells u-grid-2-x">
+  <div class="cells grid-cols-2">
     <cell-stub align="" title="" content=""></cell-stub>
     <cell-stub align="" title="" content=""></cell-stub>
   </div>

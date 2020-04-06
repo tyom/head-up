@@ -2,15 +2,22 @@
   <div :id="boardId" :class="boardClass" class="Board">
     <transition name="slideDown">
       <BoardToolbar
-        v-if="!isThumb && editMode"
+        v-if="!preview && editMode"
         :board="$props"
         @save="handleSave"
         @done="handleDone"
       />
     </transition>
-    <div :class="layoutClass" class="cells">
-      <template v-if="isThumb">
-        <div v-for="(cell, idx) in cells" :key="idx" class="cell-placeholder" />
+    <div class="cells" :class="layoutClass">
+      <template v-if="preview">
+        <div v-for="(cell, idx) in cells" :key="idx" class="cell-placeholder">
+          <div
+            class="cell-placeholder-child"
+            v-for="(child, cidx) in cell.children"
+            :key="cidx"
+            :title="child.type"
+          />
+        </div>
       </template>
       <template v-else>
         <slot v-if="slotCells" />
@@ -20,7 +27,6 @@
           v-bind="cell"
           :editable="editable"
           :key="idx"
-          class="cell"
         />
       </template>
     </div>
@@ -44,7 +50,7 @@ export default {
       type: String,
       required: true,
     },
-    isThumb: {
+    preview: {
       type: Boolean,
       default: false,
     },
@@ -63,11 +69,11 @@ export default {
   },
   computed: {
     boardId() {
-      return this.isThumb ? null : `board-${this.id}`;
+      return this.preview ? null : `board-${this.id}`;
     },
     boardClass() {
       return {
-        _thumb: this.isThumb,
+        _preview: this.preview,
       };
     },
     editMode() {
@@ -87,7 +93,7 @@ export default {
       if (!cells.length) {
         return;
       }
-      return [`u-grid-${cells.length}-x`];
+      return [`grid-cols-${cells.length}`];
     },
   },
   methods: {
@@ -112,41 +118,32 @@ export default {
   @apply flex flex-grow flex-col h-full;
 }
 
-.cell-placeholder {
-  background-color: rgba(#fff, 0.1);
-}
-
 .cells {
-  height: 100%;
-  grid-gap: 0.5em;
-  padding: 0.5em;
-  overflow: auto;
+  @apply grid h-full gap-2 p-2 overflow-auto;
 }
 
-._thumb {
-  font-size: 0.8em;
-  margin: auto;
-
+._preview {
   & .cells {
-    padding: 2px;
-    grid-gap: 2px;
+    padding: 3px;
+    gap: 3px;
   }
+}
 
-  & .cell {
-    border: 0;
-    background-color: #fff2;
-  }
+.cell-placeholder {
+  @apply grid gap-px;
+}
+
+.cell-placeholder-child {
+  background-color: #fff2;
 }
 
 .slideDown-enter-active,
 .slideDown-leave-active {
-  transition: 0.1s;
-  overflow: hidden;
+  @apply transition duration-100 overflow-hidden;
 }
 
 .slideDown-enter,
 .slideDown-leave-to {
-  height: 0;
-  opacity: 0;
+  @apply h-0 opacity-0;
 }
 </style>
