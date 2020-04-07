@@ -20,7 +20,13 @@
           </div>
         </transition>
         <button class="board-button" @click="$emit('activate', board.id)">
-          <Board :id="board.id" :cells="board.cells" preview class="board" />
+          <Board
+            :id="board.id"
+            :cells="board.cells"
+            :grid="board.grid"
+            preview
+            class="board"
+          />
         </button>
         <div v-if="board.title" class="board-title">
           {{ board.title }}
@@ -84,8 +90,7 @@ export default {
     border-color: #fff8;
   }
 
-  @nest ._active &,
-  &:active {
+  @nest ._active &, &:active {
     @apply border-white;
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <HeadUp class="head-up">
-    <Board id="crypto-real-time" title="Crypto real-time">
+    <Board id="crypto-real-time" title="Crypto real-time" grid="1:1">
       <Cell title="HitBTC Trade" padded>
         <VSocket
           endpoint="wss://api.hitbtc.com/api/2/ws"

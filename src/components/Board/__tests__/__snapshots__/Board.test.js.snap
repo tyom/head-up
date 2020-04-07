@@ -5,9 +5,9 @@ exports[`render as thumbnail 1`] = `
   <transition-stub name="slideDown">
     <!---->
   </transition-stub>
-  <div class="cells grid-cols-2">
-    <cell-stub align="" title="" content=""></cell-stub>
-    <cell-stub align="" title="" content=""></cell-stub>
+  <div class="cells" style="grid-template-areas: 'a';">
+    <cell-stub title="" content="" style="grid-area: a;"></cell-stub>
+    <cell-stub title="" content=""></cell-stub>
   </div>
 </div>
 `;
@@ -17,7 +17,7 @@ exports[`render empty 1`] = `
   <transition-stub name="slideDown">
     <!---->
   </transition-stub>
-  <div class="cells"></div>
+  <div class="cells" style="grid-template-areas: 'a';"></div>
 </div>
 `;
 
@@ -26,9 +26,9 @@ exports[`render in edit mode 1`] = `
   <transition-stub name="slideDown">
     <boardtoolbar-stub board="[object Object]"></boardtoolbar-stub>
   </transition-stub>
-  <div class="cells grid-cols-2">
-    <cell-stub align="" title="" content=""></cell-stub>
-    <cell-stub align="" title="" content=""></cell-stub>
+  <div class="cells" style="grid-template-areas: 'a';">
+    <cell-stub title="" content="" style="grid-area: a;"></cell-stub>
+    <cell-stub title="" content=""></cell-stub>
   </div>
 </div>
 `;
@@ -38,9 +38,9 @@ exports[`render normal 1`] = `
   <transition-stub name="slideDown">
     <!---->
   </transition-stub>
-  <div class="cells grid-cols-2">
-    <cell-stub align="" title="" content=""></cell-stub>
-    <cell-stub align="" title="" content=""></cell-stub>
+  <div class="cells" style="grid-template-areas: 'a';">
+    <cell-stub title="" content="" style="grid-area: a;"></cell-stub>
+    <cell-stub title="" content=""></cell-stub>
   </div>
 </div>
 `;

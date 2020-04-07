@@ -12,7 +12,7 @@
       </button>
     </header>
     <div class="body-wrapper">
-      <div :class="bodyClass" class="body">
+      <div :class="bodyClass" class="body" :style="bodyStyle">
         <slot v-if="$slots.default" />
         <template v-else>
           <component
@@ -32,7 +32,9 @@
 </template>
 
 <script>
+import merge from 'lodash/merge';
 import store from '../../store';
+import { createGridTemplate } from '../../utils';
 import CellSettings from './CellSettings';
 
 export default {
@@ -41,10 +43,7 @@ export default {
     CellSettings,
   },
   props: {
-    align: {
-      type: String,
-      default: '',
-    },
+    grid: String,
     title: {
       type: String,
       default: '',
@@ -62,6 +61,19 @@ export default {
       default: false,
     },
   },
+  created() {
+    if (!this.$slots.default) {
+      return;
+    }
+    const { areas } = createGridTemplate(this.grid);
+    this.$slots.default.forEach((vnode, idx) => {
+      vnode.data = merge(vnode.data, {
+        style: {
+          gridArea: areas[idx],
+        },
+      });
+    });
+  },
   data() {
     return {
       showSettings: false,
@@ -71,15 +83,13 @@ export default {
     isEditable() {
       return this.editable && store.state.editMode;
     },
-    bodyClass() {
-      // const content = this.$slots.default ? this.$slots.default : this.content;
-      // const elementCount = content.filter((x) => x.tag).length;
+    bodyStyle() {
       return {
-        //   [`grid-rows-${elementCount}`]: !!elementCount,
-        //   [this.align
-        //     .split(' ')
-        //     .map((x) => `u-align-${x}`)
-        //     .join(' ')]: !!this.align,
+        gridTemplateAreas: createGridTemplate(this.grid).template,
+      };
+    },
+    bodyClass() {
+      return {
         padded: this.padded,
       };
     },

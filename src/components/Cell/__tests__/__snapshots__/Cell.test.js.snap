@@ -4,7 +4,7 @@ exports[`default render 1`] = `
 <div class="Cell">
   <!---->
   <div class="body-wrapper">
-    <div class="body"></div>
+    <div class="body" style="grid-template-areas: 'a';"></div>
     <transition-stub name="revealSettings">
       <!---->
     </transition-stub>
@@ -20,7 +20,7 @@ exports[`editable 1`] = `
     </button>
   </header>
   <div class="body-wrapper">
-    <div class="body"></div>
+    <div class="body" style="grid-template-areas: 'a';"></div>
     <transition-stub name="revealSettings">
       <!---->
     </transition-stub>
@@ -36,7 +36,7 @@ exports[`toggle settings 1`] = `
     </button>
   </header>
   <div class="body-wrapper">
-    <div class="body"></div>
+    <div class="body" style="grid-template-areas: 'a';"></div>
     <transition-stub name="revealSettings">
       <!---->
     </transition-stub>
@@ -48,7 +48,7 @@ exports[`with content in props 1`] = `
 <div class="Cell">
   <!---->
   <div class="body-wrapper">
-    <div class="body">
+    <div class="body" style="grid-template-areas: 'a';">
       <customcomponent-stub foo="custom-prop" class="body-item"></customcomponent-stub>
       <customcomponent-stub bar="2" class="body-item"></customcomponent-stub>
     </div>
@@ -63,8 +63,8 @@ exports[`with content in slots 1`] = `
 <div class="Cell">
   <!---->
   <div class="body-wrapper">
-    <div class="body">
-      <div>1</div>
+    <div class="body" style="grid-template-areas: 'a';">
+      <div style="grid-area: a;">1</div>
       <div>2</div>
       <div>3</div>
     </div>
@@ -82,7 +82,7 @@ exports[`with title 1`] = `
     <!---->
   </header>
   <div class="body-wrapper">
-    <div class="body"></div>
+    <div class="body" style="grid-template-areas: 'a';"></div>
     <transition-stub name="revealSettings">
       <!---->
     </transition-stub>

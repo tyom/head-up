@@ -8,7 +8,7 @@
         @done="handleDone"
       />
     </transition>
-    <div class="cells" :class="layoutClass">
+    <div class="cells" :style="cellsStyle">
       <template v-if="preview">
         <div v-for="(cell, idx) in cells" :key="idx" class="cell-placeholder">
           <div
@@ -38,6 +38,8 @@ import get from 'lodash/get';
 import store from '../../store';
 import Cell from '../Cell';
 import BoardToolbar from './BoardToolbar';
+import { createGridTemplate } from "../../utils";
+import merge from "lodash/merge";
 
 export default {
   name: 'Board',
@@ -50,6 +52,7 @@ export default {
       type: String,
       required: true,
     },
+    grid: String,
     preview: {
       type: Boolean,
       default: false,
@@ -71,6 +74,11 @@ export default {
     boardId() {
       return this.preview ? null : `board-${this.id}`;
     },
+    cellsStyle() {
+      return {
+        gridTemplateAreas: createGridTemplate(this.grid).template,
+      };
+    },
     boardClass() {
       return {
         _preview: this.preview,
@@ -88,13 +96,26 @@ export default {
       );
       return cells.length ? cells : undefined;
     },
-    layoutClass() {
-      const cells = this.slotCells || this.cells;
-      if (!cells.length) {
-        return;
-      }
-      return [`grid-cols-${cells.length}`];
-    },
+    // layoutClass() {
+    //   const cells = this.slotCells || this.cells;
+    //   if (!cells.length) {
+    //     return;
+    //   }
+    //   return [`grid-cols-${cells.length}`];
+    // },
+  },
+  created() {
+    if (!this.$slots.default) {
+      return;
+    }
+    const { areas } = createGridTemplate(this.grid);
+    this.$slots.default.forEach((vnode, idx) => {
+      vnode.data = merge(vnode.data, {
+        style: {
+          gridArea: areas[idx],
+        },
+      });
+    });
   },
   methods: {
     handleSave(newState) {

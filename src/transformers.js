@@ -17,6 +17,7 @@ export function serializeSlot(slot) {
     id: getOption(slot, 'propsData.id'),
     title: getOption(slot, 'propsData.title'),
     editable: false,
+    grid: getOption(slot, 'propsData.grid'),
     cells: getChildComponents(getOption(slot, 'children'), []).map((cell) => ({
       title: getOption(cell, 'propsData.title'),
       children: getOption(cell, 'children', []).map((x) => ({

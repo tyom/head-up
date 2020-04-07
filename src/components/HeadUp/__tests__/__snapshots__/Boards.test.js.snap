@@ -6,14 +6,14 @@ exports[`render with props 1`] = `
     <transition-stub name="slideDown">
       <!---->
     </transition-stub>
-    <div class="cells grid-cols-2">
+    <div class="cells" style="grid-template-areas: 'a';">
       <div class="Cell">
         <header class="header">
           <h2 class="title">Cell #1</h2>
           <!---->
         </header>
         <div class="body-wrapper">
-          <div class="body"></div>
+          <div class="body" style="grid-template-areas: 'a';"></div>
           <transition-stub name="revealSettings">
             <!---->
           </transition-stub>
@@ -25,7 +25,7 @@ exports[`render with props 1`] = `
           <!---->
         </header>
         <div class="body-wrapper">
-          <div class="body"></div>
+          <div class="body" style="grid-template-areas: 'a';"></div>
           <transition-stub name="revealSettings">
             <!---->
           </transition-stub>
@@ -42,14 +42,14 @@ exports[`render with slot and props 1`] = `
     <transition-stub name="slideDown">
       <!---->
     </transition-stub>
-    <div class="cells grid-cols-2">
+    <div class="cells" style="grid-template-areas: 'a';">
       <div class="Cell">
         <header class="header">
           <h2 class="title">Cell #1</h2>
           <!---->
         </header>
         <div class="body-wrapper">
-          <div class="body"></div>
+          <div class="body" style="grid-template-areas: 'a';"></div>
           <transition-stub name="revealSettings">
             <!---->
           </transition-stub>
@@ -61,7 +61,7 @@ exports[`render with slot and props 1`] = `
           <!---->
         </header>
         <div class="body-wrapper">
-          <div class="body"></div>
+          <div class="body" style="grid-template-areas: 'a';"></div>
           <transition-stub name="revealSettings">
             <!---->
           </transition-stub>
@@ -73,14 +73,14 @@ exports[`render with slot and props 1`] = `
     <transition-stub name="slideDown">
       <!---->
     </transition-stub>
-    <div class="cells grid-cols-1">
-      <div class="Cell">
+    <div class="cells" style="grid-template-areas: 'a';">
+      <div class="Cell" style="grid-area: a;">
         <header class="header">
           <h2 class="title">Cell #1</h2>
           <!---->
         </header>
         <div class="body-wrapper">
-          <div class="body"></div>
+          <div class="body" style="grid-template-areas: 'a';"></div>
           <transition-stub name="revealSettings">
             <!---->
           </transition-stub>
@@ -97,14 +97,14 @@ exports[`render with slots 1`] = `
     <transition-stub name="slideDown">
       <!---->
     </transition-stub>
-    <div class="cells grid-cols-1">
-      <div class="Cell">
+    <div class="cells" style="grid-template-areas: 'a';">
+      <div class="Cell" style="grid-area: a;">
         <header class="header">
           <h2 class="title">Cell #1</h2>
           <!---->
         </header>
         <div class="body-wrapper">
-          <div class="body"></div>
+          <div class="body" style="grid-template-areas: 'a';"></div>
           <transition-stub name="revealSettings">
             <!---->
           </transition-stub>
