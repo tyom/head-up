@@ -1,2 +1,4 @@
-import 'tailwindcss/base.css';
-import 'tailwindcss/utilities.css';
+import Vue from 'vue';
+import { HeadUpPlugin } from '../src';
+
+Vue.use(HeadUpPlugin);
