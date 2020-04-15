@@ -38,8 +38,8 @@ import get from 'lodash/get';
 import store from '../../store';
 import Cell from '../Cell';
 import BoardToolbar from './BoardToolbar';
-import { createGridTemplate } from "../../utils";
-import merge from "lodash/merge";
+import { createGridTemplate } from '../../utils';
+import merge from 'lodash/merge';
 
 export default {
   name: 'Board',
@@ -136,16 +136,17 @@ export default {
 
 <style scoped>
 .Board {
-  @apply flex flex-grow flex-col h-full;
+  @apply flex flex-grow flex-col h-screen p-2;
 }
 
 .cells {
-  @apply grid h-full gap-2 p-2 overflow-auto;
+  @apply grid h-full gap-2 overflow-auto;
 }
 
 ._preview {
+  padding: 3px;
+
   & .cells {
-    padding: 3px;
     gap: 3px;
   }
 }

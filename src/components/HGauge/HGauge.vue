@@ -80,14 +80,18 @@ export default {
 
 .gauge {
   position: relative;
-  background-color: rgba(#000, 0.5);
+  background-color: #0006;
   padding: 2px;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 svg {
   transform: rotate(-90deg);
-  display: block;
+  width: 2.5em;
+  height: 2.5em;
 }
 
 .meter,
@@ -96,7 +100,7 @@ svg {
 }
 
 .meter {
-  stroke: rgba(#000, 0.4);
+  stroke: #0002;
 }
 
 .value {
@@ -109,17 +113,11 @@ svg {
   position: absolute;
   text-align: center;
   margin: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  font-size: 0.7rem;
-  height: 0.7rem;
-  line-height: 1;
+  font-size: 0.9em;
 }
 
 .label {
   margin-left: 0.5rem;
-  font-size: 0.7rem;
+  font-size: 0.9em;
 }
 </style>

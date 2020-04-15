@@ -153,6 +153,7 @@ export default {
 
 .body {
   @apply grid gap-px text-gray-400 flex-grow;
+  min-height: 100%;
 }
 
 .body > * {

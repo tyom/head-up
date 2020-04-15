@@ -48,11 +48,8 @@ ul {
 }
 
 li {
-  background-color: rgba(#fff, 0.02);
-
-  & + li {
-    margin-top: 2px;
-  }
+  @apply shadow;
+  background-color: #fff1;
 }
 
 ._padded > ul > li {
@@ -62,7 +59,8 @@ li {
 ._tiles > ul {
   display: grid;
   grid-gap: 0.5em;
-  grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(25rem, 1fr));
 
   & > li {
     margin-top: 0;

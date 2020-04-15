@@ -1,10 +1,10 @@
 <template>
-  <div class="HCard">
+  <div class="HCard flex p-2">
     <div class="image">
       <img :src="image" alt="" />
     </div>
-    <div class="content">
-      <h2 v-if="title" class="title">
+    <div class="content flex flex-col">
+      <h2 v-if="title" class="text-xl font-bold">
         {{ title }}
       </h2>
       <div class="subtitle">
@@ -32,35 +32,19 @@ export default {
 </script>
 
 <style scoped>
-.HCard {
-  display: flex;
-}
-
-.title {
-  font-size: 1.2em;
-}
-
-.subtitle {
-  font-size: 1.1em;
-}
-
-* + .subtitle,
-* + p {
-  margin-top: 0.5em;
-}
-
 .content {
-  font-size: 0.65em;
-  padding: 1em;
   flex: 1;
 }
 
-.image {
-  max-width: 9em;
+.content > * + * {
+  @apply mt-3;
+}
+.image + .content {
+  @apply ml-3;
+}
 
-  & img {
-    display: block;
-    width: 100%;
-  }
+.image {
+  min-width: 8rem;
+  max-width: 12rem;
 }
 </style>

@@ -266,7 +266,7 @@ export default {
 }
 
 .main {
-  @apply flex flex-col relative h-screen w-full;
+  @apply flex flex-col flex-grow relative h-full;
 }
 
 .boardTitle-enter-active,

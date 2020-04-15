@@ -103,9 +103,9 @@ export default {
 
 <style scoped>
 .Sidebar {
-  @apply relative flex overflow-hidden h-full pl-6 w-1/5 transition-all duration-200 ease-in;
-  max-width: 13rem;
-  min-width: 8rem;
+  @apply relative flex overflow-hidden h-full pl-6 transition-all duration-200 ease-in;
+  width: 14vw;
+  min-width: 11rem;
 
   &._collapsed {
     @apply w-0 min-w-0;
@@ -114,6 +114,7 @@ export default {
 
 .wrapper {
   @apply grid flex-grow gap-4 overflow-y-auto p-4 text-gray-500;
+  min-height: 100%;
   grid-template-rows: auto 1fr auto;
   background-color: #0005;
   box-shadow: inset 0 0 3px #0008;

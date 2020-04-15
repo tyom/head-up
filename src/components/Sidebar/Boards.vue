@@ -83,8 +83,7 @@ export default {
 .board {
   @apply transition duration-200 relative border;
   border-color: #fff4;
-  min-width: 4rem;
-  height: 10vh;
+  height: 12vh;
 
   &:hover {
     border-color: #fff8;
