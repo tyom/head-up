@@ -1,10 +1,21 @@
 {
-  "name": "head-up.vite",
+  "name": "head-up",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "dev-examples": "vite -c examples/vite.config.js",
     "build": "vue-tsc --noEmit && vite build",
-    "serve": "vite preview"
+    "build-examples": "vue-tsc --noEmit && vite build -c examples/vite.config.js",
+    "serve": "vite preview -c examples/vite.config.js"
+  },
+  "files": ["dist"],
+  "main": "./dist/head-up.umd.js",
+  "module": "./dist/head-up.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/head-up.umd.js",
+      "require": "./dist/head-up.es.js"
+    }
   },
   "dependencies": {
     "vue": "^3.0.5"
