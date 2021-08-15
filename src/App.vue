@@ -1,27 +1,22 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <head-up>
+    <head-up-board title="Board 1">
+      <head-up-cell title="Cell 1"> Awesome #1 </head-up-cell>
+      <head-up-cell title="Cell 2"> Awesome #2 </head-up-cell>
+      <head-up-cell> Awesome #3 </head-up-cell>
+      <head-up-cell> Awesome #4 </head-up-cell>
+    </head-up-board>
+    <head-up-board title="Board 2">
+      <head-up-cell title="Cell 1"> Awesome #1 </head-up-cell>
+      <head-up-cell title="Cell 2"> Awesome #2 </head-up-cell>
+      <head-up-cell> Awesome #3 </head-up-cell>
+      <head-up-cell> Awesome #4 </head-up-cell>
+    </head-up-board>
+  </head-up>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
-
-export default defineComponent({
-  name: 'App',
-  components: {
-    HelloWorld,
-  },
-});
-</script>
-
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body {
+  @apply bg-gray-900 text-gray-100;
 }
 </style>

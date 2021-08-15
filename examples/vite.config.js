@@ -8,7 +8,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'examples/index.html',
-        library: 'examples/library.html',
+        library: 'examples/module.html',
       },
     },
   },
