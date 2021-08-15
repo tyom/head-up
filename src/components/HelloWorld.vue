@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ msg }}</h1>
+  <h1 class="text-gray-500">{{ msg }}</h1>
 
   <p>
     Recommended IDE setup:
@@ -52,6 +52,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+h1 {
+  @apply text-3xl;
+}
+
 a {
   color: #42b983;
 }
