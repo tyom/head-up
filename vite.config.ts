@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
 
 // https://vitejs.dev/config/
 export const mainConfig = {
@@ -7,10 +7,10 @@ export const mainConfig = {
     lib: {
       entry: 'src/main.ts',
       name: 'HeadUp',
-      fileName: (format: string) => `head-up.${format}.js`
+      fileName: (format: string): string => `head-up.${format}.js`,
     },
   },
-  plugins: [vue()]
-}
+  plugins: [vue()],
+};
 
-export default defineConfig(mainConfig)
+export default defineConfig(mainConfig);

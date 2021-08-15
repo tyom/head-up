@@ -11,5 +11,5 @@ export default defineConfig({
         library: 'examples/library.html',
       },
     },
-  }
+  },
 });
