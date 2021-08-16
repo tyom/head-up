@@ -3,3 +3,4 @@ if (import.meta.env.PROD) {
 } else {
   import('../src/main');
 }
+console.log('hello');

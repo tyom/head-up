@@ -1,16 +1,32 @@
 <script setup>
-import { defineProps } from 'vue';
+import { useSlots } from 'vue';
+import { kebabCase } from 'lodash-es';
+import { nanoid } from 'nanoid';
+import { store } from '../store';
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     default: undefined,
   },
+  id: {
+    type: String,
+    default: nanoid(4),
+  },
+});
+
+const boardId = props.title ? kebabCase(props.title) : props.id;
+const slots = useSlots();
+
+store.dispatch('initBoard', {
+  ...props,
+  id: boardId,
+  cells: slots.default()?.map((x) => x.props),
 });
 </script>
 
 <template>
-  <div class="head-up-board">
+  <div :id="boardId" class="head-up-board">
     <header>
       <h2>{{ title }}</h2>
     </header>

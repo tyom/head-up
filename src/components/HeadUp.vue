@@ -1,7 +1,20 @@
+<script setup>
+import { defineComponent } from 'vue';
+import { store } from '../store';
+import Sidebar from './_Sidebar.vue';
+
+defineComponent({
+  name: 'App',
+  components: {
+    Sidebar,
+  },
+});
+</script>
+
 <template>
   <div class="head-up">
     <aside>
-      <HeadUpSidebar />
+      <Sidebar :boards="store.getters.serialisedBoards" />
     </aside>
     <main>
       <slot />
@@ -9,19 +22,7 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import HeadUpSidebar from './HeadUpSidebar.vue';
-
-export default defineComponent({
-  name: 'App',
-  components: {
-    HeadUpSidebar,
-  },
-});
-</script>
-
-<style scoped>
+<style scoped lang="postcss">
 .head-up {
   @apply flex h-screen;
 
@@ -38,7 +39,7 @@ aside {
 main {
   @apply flex-1 h-full overflow-auto;
 
-  & > /deep/ * {
+  & > ::v-deep(*) {
     @apply h-screen;
   }
 }
