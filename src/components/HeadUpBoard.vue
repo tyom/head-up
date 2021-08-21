@@ -9,6 +9,10 @@ const props = defineProps({
     type: String,
     default: undefined,
   },
+  editing: {
+    type: Boolean,
+    default: false,
+  },
   id: {
     type: String,
     default: nanoid(4),
@@ -26,8 +30,8 @@ store.dispatch('initBoard', {
 </script>
 
 <template>
-  <div :id="boardId" class="head-up-board">
-    <header>
+  <div :id="boardId" class="head-up-board" :class="{ '--editing': editing }">
+    <header v-if="editing">
       <h2>{{ title }}</h2>
     </header>
     <article>
@@ -37,15 +41,19 @@ store.dispatch('initBoard', {
 </template>
 
 <style scoped>
+@import '../assets/index.css';
+
 .head-up-board {
   @apply flex flex-col;
 }
 
-header {
-  @apply bg-gray-700 p-4;
+article {
+  @apply h-full
+    board-grid-layout
+    overflow-auto;
 }
 
-article {
-  @apply p-2 grid h-full gap-2 overflow-auto;
+.--editing header {
+  @apply relative bg-gray-700 p-4 pointer-events-auto;
 }
 </style>

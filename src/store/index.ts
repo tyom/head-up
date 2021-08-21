@@ -11,6 +11,7 @@ export const store = createStore({
       return state.boards.map((x) => ({
         id: x.id,
         title: x.title,
+        cells: x.cells.map((x) => 'regular'),
       }));
     },
   },

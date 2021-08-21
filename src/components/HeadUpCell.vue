@@ -16,6 +16,6 @@ defineProps({
 
 <style scoped>
 .head-up-cell {
-  @apply border border-gray-600 p-2;
+  @apply border border-gray-800 p-2;
 }
 </style>

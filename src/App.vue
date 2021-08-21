@@ -11,12 +11,7 @@
       <HeadUpCell title="Cell 2"> Awesome #2 </HeadUpCell>
       <HeadUpCell> Awesome #3 </HeadUpCell>
       <HeadUpCell> Awesome #4 </HeadUpCell>
+      <HeadUpCell> Awesome #5 </HeadUpCell>
     </HeadUpBoard>
   </HeadUp>
 </template>
-
-<style>
-body {
-  @apply bg-gray-900 text-gray-100;
-}
-</style>
