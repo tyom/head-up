@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue';
 export const mainConfig = {
   build: {
     lib: {
-      entry: 'src/main.ts',
+      entry: 'src/index.ts',
       name: 'HeadUp',
       fileName: (format: string): string => `head-up.${format}.js`,
     },
