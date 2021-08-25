@@ -1,0 +1,48 @@
+{
+  "name": "head-up",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "dev-examples": "vite -c examples/vite.config.js",
+    "build": "vue-tsc --noEmit && vite build",
+    "build-examples": "vue-tsc --noEmit && vite build -c examples/vite.config.js",
+    "serve": "vite preview -c examples/vite.config.js",
+    "format": "prettier . --write",
+    "lint": "eslint . --ext .js,.ts,.vue --ignore-path .gitignore"
+  },
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/head-up.umd.js",
+  "module": "./dist/head-up.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/head-up.umd.js",
+      "require": "./dist/head-up.es.js"
+    }
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.21",
+    "nanoid": "^3.1.25",
+    "tinykeys": "^1.2.0",
+    "vue": "^3.2.6",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@iconify/vue": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
+    "@vitejs/plugin-vue": "^1.6.0",
+    "@vue/compiler-sfc": "^3.2.6",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-vue": "^7.16.0",
+    "postcss": "^8.3.6",
+    "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.3.2",
+    "tailwindcss": "^2.2.7",
+    "typescript": "^4.3.5",
+    "vite": "^2.5.1",
+    "vue-tsc": "^0.3.0"
+  }
+}
