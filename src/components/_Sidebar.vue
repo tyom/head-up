@@ -68,17 +68,24 @@ const toggleIcon = computed(() =>
 
   &.--hidden {
     @apply w-0 min-w-0;
+
+    & .container {
+      @apply opacity-0;
+    }
   }
 }
 
 .toggler {
   @apply fixed inset-0 right-auto z-10
-    flex flex-col items-center justify-center
-    bg-gray-900;
+    flex flex-col items-center justify-center;
   box-shadow: 1px 0 #fff2;
 
   & button {
-    @apply flex-1;
+    @apply bg-gray-900 flex-1 cursor-default;
+
+    &:hover {
+      @apply bg-opacity-80 backdrop-filter backdrop-brightness-125;
+    }
 
     &:active {
       @apply bg-blue-900;
@@ -91,7 +98,7 @@ const toggleIcon = computed(() =>
 }
 
 .container {
-  @apply p-3 flex-1 overflow-auto;
+  @apply p-3 flex-1 overflow-auto transition duration-200;
   box-shadow: inset -1px 0 #fff2, inset 0 3px 8px #0003;
   min-width: var(--min-width);
 }
