@@ -1,17 +1,27 @@
 import { createStore } from 'vuex';
 
+interface SerialisedBoard {
+  id: string;
+  title: string;
+  cells: string[];
+}
+
+interface AppState {
+  boards: SerialisedBoard[];
+}
+
 export const store = createStore({
-  state() {
+  state(): AppState {
     return {
       boards: [],
     };
   },
   getters: {
-    serialisedBoards(state) {
+    serialisedBoards(state: AppState) {
       return state.boards.map((x) => ({
         id: x.id,
         title: x.title,
-        cells: x.cells.map((x) => 'regular'),
+        cells: x.cells.map(() => 'regular'),
       }));
     },
   },
