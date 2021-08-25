@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`single request default render 1`] = `
-<div class="VPoller">
-  <div class="status" style="background-size: 10% 100%;">
-    <div class="status-head" style="width: 10%;"></div>
-  </div>
-</div>
-`;
