@@ -6,6 +6,7 @@ import {
   onMounted,
   onBeforeUnmount,
 } from 'vue';
+import tinykeys from 'tinykeys';
 import { store } from '../store';
 import LocalSidebar from './_Sidebar.vue';
 
@@ -56,12 +57,28 @@ watchEffect(() => {
 });
 
 onMounted(() => {
-  if (activeBoardId.value) {
-    document.getElementById(activeBoardId.value)?.scrollIntoView();
-  }
+  activeBoardId.value = activeBoardId.value || store.state.boards[0]?.id;
+
+  document.getElementById(activeBoardId.value)?.scrollIntoView();
+
   smoothScroll.value = true;
 
   window.addEventListener('hashchange', handleHashChange);
+
+  const boardShortcuts = store.state.boards.reduce(
+    (acc, cur, idx) => ({
+      ...acc,
+      [idx + 1]: () => {
+        window.location.hash = cur.id;
+      },
+    }),
+    {}
+  );
+
+  tinykeys(window, {
+    ...boardShortcuts,
+    s: () => handleSidebarToggle(),
+  });
 });
 
 onBeforeUnmount(() => {

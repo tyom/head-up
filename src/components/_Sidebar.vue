@@ -26,18 +26,27 @@ const toggleIcon = computed(() =>
 <template>
   <div class="sidebar" :class="{ '--hidden': !visible }">
     <div class="toggler">
-      <button @click="$emit('toggle')">
+      <button
+        aria-label="toggle sidebar"
+        title="Toggle Sidebar (Press 's')"
+        @click="$emit('toggle')"
+      >
         <VIcon :icon="toggleIcon" width="24" />
       </button>
     </div>
     <div class="container">
       <ul>
         <li
-          v-for="board in boards"
+          v-for="(board, idx) in boards"
           :key="board.id"
           :class="{ '--active': activeBoard === board.id }"
         >
-          <a :key="board.id" :href="`#${board.id}`" class="board-layout">
+          <a
+            :key="board.id"
+            :href="`#${board.id}`"
+            class="board-layout"
+            :title="`Select board (press '${idx + 1}')`"
+          >
             <span
               v-for="(cell, idx) in board.cells"
               :key="idx"

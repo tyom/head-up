@@ -2529,6 +2529,11 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=
 
+tinykeys@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/tinykeys/-/tinykeys-1.2.0.tgz#c57ad1b6f088bc2e506ea340755d57634a3d5c6c"
+  integrity sha512-zrTdr+78Akihb5TAxmLKG8OAKIpyKWHk/YIOyA90UuDPzJ0OHf4RHR/TwmABgNMXLca1LOUhRf6NpOFIIKezyA==
+
 tmp@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.2.1.tgz#8457fc3037dcf4719c251367a1af6500ee1ccf14"
