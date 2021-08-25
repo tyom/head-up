@@ -69,7 +69,7 @@ const toggleIcon = computed(() =>
   --max-width: 20rem;
 
   @apply relative flex pl-6 h-full w-1/6
-    bg-gray-800
+    bg-opacity-80 backdrop-filter backdrop-brightness-75
     overflow-hidden
     transition-all duration-200;
   min-width: calc(var(--min-width) + theme('spacing.6'));
@@ -130,12 +130,16 @@ li + li {
 }
 
 .board-layout {
-  @apply border border-gray-900 shadow-lg
+  @apply border border-gray-800 shadow-lg
     board-grid-layout;
   height: 11vh;
 
+  &:hover {
+    @apply border-gray-600;
+  }
+
   & .board-cell {
-    @apply bg-gray-900;
+    @apply bg-gray-800;
   }
 
   &:active .board-cell {
@@ -149,7 +153,7 @@ li + li {
 
 .--active {
   & .board-layout {
-    @apply border-gray-400;
+    @apply border-gray-300;
   }
 
   & .board-title {
