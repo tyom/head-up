@@ -37,7 +37,7 @@ const toggleIcon = computed(() =>
     <div class="container">
       <ul>
         <li
-          v-for="(board, idx) in boards"
+          v-for="(board, bIdx) in boards"
           :key="board.id"
           :class="{ '--active': activeBoard === board.id }"
         >
@@ -45,11 +45,11 @@ const toggleIcon = computed(() =>
             :key="board.id"
             :href="`#${board.id}`"
             class="board-layout"
-            :title="`Select board (press '${idx + 1}')`"
+            :title="`Select board (press '${bIdx + 1}')`"
           >
             <span
-              v-for="(cell, idx) in board.cells"
-              :key="idx"
+              v-for="(cell, cIdx) in board.cells"
+              :key="cIdx"
               class="board-cell"
               :class="`--${cell}`"
             />
