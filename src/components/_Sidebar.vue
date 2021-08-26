@@ -68,12 +68,13 @@ const toggleIcon = computed(() =>
   --min-width: 8rem;
   --max-width: 20rem;
 
-  @apply relative flex pl-6 h-full w-1/6
+  @apply relative flex h-full w-1/6
     bg-opacity-80 backdrop-filter backdrop-brightness-75
     overflow-hidden
     transition-all duration-200;
   min-width: calc(var(--min-width) + theme('spacing.6'));
   max-width: var(--max-width);
+  padding-left: calc(theme('spacing.6') + 1px);
 
   &.--hidden {
     @apply w-0 min-w-0;
@@ -85,7 +86,7 @@ const toggleIcon = computed(() =>
 }
 
 .toggler {
-  @apply fixed inset-0 right-auto z-10
+  @apply fixed inset-y-0 left-0 z-10
     flex flex-col items-center justify-center;
   box-shadow: 1px 0 #fff2;
 
