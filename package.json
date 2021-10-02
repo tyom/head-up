@@ -23,26 +23,26 @@
   },
   "dependencies": {
     "lodash-es": "^4.17.21",
-    "nanoid": "^3.1.25",
+    "nanoid": "^3.1.28",
     "tinykeys": "^1.2.0",
-    "vue": "^3.2.6",
+    "vue": "^3.2.19",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@iconify/vue": "^3.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.29.3",
-    "@typescript-eslint/parser": "^4.29.3",
-    "@vitejs/plugin-vue": "^1.6.0",
-    "@vue/compiler-sfc": "^3.2.6",
+    "@typescript-eslint/eslint-plugin": "^4.32.0",
+    "@typescript-eslint/parser": "^4.32.0",
+    "@vitejs/plugin-vue": "^1.9.2",
+    "@vue/compiler-sfc": "^3.2.19",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-vue": "^7.16.0",
-    "postcss": "^8.3.6",
+    "eslint-plugin-vue": "^7.18.0",
+    "postcss": "^8.3.8",
     "postcss-preset-env": "^6.7.0",
-    "prettier": "^2.3.2",
-    "tailwindcss": "^2.2.7",
-    "typescript": "^4.3.5",
-    "vite": "^2.5.1",
+    "prettier": "^2.4.1",
+    "tailwindcss": "^2.2.16",
+    "typescript": "^4.4.3",
+    "vite": "^2.6.2",
     "vue-tsc": "^0.3.0"
   }
 }
