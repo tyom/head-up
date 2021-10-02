@@ -9,13 +9,24 @@ defineProps({
 
 <template>
   <div class="head-up-cell">
-    <header>{{ title }}</header>
+    <header v-if="title">{{ title }}</header>
     <section><slot /></section>
   </div>
 </template>
 
 <style scoped>
 .head-up-cell {
-  @apply border border-gray-800 p-2;
+  @apply flex flex-col
+    border border-gray-800;
+}
+
+header {
+  @apply p-2 leading-none
+    border-b border-gray-800
+    text-xs font-bold text-gray-500;
+}
+
+section {
+  @apply p-2 flex-1;
 }
 </style>

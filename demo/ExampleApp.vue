@@ -15,3 +15,9 @@
     </HeadUpBoard>
   </HeadUp>
 </template>
+
+<style>
+html {
+  @apply bg-gray-900
+}
+</style>
