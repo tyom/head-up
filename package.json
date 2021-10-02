@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "dev-examples": "vite -c examples/vite.config.js",
     "build": "vue-tsc --noEmit && vite build",
-    "build-examples": "vue-tsc --noEmit && vite build -c examples/vite.config.js",
-    "serve": "vite preview -c examples/vite.config.js",
+    "build-demo": "vue-tsc --noEmit && vite build -c demo/vite.config.js",
+    "serve": "vite preview -c demo/vite.config.js",
     "format": "prettier . --write",
     "lint": "eslint . --ext .js,.ts,.vue --ignore-path .gitignore"
   },

@@ -1,4 +1,5 @@
 <script setup>
+import { Icon } from '@iconify/vue';
 import { computed } from 'vue';
 
 defineEmits(['toggle']);
@@ -31,7 +32,7 @@ const toggleIcon = computed(() =>
         title="Toggle Sidebar (Press 's')"
         @click="$emit('toggle')"
       >
-        <VIcon :icon="toggleIcon" width="24" />
+        <Icon :icon="toggleIcon" width="24" />
       </button>
     </div>
     <div class="container">
@@ -44,8 +45,8 @@ const toggleIcon = computed(() =>
           <a
             :key="board.id"
             :href="`#${board.id}`"
-            class="board-layout"
             :title="`Select board (press '${bIdx + 1}')`"
+            class="board-layout"
           >
             <span
               v-for="(cell, cIdx) in board.cells"
@@ -61,7 +62,7 @@ const toggleIcon = computed(() =>
   </div>
 </template>
 
-<style scoped>
+<style>
 @import '../assets/index.css';
 
 .sidebar {

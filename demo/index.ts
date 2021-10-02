@@ -1,8 +1,8 @@
 import { createApp } from 'vue';
 import ExampleApp from './ExampleApp.vue';
-import headUpPlugin from './';
+import { headUpPlugin } from '../src';
 
-import './assets/index.css';
+import '../src/assets/index.css';
 
 const app = createApp(ExampleApp);
 
