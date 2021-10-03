@@ -49,10 +49,9 @@ const toggleIcon = computed(() =>
             class="board-layout"
           >
             <span
-              v-for="(cell, cIdx) in board.cells"
+              v-for="(_, cIdx) in board.cells"
               :key="cIdx"
               class="board-cell"
-              :class="`--${cell}`"
             />
           </a>
           <span class="board-title">{{ board.title }}</span>

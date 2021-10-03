@@ -6,7 +6,7 @@
   .board-grid-layout {
     @apply grid grid-cols-2 auto-rows-fr p-1 gap-1;
 
-    & > ::v-deep(:last-child:nth-child(odd)) {
+    & > :last-child:nth-child(odd) {
       @apply col-span-full;
     }
   }
