@@ -70,7 +70,8 @@ const valueStyles = computed(() => {
 <style scoped>
 .circle-gauge {
   @apply flex items-center
-    cursor-default select-none;
+    cursor-default select-none
+    text-xs;
 }
 
 .gauge {
@@ -98,11 +99,11 @@ svg {
 
 .value {
   @apply absolute inset-0
-    text-center m-auto text-xs font-bold
+    text-center m-auto font-bold
     flex items-center justify-center;
 }
 
 .label {
-  @apply ml-2 text-xs;
+  @apply ml-2;
 }
 </style>

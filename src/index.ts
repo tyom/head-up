@@ -7,6 +7,7 @@ import HeadUpCell from './components/HeadUpCell.vue';
 import { store } from './store';
 
 export { default as CircleGauge } from './components/CircleGauge.vue';
+export { default as VCard } from './components/VCard.vue';
 
 export const headUpPlugin: Plugin = {
   install: (app) => {

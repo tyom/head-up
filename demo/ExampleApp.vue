@@ -1,6 +1,7 @@
 <script setup>
-import { CircleGauge } from '../src';
+import { CircleGauge, VCard } from '../src';
 const tmdbApiKey = import.meta.env.VITE_TMDB_API_KEY;
+const TMDB_IMAGE_PREFIX = 'https://image.tmdb.org/t/p/w342/';
 
 const pluralize = (val, number) => (number > 1 ? `${val}s` : val);
 </script>
@@ -16,15 +17,28 @@ const pluralize = (val, number) => (number > 1 ? `${val}s` : val);
         }"
         v-slot="{ results }"
       >
-        <ul>
+        <ul class="grid-collection">
           <li v-for="item in results" :key="item.id">
-            <h2>
-              {{ item.original_title }}
-            </h2>
-            <CircleGauge :value="item.vote_average">
-              {{ item.vote_count.toLocaleString() }}
-              {{ pluralize('vote', item.vote_count) }}
-            </CircleGauge>
+            <VCard
+              :title="item.original_title"
+              :image="`${TMDB_IMAGE_PREFIX}/${item.poster_path}`"
+            >
+              <CircleGauge :value="item.vote_average">
+                {{ item.vote_count.toLocaleString() }}
+                {{ pluralize('vote', item.vote_count) }}
+              </CircleGauge>
+              <p class="line-clamp-6">{{ item.overview }}</p>
+              <p class="opacity-70">
+                Released:
+                {{
+                  new Date(item.release_date).toLocaleString('en-GB', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                  })
+                }}
+              </p>
+            </VCard>
           </li>
         </ul>
       </HeadUpCell>
@@ -42,5 +56,10 @@ const pluralize = (val, number) => (number > 1 ? `${val}s` : val);
 <style>
 html {
   @apply bg-gray-900;
+}
+
+.grid-collection {
+  @apply grid gap-2;
+  grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
 }
 </style>

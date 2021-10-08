@@ -61,7 +61,7 @@ const toggleIcon = computed(() =>
   </div>
 </template>
 
-<style>
+<style scoped>
 @import '../assets/index.css';
 
 .sidebar {
