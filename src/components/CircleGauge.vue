@@ -1,7 +1,7 @@
 <script setup>
 import findKey from 'lodash-es/findKey';
 
-import { defineProps, computed } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps({
   size: {
