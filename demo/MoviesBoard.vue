@@ -10,31 +10,53 @@ const formatDate = (date) =>
     month: 'short',
     year: 'numeric',
   });
+const getTitle = (item) => item.title || item.name;
+const getOriginalTitle = (item) => item.original_title || item.original_name;
+const isForeign = (item) => getTitle(item) !== getOriginalTitle(item);
+
+const boards = [
+  {
+    title: 'Discover Movies (TMDB)',
+    endpoint: 'https://api.themoviedb.org/3/discover/movie',
+  },
+  {
+    title: 'Discover TVs (TMDB)',
+    endpoint: 'https://api.themoviedb.org/3/discover/tv',
+  },
+];
 </script>
 
 <template>
-  <HeadUpBoard title="Movies">
+  <HeadUpBoard title="TV & Movies">
     <HeadUpCell
+      v-for="board in boards"
       v-slot="{ results }"
-      title="Discover TMDB Movies"
+      :key="board.title"
+      :title="board.title"
       :http="{
-        get: 'https://api.themoviedb.org/3/discover/movie',
+        get: board.endpoint,
         params: { api_key: tmdbApiKey },
         refresh: '5m',
       }"
     >
       <VCollection v-slot="item" :items="results">
         <VCard
-          :title="item.original_title"
+          :title="getTitle(item)"
           :image="getPosterImage(item.poster_path)"
         >
+          <h3 v-if="isForeign(item)" class="opacity-75 text-sm mt-0">
+            <span class="bg-blue-900 text-blue-100 inline-block px-1 rounded">{{
+              item.original_language.toUpperCase()
+            }}</span>
+            {{ getOriginalTitle(item) }}
+          </h3>
           <CircleGauge :value="item.vote_average">
             {{ item.vote_count.toLocaleString() }}
             {{ pluralize('vote', item.vote_count) }}
           </CircleGauge>
-          <p class="line-clamp-6">{{ item.overview }}</p>
-          <p class="opacity-70">
-            Released: {{ formatDate(item.release_date) }}
+          <p class="line-clamp-5 text-sm md:text-base">{{ item.overview }}</p>
+          <p class="opacity-50 text-xs">
+            Released: {{ formatDate(item.release_date || item.first_air_date) }}
           </p>
         </VCard>
       </VCollection>

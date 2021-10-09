@@ -6,15 +6,15 @@ defineProps({
   },
   image: {
     type: String,
-    default: undefined
-  }
+    default: undefined,
+  },
 });
 </script>
 
 <template>
   <div class="v-card">
     <div v-if="image" class="image">
-      <img :src="image" alt="">
+      <img :src="image" alt="" />
     </div>
     <div class="body">
       <h2>{{ title }}</h2>
@@ -39,6 +39,6 @@ defineProps({
 }
 
 h2 {
-  @apply text-lg font-bold;
+  @apply text-lg leading-snug font-bold;
 }
 </style>
