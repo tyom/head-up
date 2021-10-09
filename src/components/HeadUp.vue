@@ -22,7 +22,6 @@ const storedHeadUpState = JSON.parse(
 );
 
 const sidebarVisible = ref(storedHeadUpState.sidebarVisible ?? true);
-// const smoothScroll = ref(false);
 const activeBoardId = ref(window.location.hash.slice(1));
 const activeBoardTitle = ref(null);
 const sidebarLayout = ref('row');

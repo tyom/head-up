@@ -45,27 +45,29 @@ const toggleIcon = computed(() => {
       </button>
     </div>
     <div class="wrapper">
-      <ul>
-        <li
-          v-for="(board, bIdx) in boards"
-          :key="board.id"
-          :class="{ '--active': activeBoard === board.id }"
-        >
-          <a
+      <transition name="slide-fade">
+        <ul v-if="visible">
+          <li
+            v-for="(board, bIdx) in boards"
             :key="board.id"
-            :href="`#${board.id}`"
-            :title="`Select board (press '${bIdx + 1}')`"
-            class="board-layout"
+            :class="{ '--active': activeBoard === board.id }"
           >
-            <span
-              v-for="(_, cIdx) in board.cells"
-              :key="cIdx"
-              class="board-cell"
-            />
-          </a>
-          <span class="board-title">{{ board.title }}</span>
-        </li>
-      </ul>
+            <a
+              :key="board.id"
+              :href="`#${board.id}`"
+              :title="`Select board (press '${bIdx + 1}')`"
+              class="board-layout"
+            >
+              <span
+                v-for="(_, cIdx) in board.cells"
+                :key="cIdx"
+                class="board-cell"
+              />
+            </a>
+            <span class="board-title">{{ board.title }}</span>
+          </li>
+        </ul>
+      </transition>
     </div>
   </div>
 </template>
@@ -77,8 +79,8 @@ const toggleIcon = computed(() => {
   @apply relative flex
     bg-opacity-30 bg-black
     overflow-hidden
-    text-xs md:text-sm text-gray-400
-    transition-all duration-200;
+    text-xs lg:text-sm text-gray-400;
+  transition: all 300ms ease;
 
   &.--row {
     @apply flex-shrink-0 max-h-80;
@@ -90,12 +92,6 @@ const toggleIcon = computed(() => {
     min-width: calc(theme('spacing.32') + theme('spacing.6'));
     max-width: theme('spacing.80');
     padding-left: calc(theme('spacing.6') + 1px);
-  }
-
-  &.--hidden {
-    & .container {
-      @apply opacity-0;
-    }
   }
 }
 
@@ -130,7 +126,7 @@ const toggleIcon = computed(() => {
 }
 
 .wrapper {
-  @apply p-3 flex-1 transition duration-200;
+  @apply p-3 flex-1;
 }
 
 ul {
@@ -138,12 +134,13 @@ ul {
 }
 
 li {
-  @apply flex flex-col justify-center items-center;
+  @apply relative flex flex-col justify-center items-center
+    p-1 border border-gray-800;
 }
 
 .board-layout {
-  @apply border border-gray-800 shadow-lg
-    board-grid-layout;
+  @apply shadow-lg
+    board-grid-layout p-0;
 
   &:hover {
     @apply border-gray-600;
@@ -165,13 +162,15 @@ li {
 
 .board-title {
   @apply absolute pointer-events-none
-    bg-black bg-opacity-50 py-1 px-2 md:px-3 rounded-full;
+    text-center
+    bg-black bg-opacity-50
+    py-1 px-2 md:px-3 mx-2
+    rounded-full;
+  transition: 200ms;
 }
 
 .--active {
-  & .board-layout {
-    @apply border-gray-300;
-  }
+  @apply border-gray-300;
 
   & .board-title {
     @apply text-white;
@@ -180,10 +179,6 @@ li {
 
 .--row {
   @apply w-full;
-
-  &.--hidden {
-    @apply max-h-0;
-  }
 
   & .toggler {
     @apply bottom-auto flex-row;
@@ -204,13 +199,13 @@ li {
     height: 15vh;
     width: 20vw;
   }
+
+  &.--hidden {
+    @apply max-h-0;
+  }
 }
 
 .--column {
-  &.--hidden {
-    @apply w-0 min-w-0;
-  }
-
   & .toggler {
     @apply right-auto flex-col;
     box-shadow: 1px 0 #fff2;
@@ -229,6 +224,34 @@ li {
   & .board-layout {
     height: 12vh;
     width: 100%;
+  }
+
+  &.--hidden {
+    @apply max-w-0 min-w-0;
+  }
+}
+
+.slide-fade-leave-active,
+.slide-fade-enter-active {
+  transition: all 300ms ease;
+
+  & .board-title {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateY(-110%) scale(0.8);
+  opacity: 0;
+}
+
+@screen md {
+  .slide-fade-enter-from,
+  .slide-fade-leave-to {
+    transform: translateX(-110%);
+    opacity: 0;
   }
 }
 </style>

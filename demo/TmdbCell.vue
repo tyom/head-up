@@ -49,7 +49,7 @@ const isForeign = (item) => getTitle(item) !== getOriginalTitle(item);
           {{ item.vote_count.toLocaleString() }}
           {{ pluralize('vote', item.vote_count) }}
         </CircleGauge>
-        <p class="line-clamp-5 text-sm md:text-base">{{ item.overview }}</p>
+        <p class="line-clamp-5 text-sm lg:text-base">{{ item.overview }}</p>
         <p class="opacity-50 text-xs">
           Released: {{ formatDate(item.release_date || item.first_air_date) }}
         </p>
