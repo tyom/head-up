@@ -8,6 +8,7 @@ import { store } from './store';
 
 export { default as CircleGauge } from './components/CircleGauge.vue';
 export { default as VCard } from './components/VCard.vue';
+export { default as VCollection } from './components/VCollection.vue';
 
 export const headUpPlugin: Plugin = {
   install: (app) => {

@@ -97,6 +97,11 @@ const toggleIcon = computed(() =>
       @apply bg-opacity-80 backdrop-filter backdrop-brightness-125;
     }
 
+    &:focus-visible {
+      @apply outline-none;
+      box-shadow: inset 0 0 0 2px theme('colors.blue.800');
+    }
+
     &:active {
       @apply bg-blue-900;
 
@@ -137,6 +142,11 @@ li + li {
 
   &:hover {
     @apply border-gray-600;
+  }
+
+  &:focus-visible {
+    @apply outline-none;
+    box-shadow: inset 0 0 0 2px theme('colors.blue.800');
   }
 
   & .board-cell {
