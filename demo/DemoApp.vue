@@ -1,10 +1,23 @@
 <script setup>
-import MoviesBoard from './MoviesBoard.vue';
+import TmbdCell from './TmdbCell.vue';
+
+const tmdbCells = [
+  {
+    title: 'Discover Movies (TMDB)',
+    endpoint: '/discover/movie',
+  },
+  {
+    title: 'Discover TVs (TMDB)',
+    endpoint: '/discover/tv',
+  },
+];
 </script>
 
 <template>
   <HeadUp>
-    <MoviesBoard />
+    <HeadUpBoard title="TV & Movies">
+      <TmbdCell v-for="cell in tmdbCells" :key="cell.title" v-bind="cell" />
+    </HeadUpBoard>
     <HeadUpBoard title="Board 2">
       <HeadUpCell title="Cell 1"> Awesome #1 </HeadUpCell>
       <HeadUpCell title="Cell 2"> Awesome #2 </HeadUpCell>
