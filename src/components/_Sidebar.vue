@@ -44,7 +44,7 @@ const toggleIcon = computed(() => {
         <Icon :icon="toggleIcon" width="24" />
       </button>
     </div>
-    <div class="container">
+    <div class="wrapper">
       <ul>
         <li
           v-for="(board, bIdx) in boards"
@@ -75,13 +75,13 @@ const toggleIcon = computed(() => {
 
 .sidebar {
   @apply relative flex
-    bg-opacity-80 backdrop-filter backdrop-brightness-75
+    bg-opacity-30 bg-black
     overflow-hidden
     text-xs md:text-sm text-gray-400
     transition-all duration-200;
 
   &.--row {
-    @apply flex-shrink-0 max-h-44;
+    @apply flex-shrink-0 max-h-80;
     padding-top: calc(theme('spacing.6') + 1px);
   }
 
@@ -129,7 +129,7 @@ const toggleIcon = computed(() => {
   }
 }
 
-.container {
+.wrapper {
   @apply p-3 flex-1 transition duration-200;
 }
 
@@ -179,6 +179,8 @@ li {
 }
 
 .--row {
+  @apply w-full;
+
   &.--hidden {
     @apply max-h-0;
   }
@@ -188,7 +190,7 @@ li {
     box-shadow: 0 1px #fff2;
   }
 
-  & .container {
+  & .wrapper {
     @apply overflow-x-scroll;
     box-shadow: inset 0 -1px #fff2, inset 3px 0 8px #0003;
     min-height: theme('spacing.32');
@@ -214,7 +216,7 @@ li {
     box-shadow: 1px 0 #fff2;
   }
 
-  & .container {
+  & .wrapper {
     @apply overflow-y-scroll;
     box-shadow: inset -1px 0 #fff2, inset 0 3px 8px #0003;
     min-width: theme('spacing.32');
