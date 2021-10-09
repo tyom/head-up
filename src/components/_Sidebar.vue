@@ -17,15 +17,24 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  layout: {
+    type: String,
+    validator: (prop) => ['row', 'column'].includes(prop),
+    default: 'row',
+  },
 });
 
-const toggleIcon = computed(() =>
-  props.visible ? 'bx:bx-chevron-left' : 'bx:bx-dots-vertical-rounded'
-);
+const toggleIcon = computed(() => {
+  const icon =
+    props.layout === 'row' ? 'bx:bx-chevron-up' : 'bx:bx-chevron-left';
+  const dots =
+    props.layout === 'row' ? 'bi:three-dots' : 'bi:three-dots-vertical';
+  return props.visible ? icon : dots;
+});
 </script>
 
 <template>
-  <div class="sidebar" :class="{ '--hidden': !visible }">
+  <div class="sidebar" :class="{ '--hidden': !visible, [`--${layout}`]: true }">
     <div class="toggler">
       <button
         aria-label="toggle sidebar"
@@ -65,20 +74,25 @@ const toggleIcon = computed(() =>
 @import '../assets/index.css';
 
 .sidebar {
-  --min-width: 8rem;
-  --max-width: 20rem;
-
-  @apply relative flex h-full w-1/6
+  @apply relative flex
     bg-opacity-80 backdrop-filter backdrop-brightness-75
     overflow-hidden
+    text-xs md:text-sm text-gray-400
     transition-all duration-200;
-  min-width: calc(var(--min-width) + theme('spacing.6'));
-  max-width: var(--max-width);
-  padding-left: calc(theme('spacing.6') + 1px);
+
+  &.--row {
+    @apply flex-shrink-0 max-h-44;
+    padding-top: calc(theme('spacing.6') + 1px);
+  }
+
+  &.--column {
+    @apply h-full w-1/6;
+    min-width: calc(theme('spacing.32') + theme('spacing.6'));
+    max-width: theme('spacing.80');
+    padding-left: calc(theme('spacing.6') + 1px);
+  }
 
   &.--hidden {
-    @apply w-0 min-w-0;
-
     & .container {
       @apply opacity-0;
     }
@@ -86,12 +100,15 @@ const toggleIcon = computed(() =>
 }
 
 .toggler {
-  @apply fixed inset-y-0 left-0 z-10
-    flex flex-col items-center justify-center;
-  box-shadow: 1px 0 #fff2;
+  @apply fixed inset-0 z-10
+    flex items-center justify-center;
 
   & button {
     @apply bg-gray-900 flex-1 cursor-default;
+
+    & svg {
+      @apply m-auto;
+    }
 
     &:hover {
       @apply bg-opacity-80 backdrop-filter backdrop-brightness-125;
@@ -113,32 +130,20 @@ const toggleIcon = computed(() =>
 }
 
 .container {
-  @apply p-3 flex-1 overflow-auto transition duration-200;
-  box-shadow: inset -1px 0 #fff2, inset 0 3px 8px #0003;
-  min-width: var(--min-width);
+  @apply p-3 flex-1 transition duration-200;
 }
 
 ul {
-  @apply m-0 p-0;
-}
-
-* + ul {
-  @apply mt-2;
+  @apply m-0 p-0 flex;
 }
 
 li {
-  @apply flex flex-col text-center
-    text-sm text-gray-400;
-}
-
-li + li {
-  @apply mt-4;
+  @apply flex flex-col justify-center items-center;
 }
 
 .board-layout {
   @apply border border-gray-800 shadow-lg
     board-grid-layout;
-  height: 11vh;
 
   &:hover {
     @apply border-gray-600;
@@ -159,7 +164,8 @@ li + li {
 }
 
 .board-title {
-  @apply mt-2;
+  @apply absolute pointer-events-none
+    bg-black bg-opacity-50 py-1 px-2 md:px-3 rounded-full;
 }
 
 .--active {
@@ -169,6 +175,58 @@ li + li {
 
   & .board-title {
     @apply text-white;
+  }
+}
+
+.--row {
+  &.--hidden {
+    @apply max-h-0;
+  }
+
+  & .toggler {
+    @apply bottom-auto flex-row;
+    box-shadow: 0 1px #fff2;
+  }
+
+  & .container {
+    @apply overflow-x-scroll;
+    box-shadow: inset 0 -1px #fff2, inset 3px 0 8px #0003;
+    min-height: theme('spacing.32');
+  }
+
+  & ul {
+    @apply flex-row space-x-4;
+  }
+
+  & .board-layout {
+    height: 15vh;
+    width: 20vw;
+  }
+}
+
+.--column {
+  &.--hidden {
+    @apply w-0 min-w-0;
+  }
+
+  & .toggler {
+    @apply right-auto flex-col;
+    box-shadow: 1px 0 #fff2;
+  }
+
+  & .container {
+    @apply overflow-y-scroll;
+    box-shadow: inset -1px 0 #fff2, inset 0 3px 8px #0003;
+    min-width: theme('spacing.32');
+  }
+
+  & ul {
+    @apply flex-col space-y-4;
+  }
+
+  & .board-layout {
+    height: 12vh;
+    width: 100%;
   }
 }
 </style>

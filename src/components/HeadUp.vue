@@ -3,6 +3,7 @@ import {
   ref,
   watchEffect,
   defineComponent,
+  nextTick,
   onMounted,
   onBeforeUnmount,
 } from 'vue';
@@ -21,9 +22,11 @@ const storedHeadUpState = JSON.parse(
 );
 
 const sidebarVisible = ref(storedHeadUpState.sidebarVisible ?? true);
-const smoothScroll = ref(false);
+// const smoothScroll = ref(false);
 const activeBoardId = ref(window.location.hash.slice(1));
 const activeBoardTitle = ref(null);
+const sidebarLayout = ref('row');
+const boards = ref(null);
 
 let activeBoardTitleTimeout;
 
@@ -42,6 +45,15 @@ function handleSidebarToggle() {
   );
 }
 
+function handleResize() {
+  const mql = matchMedia('(min-width: 768px)');
+  sidebarLayout.value = mql.matches ? 'column' : 'row';
+
+  nextTick().then(() => {
+    instantlyScrollToBoard(activeBoardId.value);
+  });
+}
+
 function displayBoardTitle(boardId, timeout = 1600) {
   const activeBoard = store.state.boards.find((x) => x.id === boardId);
   activeBoardTitle.value = activeBoard?.title;
@@ -52,18 +64,26 @@ function displayBoardTitle(boardId, timeout = 1600) {
   }, timeout);
 }
 
+function instantlyScrollToBoard(boardId) {
+  const activeBoard = document.getElementById(boardId);
+  boards.value.scrollTo({
+    top: activeBoard.offsetTop,
+    left: activeBoard.offsetLeft,
+    behavior: 'instant',
+  });
+}
+
 watchEffect(() => {
   displayBoardTitle(activeBoardId.value);
 });
 
-onMounted(() => {
+onMounted(async () => {
   activeBoardId.value = activeBoardId.value || store.state.boards[0]?.id;
 
-  document.getElementById(activeBoardId.value)?.scrollIntoView();
-
-  smoothScroll.value = true;
+  handleResize();
 
   window.addEventListener('hashchange', handleHashChange);
+  window.addEventListener('resize', handleResize);
 
   const boardShortcuts = store.state.boards.reduce(
     (acc, cur, idx) => ({
@@ -79,10 +99,15 @@ onMounted(() => {
     ...boardShortcuts,
     s: () => handleSidebarToggle(),
   });
+
+  nextTick().then(() => {
+    instantlyScrollToBoard(activeBoardId.value);
+  });
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener('hashchange', handleHashChange);
+  window.removeEventListener('resize', handleResize);
 });
 </script>
 
@@ -92,6 +117,7 @@ onBeforeUnmount(() => {
       :visible="sidebarVisible"
       :active-board="activeBoardId"
       :boards="store.getters.serialisedBoards"
+      :layout="sidebarLayout"
       @toggle="handleSidebarToggle"
     />
     <main>
@@ -100,7 +126,13 @@ onBeforeUnmount(() => {
           {{ activeBoardTitle }}
         </h2>
       </transition>
-      <div class="boards" :class="{ '--smooth-scroll': smoothScroll }">
+      <div
+        class="boards"
+        ref="boards"
+        :class="{
+          [`--${sidebarLayout}`]: true,
+        }"
+      >
         <slot />
       </div>
     </main>
@@ -109,8 +141,9 @@ onBeforeUnmount(() => {
 
 <style scoped lang="postcss">
 .head-up {
-  @apply flex h-screen
-    bg-gray-900 text-gray-100;
+  @apply flex h-screen flex-col md:flex-row
+    bg-gray-900 text-gray-100
+    overflow-hidden;
 
   & > * {
     @apply items-stretch;
@@ -118,25 +151,30 @@ onBeforeUnmount(() => {
 }
 
 .active-board-title {
-  @apply absolute top-1/2 left-1/2
+  @apply absolute z-20 top-1/2 left-1/2
     transform -translate-x-1/2 -translate-y-1/2
     py-5 px-10 rounded-full h-auto
     text-lg bg-black bg-opacity-60;
 }
 
 main {
-  @apply relative flex-1;
+  @apply relative flex-1 overflow-hidden;
 }
 
 .boards {
-  @apply h-full overflow-hidden;
+  @apply flex h-full overflow-hidden;
+  scroll-behavior: smooth;
 
-  &.--smooth-scroll {
-    scroll-behavior: smooth;
+  &.--row {
+    @apply flex-row;
+  }
+
+  &.--column {
+    @apply flex-col;
   }
 
   & > ::v-deep(*) {
-    @apply h-screen;
+    @apply h-full w-full flex-shrink-0;
   }
 }
 

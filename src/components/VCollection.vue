@@ -24,7 +24,11 @@ const listTag = props.ordered ? 'ol' : 'ul';
 <style scoped>
 .collection {
   @apply grid gap-2;
-  grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+}
+
+li {
+  @apply flex;
 }
 
 ol {

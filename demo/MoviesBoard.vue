@@ -16,6 +16,7 @@ const formatDate = (date) =>
   <HeadUpBoard title="Movies">
     <HeadUpCell
       v-slot="{ results }"
+      title="Discover TMDB Movies"
       :http="{
         get: 'https://api.themoviedb.org/3/discover/movie',
         params: { api_key: tmdbApiKey },
