@@ -1,10 +1,10 @@
 import { createApp } from 'vue';
-import ExampleApp from './ExampleApp.vue';
+import DemoApp from './DemoApp.vue';
 import { headUpPlugin } from '../src';
 
 import '../src/assets/index.css';
 
-const app = createApp(ExampleApp);
+const app = createApp(DemoApp);
 
 app.use(headUpPlugin);
 app.mount('#app');
