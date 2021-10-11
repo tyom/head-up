@@ -136,6 +136,10 @@ ul {
 li {
   @apply relative flex flex-col justify-center items-center
     p-1 border border-gray-800;
+
+  &:not(.--active):hover {
+    @apply border-gray-700;
+  }
 }
 
 .board-layout {
@@ -148,7 +152,7 @@ li {
 
   &:focus-visible {
     @apply outline-none;
-    box-shadow: inset 0 0 0 2px theme('colors.blue.800');
+    box-shadow: 0 0 0 2px theme('colors.blue.800');
   }
 
   & .board-cell {
