@@ -1,23 +1,34 @@
 <script setup>
-import { inject, onMounted, onBeforeUnmount, ref } from 'vue';
+import { onMounted, onBeforeUnmount, ref } from 'vue';
 import parseDuration from 'parse-duration';
 
-const axios = inject('axios');
+const emit = defineEmits(['refresh']);
 
 const props = defineProps({
   title: {
     type: String,
     default: undefined,
   },
-  http: {
+  refresh: {
+    type: String,
+    default: undefined,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  fetch: {
     type: Object,
     default: () => ({}),
+    validator: (value) => {
+      const keys = Object.keys(value);
+      return keys.length ? keys.includes('url') : true;
+    },
   },
 });
 
 const slotData = ref({});
-
-const intervalMs = parseDuration(props.http?.refresh);
+const intervalMs = parseDuration(props.refresh);
 const intervalSeconds = intervalMs / 1000;
 const intervalRatio = 100 / intervalSeconds;
 
@@ -31,22 +42,25 @@ const intervalHeadStyles = {
 };
 
 async function fetchData() {
-  if (props.http?.get) {
-    return axios
-      .get(props.http.get, { params: props.http.params })
-      .then((res) => res.data);
+  if (!props.fetch?.url) {
+    return {};
   }
-  return {};
+
+  const requestUrl = [
+    props.fetch.url,
+    new URLSearchParams(props.fetch.query),
+  ].join('?');
+
+  return fetch(requestUrl).then((res) => res.json());
 }
 
 onMounted(async () => {
-  if (props.http) {
-    slotData.value = await fetchData();
-  }
+  slotData.value = await fetchData();
 });
 
 if (intervalMs) {
   const interval = setInterval(async () => {
+    emit('refresh');
     slotData.value = await fetchData();
   }, intervalMs);
 
@@ -58,11 +72,18 @@ if (intervalMs) {
 
 <template>
   <div class="head-up-cell">
-    <header v-if="title">{{ title }}</header>
-    <div v-if="intervalMs" class="refresh-status" :style="intervalStatusStyles">
-      <div class="refresh-status-head" :style="intervalHeadStyles" />
-    </div>
-    <section><slot v-bind="slotData" /></section>
+    <div v-if="loading" class="loading">Loading…</div>
+    <template v-else>
+      <header v-if="title">{{ title }}</header>
+      <div
+        v-if="intervalMs"
+        class="refresh-status"
+        :style="intervalStatusStyles"
+      >
+        <div class="refresh-status-head" :style="intervalHeadStyles" />
+      </div>
+      <section v-bind="$attrs"><slot v-bind="slotData" /></section>
+    </template>
   </div>
 </template>
 
@@ -70,6 +91,11 @@ if (intervalMs) {
 .head-up-cell {
   @apply flex flex-col
     border border-gray-800;
+}
+
+.loading {
+  @apply flex items-center justify-center flex-1
+    opacity-50;
 }
 
 header {

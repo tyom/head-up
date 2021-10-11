@@ -1,6 +1,4 @@
 import { Plugin } from 'vue';
-import axios from 'axios';
-import VueAxios from 'vue-axios';
 import HeadUp from './components/HeadUp.vue';
 import HeadUpBoard from './components/HeadUpBoard.vue';
 import HeadUpCell from './components/HeadUpCell.vue';
@@ -13,8 +11,6 @@ export { default as VCollection } from './components/VCollection.vue';
 export const headUpPlugin: Plugin = {
   install: (app) => {
     app.use(store);
-    app.use(VueAxios, axios);
-    app.provide('axios', app.config.globalProperties.axios);
 
     app.component('HeadUp', HeadUp);
     app.component('HeadUpBoard', HeadUpBoard);

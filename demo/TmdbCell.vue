@@ -30,11 +30,11 @@ const isForeign = (item) => getTitle(item) !== getOriginalTitle(item);
 <template>
   <HeadUpCell
     v-slot="{ results }"
+    refresh="5m"
     :title="title"
-    :http="{
-      get: `https://api.themoviedb.org/3${endpoint}`,
-      params: { api_key: tmdbApiKey },
-      refresh: '5m',
+    :fetch="{
+      url: `https://api.themoviedb.org/3${endpoint}`,
+      query: { api_key: tmdbApiKey },
     }"
   >
     <VCollection v-slot="item" :items="results">
@@ -49,7 +49,9 @@ const isForeign = (item) => getTitle(item) !== getOriginalTitle(item);
           {{ item.vote_count.toLocaleString() }}
           {{ pluralize('vote', item.vote_count) }}
         </CircleGauge>
-        <p class="line-clamp-5 text-sm lg:text-base">{{ item.overview }}</p>
+        <p class="line-clamp-5 text-sm lg:text-base" :title="item.overview">
+          {{ item.overview }}
+        </p>
         <p class="opacity-50 text-xs">
           Released: {{ formatDate(item.release_date || item.first_air_date) }}
         </p>
