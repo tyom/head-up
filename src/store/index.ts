@@ -1,13 +1,13 @@
 import { createStore } from 'vuex';
 
-interface SerialisedBoard {
+interface BoardSnapshot {
   id: string;
   title: string;
   cells: string[];
 }
 
 interface AppState {
-  boards: SerialisedBoard[];
+  boards: BoardSnapshot[];
 }
 
 export const store = createStore({
@@ -16,17 +16,8 @@ export const store = createStore({
       boards: [],
     };
   },
-  getters: {
-    serialisedBoards(state: AppState) {
-      return state.boards.map((x) => ({
-        id: x.id,
-        title: x.title,
-        cells: x.cells.map(() => 'regular'),
-      }));
-    },
-  },
   mutations: {
-    ADD_BOARD(state, board) {
+    ADD_BOARD(state: AppState, board) {
       if (state.boards.some((x) => x.id === board.id)) return;
       state.boards.push(board);
     },

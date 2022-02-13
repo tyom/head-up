@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, onBeforeUnmount, ref } from 'vue';
 import parseDuration from 'parse-duration';
+import { buildUrl } from '../utils';
 
 const emit = defineEmits(['refresh']);
 
@@ -46,12 +47,9 @@ async function fetchData() {
     return {};
   }
 
-  const requestUrl = [
-    props.fetch.url,
-    new URLSearchParams(props.fetch.query),
-  ].join('?');
-
-  return fetch(requestUrl).then((res) => res.json());
+  return fetch(buildUrl(props.fetch.url, props.fetch.query)).then((res) =>
+    res.json()
+  );
 }
 
 onMounted(async () => {

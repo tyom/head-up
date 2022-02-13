@@ -34,7 +34,7 @@ defineProps({
 }
 
 .body {
-  @apply p-4 text-left space-y-2;
+  @apply px-4 pb-4 text-left space-y-2;
   flex: 2;
 }
 

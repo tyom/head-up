@@ -115,7 +115,7 @@ onBeforeUnmount(() => {
     <LocalSidebar
       :visible="sidebarVisible"
       :active-board="activeBoardId"
-      :boards="store.getters.serialisedBoards"
+      :boards="store.state.boards"
       :layout="sidebarLayout"
       @toggle="handleSidebarToggle"
     />
@@ -126,8 +126,8 @@ onBeforeUnmount(() => {
         </h2>
       </transition>
       <div
-        class="boards"
         ref="boards"
+        class="boards"
         :class="{
           [`--${sidebarLayout}`]: true,
         }"

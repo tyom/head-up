@@ -21,11 +21,17 @@ const props = defineProps({
 
 const boardId = props.title ? kebabCase(props.title) : props.id;
 const slots = useSlots();
+const defaultSlotCells = slots.default()?.reduce((acc, cur) => {
+  if (cur.children?.length) {
+    return [...acc, ...cur.children.map(() => 'regular')];
+  }
+  return [...acc, 'regular'];
+}, []);
 
 store.dispatch('initBoard', {
   ...props,
   id: boardId,
-  cells: slots.default()?.map((x) => x.props),
+  cells: defaultSlotCells,
 });
 </script>
 

@@ -1,5 +1,7 @@
 <script setup>
 import TmbdCell from './TmdbCell.vue';
+import WeatherCell from './WeatherCell.vue';
+import AirQualityCell from './AirQualityCell.vue';
 
 const tmdbCells = [
   {
@@ -18,9 +20,9 @@ const tmdbCells = [
     <HeadUpBoard title="TV & Movies">
       <TmbdCell v-for="cell in tmdbCells" :key="cell.title" v-bind="cell" />
     </HeadUpBoard>
-    <HeadUpBoard title="Board 2">
-      <HeadUpCell title="Cell 1"> Awesome #1 </HeadUpCell>
-      <HeadUpCell title="Cell 2"> Awesome #2 </HeadUpCell>
+    <HeadUpBoard title="Miscellaneous">
+      <WeatherCell />
+      <AirQualityCell />
       <HeadUpCell> Awesome #3 </HeadUpCell>
       <HeadUpCell> Awesome #4 </HeadUpCell>
       <HeadUpCell> Awesome #5 </HeadUpCell>
