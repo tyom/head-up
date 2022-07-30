@@ -32,20 +32,20 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@iconify/vue": "^3.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
-    "@vitejs/plugin-vue": "^1.9.3",
-    "@vue/compiler-sfc": "^3.2.20",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-vue": "^7.19.1",
+    "@iconify/vue": "^3.2.1",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "@vitejs/plugin-vue": "^3.0.1",
+    "@vue/compiler-sfc": "^3.2.37",
+    "eslint": "^8.20.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-vue": "^9.3.0",
     "postcss": "^8.3.9",
-    "postcss-preset-env": "^6.7.0",
-    "prettier": "^2.4.1",
+    "postcss-preset-env": "^7.7.2",
+    "prettier": "^2.7.1",
     "tailwindcss": "^2.2.16",
-    "typescript": "^4.4.3",
-    "vite": "^2.6.5",
-    "vue-tsc": "^0.28.0"
+    "typescript": "^4.7.4",
+    "vite": "^3.0.4",
+    "vue-tsc": "^0.39.2"
   }
 }
