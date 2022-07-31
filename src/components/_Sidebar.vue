@@ -190,7 +190,7 @@ li {
   }
 
   & .wrapper {
-    @apply overflow-x-scroll;
+    @apply overflow-x-auto;
     box-shadow: inset 0 -1px #fff2, inset 3px 0 8px #0003;
     min-height: theme('spacing.32');
   }
@@ -216,7 +216,7 @@ li {
   }
 
   & .wrapper {
-    @apply overflow-y-scroll;
+    @apply overflow-y-auto;
     box-shadow: inset -1px 0 #fff2, inset 0 3px 8px #0003;
     min-width: theme('spacing.32');
   }
